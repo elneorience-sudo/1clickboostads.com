@@ -1121,7 +1121,7 @@ export default function Home() {
       return window.location.href = '/login';
     }
 
-    const appId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
+    const appId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "3463496460525295";
     if (!appId) return alert("❌ រកមិនឃើញ Facebook App ID ទេ!");
     
     const redirectUri = encodeURIComponent(`${window.location.origin}/api/auth/facebook/callback`);

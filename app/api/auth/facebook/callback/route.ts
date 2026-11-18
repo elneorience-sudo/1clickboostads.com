@@ -28,8 +28,8 @@ export async function GET(request: Request) {
        throw new Error("មិនអាចកំណត់អត្តសញ្ញាណគណនីរបស់អ្នកបានទេ សូម Login ម្តងទៀត។");
     }
 
-    const clientId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
-    const clientSecret = process.env.FACEBOOK_APP_SECRET;
+    const clientId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "3463496460525295";
+    const clientSecret = process.env.FACEBOOK_APP_SECRET || "a7150463c426ab6829c9c2351087701f";
     const redirectUri = `${origin}/api/auth/facebook/callback`;
 
     // 1. ប្តូរយក Access Token ពី Facebook
