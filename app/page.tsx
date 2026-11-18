@@ -1126,7 +1126,7 @@ export default function Home() {
     
     const redirectUri = encodeURIComponent(`${window.location.origin}/api/auth/facebook/callback`);
     // 👇 បន្ថែម business_management ដើម្បីអានផេកក្នុង BM បាន
-    const scope = 'public_profile,ads_management,ads_read,pages_read_engagement,pages_show_list,pages_manage_ads,business_management';
+    const scope = 'public_profile,ads_management,ads_read,pages_read_engagement,pages_show_list,business_management';
     const safeState = encodeURIComponent(user.email);
     
     // 👇 បន្ថែម auth_type=rerequest ដើម្បីឱ្យលោតផ្ទាំងរើសផេកទាំង ១០ ឡើងវិញពេលចុច Connect
