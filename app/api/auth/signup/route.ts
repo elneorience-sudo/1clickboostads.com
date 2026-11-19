@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { notifyNewUserRegistered } from '@/lib/telegram';
 
 export async function POST(request: Request) {
   try {
@@ -58,6 +59,13 @@ export async function POST(request: Request) {
     if (dbError) {
       console.error("Database insert error:", dbError);
     }
+
+    // 🤖 ផ្ញើសារ Alert ទៅកាន់ Admin តាម Telegram
+    notifyNewUserRegistered({
+      clientName,
+      email: email.trim().toLowerCase(),
+      phone: phone || '',
+    }).catch(e => console.warn("Telegram notify failed:", e.message));
 
     return NextResponse.json({ 
       success: true, 

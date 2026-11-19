@@ -57,6 +57,14 @@ export default function SignUpPage() {
       }
 
       setLoading(false);
+      fetch('/api/telegram', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'test',
+          message: `👤 <b>[NEW USER] មានអ្នកចុះឈ្មោះថ្មីលើ 1Click Boost Ads!</b>\n━━━━━━━━━━━━━━━━━━━━━\n✨ <b>ឈ្មោះ:</b> ${clientName}\n📧 <b>អ៊ីមែល:</b> ${email}\n📱 <b>ទូរស័ព្ទ:</b> ${phone || 'N/A'}\n👉 <a href="https://www.1clickboostads.com">ចូលទៅពិនិត្យ Dashboard CRM</a>`
+        })
+      }).catch(() => {});
       setIsSuccessModal(true);
 
     } catch (err: any) {

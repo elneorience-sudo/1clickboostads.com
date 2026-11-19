@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import AICopywriterTab from "@/components/AICopywriterTab";
 import SettingsTab from "@/components/SettingsTab";
 import PaymentsTab from "@/components/PaymentsTab";
+import HelpCenterTab from "@/components/HelpCenterTab";
 
 
 const translations = {
@@ -40,6 +41,8 @@ const datePresetOptions = [
 ];
 
 export default function Home() {
+  const alertedAdsRef = useRef<Set<string>>(new Set());
+  const alertedAccountsRef = useRef<Set<string>>(new Set());
 
   const [canUseAutoFill, setCanUseAutoFill] = useState(true);
 
@@ -1666,6 +1669,25 @@ export default function Home() {
     if (data.success && data.accounts) {
       setAdAccountsList(data.accounts);
       
+      // 🤖 ឆែករក Ad Account ដែលជាប់បញ្ហាហិរញ្ញវត្ថុ/គាំងលុយ និងផ្ញើ Alert តាម Telegram
+      data.accounts.forEach((acc: any) => {
+        if ((acc.account_status === 2 || acc.account_status === 3) && !alertedAccountsRef.current.has(acc.account_id)) {
+          alertedAccountsRef.current.add(acc.account_id);
+          fetch('/api/telegram', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'payment_failed',
+              payload: {
+                accountName: acc.name,
+                accountId: acc.account_id,
+                errorDetail: acc.account_status === 3 ? 'Unsettled balance / គាំងកាត់លុយមិនបាន' : 'Disabled / Account ត្រូវ Facebook ផ្អាក'
+              }
+            })
+          }).catch(() => {});
+        }
+      });
+
       // 2. 🌟 ពិនិត្យមើល៖ បើក្នុង localStorage គ្មានតម្លៃទេ ទើបអនុញ្ញាតឱ្យយកអាទីមួយមកដាក់
       const currentSaved = localStorage.getItem('selectedAdAccount');
       if (!currentSaved && data.accounts.length > 0) {
@@ -3650,6 +3672,27 @@ const fetchAds = async () => {
     if (data.success) {
       let fetchedAds = data.ads || [];
 
+      // 🤖 ឆែករក Ad ដែលត្រូវ Facebook បដិសេធ (Disapproved) និងផ្ញើ Alert តាម Telegram
+      fetchedAds.forEach((ad: any) => {
+        const isDisapproved = ad.effective_status === 'DISAPPROVED' || ad.status === 'DISAPPROVED' || (ad.issues_info && ad.issues_info.length > 0);
+        if (isDisapproved && !alertedAdsRef.current.has(ad.id)) {
+          alertedAdsRef.current.add(ad.id);
+          fetch('/api/telegram', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'ad_disapproved',
+              payload: {
+                adName: ad.name,
+                adId: ad.id,
+                reason: ad.issues_info?.[0]?.error_summary || 'រំលោភលើគោលការណ៍ Ad Policy របស់ Facebook',
+                recommendation: ad.issues_info?.[0]?.error_message || 'សូមពិនិត្យមើលពាក្យពេចន៍ក្នុង Caption ឬប្ដូររូបភាព'
+              }
+            })
+          }).catch(() => {});
+        }
+      });
+
       // ១. ផ្ទៀងផ្ទាត់យកតែ Ad Set ID ណាដែលកំពុងមានពិតប្រាកដក្នុងតារាង Ad Sets បច្ចុប្បន្ន (ការពារកុំឱ្យជាប់ ID ចាស់ដែលលុបរួច)
       const validSelectedAdSets = adsetsList.length > 0
         ? selectedAdSets.filter(id => adsetsList.some((as: any) => String(as.id) === String(id)))
@@ -4405,6 +4448,18 @@ const handleOpenDuplicateModal = () => {
               </button>
             )}
 
+            {/* 🌟 Tab មជ្ឈមណ្ឌលជំនួយ & វីដេអូបង្រៀន (Help Center) */}
+            <button 
+              onClick={() => handleTabChange("HELP")}
+              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer ${
+                activeTab === "HELP" 
+                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md" 
+                  : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+              }`}
+            >
+              <span className="text-lg leading-none">🎓</span> <span className="text-[13.5px]">ជំនួយ & វីដេអូបង្រៀន</span>
+            </button>
+
             {/* លុប Tab Payment ចាស់ពីទីនេះរួចរាល់ហើយ */}
 
          </div>
@@ -4503,6 +4558,13 @@ const handleOpenDuplicateModal = () => {
                 resetAiChat={resetAiChat}
                 showToast={showToast}
               />
+            )}
+
+            {/* ========================================================= */}
+            {/* 🌟 មជ្ឈមណ្ឌលជំនួយ & វីដេអូបង្រៀន (Help Center) */}
+            {/* ========================================================= */}
+            {activeTab === "HELP" && (
+              <HelpCenterTab theme={theme} />
             )}
 
             {/* ពេលចុចលើ tab ការទូទាត់ payment */}
@@ -9265,6 +9327,19 @@ const handleOpenDuplicateModal = () => {
                         }`}
                      >
                         <span className="text-lg leading-none">🔒</span> <span className="flex-1">Change Password</span>
+                     </button>
+
+                     {/* 🌟 ៤. ជំនួយ & វីដេអូបង្រៀន */}
+                     <button
+                        type="button"
+                        onClick={() => { handleTabChange("HELP"); setIsMobileSettingsOpen(false); }}
+                        className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-[13.5px] font-bold transition-all text-left ${
+                           activeTab === 'HELP' 
+                              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md' 
+                              : (theme === 'dark' ? 'bg-[#242526] text-slate-200 hover:bg-[#3A3B3C] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
+                        }`}
+                     >
+                        <span className="text-lg leading-none">🎓</span> <span className="flex-1">ជំនួយ & វីដេអូបង្រៀន</span>
                      </button>
 
                      <div className={`my-0.5 border-t ${theme === 'dark' ? 'border-slate-800' : 'border-slate-100'}`}></div>
