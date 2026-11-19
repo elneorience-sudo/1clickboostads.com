@@ -110,7 +110,7 @@ export default function HelpCenterTab({ theme }: HelpCenterTabProps) {
   ];
 
   return (
-    <div className={`p-6 rounded-2xl shadow-sm border w-full max-w-5xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
+    <div className={`p-6 rounded-2xl shadow-sm border w-full max-w-5xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
       
       {/* Header Banner */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white p-6 sm:p-8 mb-8 shadow-lg">
@@ -163,7 +163,7 @@ export default function HelpCenterTab({ theme }: HelpCenterTabProps) {
               key={vid.id}
               onClick={() => setSelectedVideo(vid)}
               className={`rounded-2xl border p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:shadow-md ${
-                theme === 'dark' ? 'bg-[#18191A] border-slate-700 hover:border-blue-500' : 'bg-slate-50 border-slate-200 hover:border-blue-500 hover:bg-white'
+                theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 hover:border-blue-500' : 'bg-slate-50 border-slate-200 hover:border-blue-500 hover:bg-white'
               }`}
             >
               <div>
@@ -200,7 +200,7 @@ export default function HelpCenterTab({ theme }: HelpCenterTabProps) {
       {/* 🌟 ផ្ទាំង Modal បង្ហាញជំហានលម្អិតនៃវីដេអូដែលបានជ្រើសរើស */}
       {selectedVideo && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className={`relative w-full max-w-2xl rounded-2xl border p-6 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
+          <div className={`relative w-full max-w-2xl rounded-2xl border p-6 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
             
             {/* Modal Header */}
             <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-700">
@@ -234,7 +234,7 @@ export default function HelpCenterTab({ theme }: HelpCenterTabProps) {
             <div className="overflow-y-auto flex-1 custom-scrollbar pr-2 space-y-2">
               <h4 className="font-bold text-xs text-slate-500 uppercase tracking-wider mb-2">ជំហានអនុវត្ត (Step-by-Step Guide):</h4>
               {selectedVideo.steps.map((st, i) => (
-                <div key={i} className={`p-3 rounded-xl border flex items-start gap-3 text-xs leading-relaxed ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                <div key={i} className={`p-3 rounded-xl border flex items-start gap-3 text-xs leading-relaxed ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                   <span className="w-5 h-5 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">
                     {i + 1}
                   </span>
@@ -267,7 +267,7 @@ export default function HelpCenterTab({ theme }: HelpCenterTabProps) {
             <div
               key={idx}
               className={`rounded-xl border transition-all ${
-                theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'
+                theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'
               }`}
             >
               <button

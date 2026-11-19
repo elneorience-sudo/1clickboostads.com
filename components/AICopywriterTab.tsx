@@ -106,7 +106,7 @@ export default function AICopywriterTab({
           <div className="flex-1 overflow-y-auto p-4 sm:px-8 pt-8 custom-scrollbar flex flex-col gap-8">
             {/* សំណួររបស់ User */}
             <div className="flex justify-end w-full">
-              <div className={`px-5 py-3.5 rounded-3xl rounded-tr-sm max-w-[85%] sm:max-w-[75%] text-[15px] leading-relaxed shadow-sm ${theme === 'dark' ? 'bg-[#3A3B3C] text-white' : 'bg-[#F0F4F9] text-[#050505]'}`}>
+              <div className={`px-5 py-3.5 rounded-3xl rounded-tr-sm max-w-[85%] sm:max-w-[75%] text-[15px] leading-relaxed shadow-sm ${theme === 'dark' ? 'bg-[#1C2128] text-white' : 'bg-[#F0F4F9] text-[#050505]'}`}>
                 {aiMediaPreview && (
                   <img src={aiMediaPreview} className="max-w-[250px] max-h-[250px] object-cover rounded-xl mb-3 border shadow-sm" alt="Uploaded" />
                 )}

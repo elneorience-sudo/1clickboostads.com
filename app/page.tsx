@@ -4113,7 +4113,7 @@ const handleOpenDuplicateModal = () => {
   }
   
   return (
-    <div className={`min-h-screen font-sans flex flex-col pb-20 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#18191A] text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+    <div className={`min-h-screen font-sans flex flex-col pb-20 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
       
       {/* 🌟 Modern Toast Notification Popup (มุมខាងស្តាំលើ) */}
       {toast && (
@@ -4334,7 +4334,7 @@ const handleOpenDuplicateModal = () => {
             {isAccountMenuOpen && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setIsAccountMenuOpen(false)}></div>
-                <div className={`absolute top-[115%] left-0 md:right-0 md:left-auto w-[280px] border rounded-xl shadow-2xl z-50 p-2 flex flex-col gap-2 ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-300'}`}>
+                <div className={`absolute top-[115%] left-0 md:right-0 md:left-auto w-[280px] border rounded-xl shadow-2xl z-50 p-2 flex flex-col gap-2 ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-300'}`}>
                   <div className="text-xs font-bold text-slate-400 px-3 py-1">{adAccountsList.length} ad accounts</div>
                   <div className="max-h-[250px] overflow-y-auto custom-scrollbar">
                     {adAccountsList.map((acc: any) => (
@@ -4347,7 +4347,7 @@ const handleOpenDuplicateModal = () => {
                           setIsAccountMenuOpen(false);
                           fetchCampaigns();
                         }}
-                        className={`p-2.5 rounded-lg border flex items-center justify-between cursor-pointer transition mb-1 ${selectedAdAccount === acc.account_id ? (theme === 'dark' ? 'bg-blue-900/40 border-blue-600' : 'bg-blue-50/60 border-blue-300') : (theme === 'dark' ? 'border-slate-700 hover:bg-[#3A3B3C]' : 'border-slate-200 hover:bg-slate-50')}`}
+                        className={`p-2.5 rounded-lg border flex items-center justify-between cursor-pointer transition mb-1 ${selectedAdAccount === acc.account_id ? (theme === 'dark' ? 'bg-blue-900/40 border-blue-600' : 'bg-blue-50/60 border-blue-300') : (theme === 'dark' ? 'border-slate-700 hover:bg-[#1C2128]' : 'border-slate-200 hover:bg-slate-50')}`}
                       >
                         <div className="flex items-center gap-2.5 flex-1 min-w-0 pr-2">
                           <input type="radio" checked={selectedAdAccount === acc.account_id} readOnly className="text-blue-600 w-3.5 h-3.5 shrink-0" />
@@ -4387,7 +4387,7 @@ const handleOpenDuplicateModal = () => {
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setIsDateMenuOpen(false)}></div>
                 <div className={`absolute top-[115%] right-0 w-[180px] border rounded-xl shadow-2xl z-50 p-1.5 flex flex-col animate-in fade-in slide-in-from-top-2 duration-150 ${
-                  theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-300'
+                  theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-300'
                 }`}>
                   {datePresetOptions.map((option) => (
                     <div 
@@ -4404,7 +4404,7 @@ const handleOpenDuplicateModal = () => {
                       className={`p-2 rounded-lg text-xs cursor-pointer transition flex items-center justify-between ${
                         selectedDatePreset === option.value 
                           ? 'bg-blue-600 text-white font-bold shadow-xs' 
-                          : (theme === 'dark' ? 'text-slate-200 hover:bg-[#3A3B3C]' : 'text-slate-700 hover:bg-slate-100 font-medium')
+                          : (theme === 'dark' ? 'text-slate-200 hover:bg-[#1C2128]' : 'text-slate-700 hover:bg-slate-100 font-medium')
                       }`}
                     >
                       <span>{option.label}</span>
@@ -4445,17 +4445,17 @@ const handleOpenDuplicateModal = () => {
                 {isLangMenuOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setIsLangMenuOpen(false)}></div>
-                    <div className={`absolute top-[115%] right-0 w-[160px] border rounded-xl shadow-xl z-50 p-1.5 flex flex-col ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-800'}`}>
+                    <div className={`absolute top-[115%] right-0 w-[160px] border rounded-xl shadow-xl z-50 p-1.5 flex flex-col ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-800'}`}>
                       <div 
                         onClick={() => { setLang('kh'); setIsLangMenuOpen(false); showToast("🇰🇭 បានប្ដូរទៅជាភាសាខ្មែរ", "success"); }}
-                        className={`p-2.5 rounded-lg text-xs cursor-pointer transition flex items-center justify-between ${lang === 'kh' ? 'bg-blue-600 text-white font-bold' : 'hover:bg-slate-100 dark:hover:bg-[#3A3B3C]'}`}
+                        className={`p-2.5 rounded-lg text-xs cursor-pointer transition flex items-center justify-between ${lang === 'kh' ? 'bg-blue-600 text-white font-bold' : 'hover:bg-slate-100 dark:hover:bg-[#1C2128]'}`}
                       >
                         <span>🇰🇭 ភាសាខ្មែរ (KH)</span>
                         {lang === 'kh' && <span>✓</span>}
                       </div>
                       <div 
                         onClick={() => { setLang('en'); setIsLangMenuOpen(false); showToast("🇺🇸 Switched to English", "success"); }}
-                        className={`p-2.5 rounded-lg text-xs cursor-pointer transition flex items-center justify-between ${lang === 'en' ? 'bg-blue-600 text-white font-bold' : 'hover:bg-slate-100 dark:hover:bg-[#3A3B3C]'}`}
+                        className={`p-2.5 rounded-lg text-xs cursor-pointer transition flex items-center justify-between ${lang === 'en' ? 'bg-blue-600 text-white font-bold' : 'hover:bg-slate-100 dark:hover:bg-[#1C2128]'}`}
                       >
                         <span>🇺🇸 English (EN)</span>
                         {lang === 'en' && <span>✓</span>}
@@ -4857,7 +4857,7 @@ const handleOpenDuplicateModal = () => {
 
             {/* ពេលចុចលើ tab ការទូទាត់ payment */}
             {activeTab === "PAYMENT" && (
-              <div className="p-6 rounded-2xl shadow-sm border w-full max-w-xl mx-auto my-6 bg-white dark:bg-[#242526] border-slate-200 dark:border-slate-700">
+              <div className="p-6 rounded-2xl shadow-sm border w-full max-w-xl mx-auto my-6 bg-white dark:bg-[#0D1117] border-slate-200 dark:border-slate-700">
                 <h2 className="text-lg font-bold mb-4">💳 ព័ត៌មានការទូទាត់ (Payment)</h2>
                 <p className="text-sm text-slate-500">កន្លែងសម្រាប់គ្រប់គ្រងប្រព័ន្ធទូទាត់ប្រាក់...</p>
                 {/* ដាក់កូដ Payment របស់អ្នកនៅទីនេះ */}
@@ -4876,7 +4876,7 @@ const handleOpenDuplicateModal = () => {
             {/* ផ្ទាំងគ្រប់គ្រងអតិថិជន (CRM & SUBSCRIPTIONS) */}
             {/* ========================================================= */}
             {activeTab === "SUBSCRIPTIONS" && (
-              <div className={`p-6 rounded-xl shadow-sm border w-full max-w-7xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
+              <div className={`p-6 rounded-xl shadow-sm border w-full max-w-7xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
                 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6 flex-wrap gap-4 relative">
@@ -4940,7 +4940,7 @@ const handleOpenDuplicateModal = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                       
                       {/* 1. សរុបអតិថិជន (TOTAL CLIENTS) */}
-                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                         <div>
                           <h4 className={`text-[11px] font-bold uppercase tracking-widest mb-1.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>សរុបអតិថិជន (Total Clients)</h4>
                           <div className={`text-3xl font-black ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>{totalClients}</div>
@@ -4951,7 +4951,7 @@ const handleOpenDuplicateModal = () => {
                       </div>
 
                       {/* 2. អតិថិជនសកម្ម (ACTIVE) */}
-                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                         <div>
                           <h4 className={`text-[11px] font-bold uppercase tracking-widest mb-1.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>អតិថិជនសកម្ម (Active)</h4>
                           <div className="text-3xl font-black text-[#31A24C]">{activeClients}</div>
@@ -4962,7 +4962,7 @@ const handleOpenDuplicateModal = () => {
                       </div>
 
                       {/* 3. ប្រាក់ចំណូលសរុប (REVENUE) មានប៊ូតុង Edit បែបទំនើប */}
-                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors relative group ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors relative group ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                         <div>
                           <div className="flex items-center gap-2 mb-1.5">
                             <h4 className={`text-[11px] font-bold uppercase tracking-widest ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>ប្រាក់ចំណូលសរុប (Revenue)</h4>
@@ -4991,7 +4991,7 @@ const handleOpenDuplicateModal = () => {
                       </div>
 
                       {/* 4. រង់ចាំពិនិត្យ SLIP (PENDING) */}
-                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                         <div>
                           <h4 className={`text-[11px] font-bold uppercase tracking-widest mb-1.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>រង់ចាំពិនិត្យ SLIP (Pending)</h4>
                           <div className={`text-3xl font-black ${pendingSlips > 0 ? 'text-[#F5533D]' : (theme === 'dark' ? 'text-slate-500' : 'text-slate-400')}`}>{pendingSlips}</div>
@@ -5015,7 +5015,7 @@ const handleOpenDuplicateModal = () => {
                       value={clientSearchQuery}
                       onChange={(e) => setClientSearchQuery(e.target.value)}
                       placeholder="🔍 ស្វែងរកតាមឈ្មោះ, អ៊ីមែល, លេខទូរស័ព្ទ..."
-                      className={`w-full pl-9 pr-8 py-2.5 rounded-xl border text-xs outline-none transition-all ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-white placeholder-slate-500 focus:border-blue-500' : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:border-blue-500'}`}
+                      className={`w-full pl-9 pr-8 py-2.5 rounded-xl border text-xs outline-none transition-all ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-white placeholder-slate-500 focus:border-blue-500' : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:border-blue-500'}`}
                     />
                     {clientSearchQuery && (
                       <button
@@ -5042,7 +5042,7 @@ const handleOpenDuplicateModal = () => {
                         className={`px-3 py-1.5 rounded-lg font-bold transition-all text-xs whitespace-nowrap cursor-pointer ${
                           clientStatusFilter === f.key
                             ? 'bg-blue-600 text-white shadow-xs'
-                            : (theme === 'dark' ? 'bg-[#18191A] text-slate-400 hover:text-white border border-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
+                            : (theme === 'dark' ? 'bg-[#0B0F17] text-slate-400 hover:text-white border border-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
                         }`}
                       >
                         {f.label}
@@ -5051,11 +5051,11 @@ const handleOpenDuplicateModal = () => {
                   </div>
                 </div>
 
-                <div className={`rounded-2xl shadow-sm border overflow-hidden ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-white border-gray-100'}`}>
+                <div className={`rounded-2xl shadow-sm border overflow-hidden ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-white border-gray-100'}`}>
                   <div className="overflow-x-auto custom-scrollbar">
                     <table className="w-full text-left border-collapse min-w-[1000px]">
                       <thead>
-                        <tr className={`text-xs uppercase tracking-wider border-b ${theme === 'dark' ? 'bg-[#3A3B3C] text-slate-300 border-slate-700' : 'bg-gray-50 text-gray-600 border-gray-100'}`}>
+                        <tr className={`text-xs uppercase tracking-wider border-b ${theme === 'dark' ? 'bg-[#1C2128] text-slate-300 border-slate-700' : 'bg-gray-50 text-gray-600 border-gray-100'}`}>
                           <th className="py-4 px-4 font-bold">ព័ត៌មានអតិថិជន</th>
                           <th className="py-4 px-4 font-bold">គណនី (Email & Password)</th>
                           <th className="py-4 px-4 font-bold">គណនីភ្ជាប់ (Linked FB)</th>
@@ -5114,7 +5114,7 @@ const handleOpenDuplicateModal = () => {
                                   className={`transition ${isHighlighted ? 'bg-amber-500/20 ring-2 ring-amber-500' : ''} ${
                                     isNearExpiry 
                                       ? (theme === 'dark' ? 'bg-orange-950/40 border-l-4 border-orange-500 animate-pulse' : 'bg-orange-50 border-l-4 border-orange-500 animate-pulse') 
-                                      : isPendingSlip ? 'animate-pulse bg-red-500/10' : (theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-gray-50')
+                                      : isPendingSlip ? 'animate-pulse bg-red-500/10' : (theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-gray-50')
                                   }`}
                                 >
                                   {/* 1. ព័ត៌មានអតិថិជន */}
@@ -5266,7 +5266,7 @@ const handleOpenDuplicateModal = () => {
                 {/* Pop-up បង្កើតគណនីអតិថិជន */}
                 {showSubModal && (
                   <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className={`rounded-2xl max-w-2xl w-full p-6 shadow-2xl animate-in fade-in zoom-in duration-200 ${theme === 'dark' ? 'bg-[#242526] border border-slate-700' : 'bg-white'}`}>
+                    <div className={`rounded-2xl max-w-2xl w-full p-6 shadow-2xl animate-in fade-in zoom-in duration-200 ${theme === 'dark' ? 'bg-[#0D1117] border border-slate-700' : 'bg-white'}`}>
                       <div className="flex justify-between items-center mb-5 border-b pb-3 dark:border-slate-700">
                         <h2 className={`text-lg font-bold flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
                           <span className="bg-blue-100 text-blue-600 p-1.5 rounded-lg text-sm">🔑</span> បង្កើតគណនីអតិថិជនថ្មី
@@ -5277,37 +5277,37 @@ const handleOpenDuplicateModal = () => {
                       <form onSubmit={handleAddClient} className="space-y-5">
                         
                         {/* ផ្នែកទី១៖ គណនី Login (Account Credentials) */}
-                        <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-blue-50/50 border-blue-100'}`}>
+                        <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-blue-50/50 border-blue-100'}`}>
                           <h3 className={`text-[13px] font-bold mb-3 uppercase tracking-wider flex items-center gap-1.5 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>
                             1. គណនីសម្រាប់អតិថិជនប្រើប្រាស់
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                               <label className={`block text-xs font-bold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`}>អ៊ីមែល (Gmail) <span className="text-red-500">*</span></label>
-                              <input type="email" required value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-blue-500 font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`} placeholder="customer@gmail.com" />
+                              <input type="email" required value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-blue-500 font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`} placeholder="customer@gmail.com" />
                             </div>
                             <div>
                               <label className={`block text-xs font-bold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`}>លេខសម្ងាត់ (Password) <span className="text-red-500">*</span></label>
-                              <input type="text" required value={clientPassword} onChange={(e) => setClientPassword(e.target.value)} className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-blue-500 font-bold tracking-wide ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-blue-400' : 'bg-white border-slate-300 text-blue-600'}`} placeholder="បង្កើតលេខសម្ងាត់..." />
+                              <input type="text" required value={clientPassword} onChange={(e) => setClientPassword(e.target.value)} className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-blue-500 font-bold tracking-wide ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-blue-400' : 'bg-white border-slate-300 text-blue-600'}`} placeholder="បង្កើតលេខសម្ងាត់..." />
                             </div>
                           </div>
                         </div>
 
                         {/* ផ្នែកទី២៖ ព័ត៌មានផ្ទាល់ខ្លួន និង ហ្វេសប៊ុក */}
-                        <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                        <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                           <h3 className={`text-[13px] font-bold mb-3 uppercase tracking-wider ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>2. ព័ត៌មានអតិថិជន & ការតភ្ជាប់</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                               <label className={`block text-xs font-bold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`}>ឈ្មោះអតិថិជន / ហាង <span className="text-red-500">*</span></label>
-                              <input type="text" value={clientName} onChange={(e) => setClientName(e.target.value)} required className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-blue-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`} placeholder="ឈ្មោះអតិថិជន..." />
+                              <input type="text" value={clientName} onChange={(e) => setClientName(e.target.value)} required className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-blue-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`} placeholder="ឈ្មោះអតិថិជន..." />
                             </div>
                             <div>
                               <label className={`block text-xs font-bold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`}>លេខទូរស័ព្ទ (Phone)</label>
-                              <input type="text" value={clientPhone} onChange={(e) => setClientPhone(e.target.value)} className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-blue-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`} placeholder="012 345 678" />
+                              <input type="text" value={clientPhone} onChange={(e) => setClientPhone(e.target.value)} className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-blue-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`} placeholder="012 345 678" />
                             </div>
                             <div className="md:col-span-2">
                               <label className={`block text-xs font-bold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`}>ភ្ជាប់ទៅកាន់ Facebook Page</label>
-                              <select value={linkedFbPage} onChange={(e) => setLinkedFbPage(e.target.value)} className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none cursor-pointer focus:border-blue-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`}>
+                              <select value={linkedFbPage} onChange={(e) => setLinkedFbPage(e.target.value)} className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none cursor-pointer focus:border-blue-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`}>
                                 <option value="">-- អត់ទាន់ចង់ភ្ជាប់ឥឡូវនេះទេ --</option>
                                 {pages.map(p => (
                                   <option key={p.id} value={p.id}>{p.name}</option>
@@ -5318,12 +5318,12 @@ const handleOpenDuplicateModal = () => {
                         </div>
 
                         {/* ផ្នែកទី៣៖ កញ្ចប់ និងការបង់ប្រាក់ */}
-                        <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                        <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                           <h3 className={`text-[13px] font-bold mb-3 uppercase tracking-wider ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>3. កញ្ចប់សេវាកម្ម & ការទូទាត់</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                               <label className={`block text-xs font-bold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`}>ជ្រើសរើសកញ្ចប់សេវា <span className="text-red-500">*</span></label>
-                              <select value={packageName} onChange={(e) => { setPackageName(e.target.value); setDurationDays(e.target.value.includes('១ ខែ') ? 30 : e.target.value.includes('៣ ខែ') ? 90 : 365); }} className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none cursor-pointer focus:border-blue-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`}>
+                              <select value={packageName} onChange={(e) => { setPackageName(e.target.value); setDurationDays(e.target.value.includes('១ ខែ') ? 30 : e.target.value.includes('៣ ខែ') ? 90 : 365); }} className={`w-full px-3.5 py-2.5 border rounded-xl text-sm outline-none cursor-pointer focus:border-blue-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`}>
                                 <option value="១ ខែ (Standard)">កញ្ចប់ ១ ខែ (៣០ ថ្ងៃ)</option>
                                 <option value="៣ ខែ (Pro)">កញ្ចប់ ៣ ខែ (៩០ ថ្ងៃ)</option>
                                 <option value="១ ឆ្នាំ (VIP)">កញ្ចប់ ១ ឆ្នាំ (៣៦៥ ថ្ងៃ)</option>
@@ -5333,7 +5333,7 @@ const handleOpenDuplicateModal = () => {
                               <label className={`block text-xs font-bold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`}>ទឹកប្រាក់បានបង់ ($) <span className="text-red-500">*</span></label>
                               <div className="relative">
                                 <span className="absolute left-3 top-2.5 text-gray-500 font-bold">$</span>
-                                <input type="number" required value={amountPaid} onChange={(e) => setAmountPaid(e.target.value)} className={`w-full pl-7 pr-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-blue-500 font-bold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`} placeholder="0.00" />
+                                <input type="number" required value={amountPaid} onChange={(e) => setAmountPaid(e.target.value)} className={`w-full pl-7 pr-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-blue-500 font-bold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-gray-900'}`} placeholder="0.00" />
                               </div>
                             </div>
                           </div>
@@ -5341,7 +5341,7 @@ const handleOpenDuplicateModal = () => {
 
                         {/* Action Buttons */}
                         <div className="flex justify-end gap-3 pt-2">
-                          <button type="button" onClick={() => setShowSubModal(false)} className={`px-5 py-2.5 font-bold rounded-xl text-sm transition cursor-pointer border ${theme === 'dark' ? 'bg-[#242526] border-slate-600 text-slate-300 hover:bg-[#3A3B3C]' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'}`}>បោះបង់</button>
+                          <button type="button" onClick={() => setShowSubModal(false)} className={`px-5 py-2.5 font-bold rounded-xl text-sm transition cursor-pointer border ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600 text-slate-300 hover:bg-[#1C2128]' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'}`}>បោះបង់</button>
                           <button type="submit" className="px-8 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm hover:bg-blue-700 transition cursor-pointer shadow-md flex items-center gap-2">
                             ✓ រក្សាទុក និង បង្កើតគណនី
                           </button>
@@ -5354,7 +5354,7 @@ const handleOpenDuplicateModal = () => {
                 {/* 🌟 Modal សម្រាប់ Admin មើល Slip និងកែប្រែទឹកប្រាក់មុន Approve */}
                 {isSlipModalOpen && selectedClientSlip && (
                   <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-[99999] p-4 animate-in fade-in duration-200">
-                    <div className={`rounded-3xl max-w-xl w-full p-6 shadow-2xl border max-h-[90vh] overflow-y-auto custom-scrollbar ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
+                    <div className={`rounded-3xl max-w-xl w-full p-6 shadow-2xl border max-h-[90vh] overflow-y-auto custom-scrollbar ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
                       
                       {/* Header */}
                       <div className="flex justify-between items-center mb-4 border-b pb-3 dark:border-slate-700">
@@ -5380,7 +5380,7 @@ const handleOpenDuplicateModal = () => {
                       </div>
 
                       {/* Payment Info Details & Custom Amount Input */}
-                      <div className={`p-4 rounded-2xl border mb-5 text-xs space-y-3 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+                      <div className={`p-4 rounded-2xl border mb-5 text-xs space-y-3 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
                         <div className="flex justify-between items-center">
                           <span className="text-slate-400">កញ្ចប់សេវា៖</span>
                           <span className="font-bold">{selectedClientSlip.package_name}</span>
@@ -5396,7 +5396,7 @@ const handleOpenDuplicateModal = () => {
                               id="adminCustomAmount" 
                               step="0.01"
                               defaultValue={selectedClientSlip.amount || 5.00} 
-                              className={`w-full pl-7 pr-3 py-1.5 rounded-xl border text-sm outline-none font-bold text-emerald-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                              className={`w-full pl-7 pr-3 py-1.5 rounded-xl border text-sm outline-none font-bold text-emerald-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                             />
                           </div>
                         </div>
@@ -5415,11 +5415,11 @@ const handleOpenDuplicateModal = () => {
                           <span>📜</span> ប្រវត្តិការទូទាត់ប្រាក់ទាំងអស់របស់អតិថិជន
                         </h4>
 
-                        <div className={`rounded-xl border overflow-hidden ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-white border-slate-200'}`}>
+                        <div className={`rounded-xl border overflow-hidden ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-white border-slate-200'}`}>
                           <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse text-xs">
                               <thead>
-                                <tr className={`border-b uppercase ${theme === 'dark' ? 'bg-[#3A3B3C] text-slate-300 border-slate-700' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                                <tr className={`border-b uppercase ${theme === 'dark' ? 'bg-[#1C2128] text-slate-300 border-slate-700' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
                                   <th className="py-2.5 px-3 font-bold">កាលបរិច្ឆេទ</th>
                                   <th className="py-2.5 px-3 font-bold">ទឹកប្រាក់</th>
                                   <th className="py-2.5 px-3 font-bold">Slip</th>
@@ -5441,7 +5441,7 @@ const handleOpenDuplicateModal = () => {
                                     </tr>
                                   ) : (
                                     records.map((rec: any, idx: number) => (
-                                      <tr key={idx} className={`transition ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                      <tr key={idx} className={`transition ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                         <td className="py-2.5 px-3 font-medium">
                                           {new Date(rec.date).toLocaleDateString('km-KH')}
                                         </td>
@@ -5595,7 +5595,7 @@ const handleOpenDuplicateModal = () => {
                 <div className="xl:col-span-7 flex flex-col gap-6 w-full min-w-0">
                   
                   {/* --- ១. Campaign Details Card --- */}
-                  <div className={`p-6 rounded-2xl shadow-sm border flex flex-col gap-5 w-full transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
+                  <div className={`p-6 rounded-2xl shadow-sm border flex flex-col gap-5 w-full transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
                     
                     {/* ============================================== */}
                     {/* 🌟 AI Auto-Fill Smart Box (សម្រាប់អ្នកថ្មីងាយស្រួលប្រើ) */}
@@ -5615,7 +5615,7 @@ const handleOpenDuplicateModal = () => {
                           value={autoFillInput}
                           onChange={(e) => setAutoFillInput(e.target.value)}
                           placeholder="ឧ. លក់ស្បែកជើងកីឡាបុរស, សម្លៀកបំពាក់នារី..."
-                          className={`w-full border rounded-xl p-3 text-sm outline-none font-medium shadow-xs ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white placeholder-slate-400 focus:border-indigo-400' : 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500'}`}
+                          className={`w-full border rounded-xl p-3 text-sm outline-none font-medium shadow-xs ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white placeholder-slate-400 focus:border-indigo-400' : 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500'}`}
                         />
                         
                         <button 
@@ -5637,7 +5637,7 @@ const handleOpenDuplicateModal = () => {
                     
                     <div className="flex justify-between items-center border-b pb-3">
                       <h3 className={`font-bold flex items-center gap-2 text-[15px] ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
-                        <span className={`p-1.5 rounded-xl ${theme === 'dark' ? 'bg-[#3A3B3C]' : 'bg-slate-100'}`}>📁</span> ១. Campaign Details
+                        <span className={`p-1.5 rounded-xl ${theme === 'dark' ? 'bg-[#1C2128]' : 'bg-slate-100'}`}>📁</span> ១. Campaign Details
                       </h3>
                       <button
                         type="button"
@@ -5650,21 +5650,21 @@ const handleOpenDuplicateModal = () => {
 
                     <div>
                       <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Campaign name (ឈ្មោះយុទ្ធនាការ)</label>
-                      <input type="text" value={campaignName} onChange={(e) => saveParam("campaignName", e.target.value, setCampaignName)} className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'}`} />
+                      <input type="text" value={campaignName} onChange={(e) => saveParam("campaignName", e.target.value, setCampaignName)} className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'}`} />
                     </div>
                     
                     {showAdvancedSettings && (
-                      <div className="flex flex-col gap-4 p-4 rounded-xl border bg-slate-50/80 dark:bg-[#18191A] border-slate-200 dark:border-slate-700 animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex flex-col gap-4 p-4 rounded-xl border bg-slate-50/80 dark:bg-[#0B0F17] border-slate-200 dark:border-slate-700 animate-in slide-in-from-top-2 duration-200">
                         <div className="flex gap-4 flex-col sm:flex-row">
                           <div className="flex-1 min-w-0">
                             <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Objective</label>
-                            <select value={objective} onChange={(e) => saveParam("obj", e.target.value, setObjective)} className={`w-full border rounded-xl p-3 outline-none ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
+                            <select value={objective} onChange={(e) => saveParam("obj", e.target.value, setObjective)} className={`w-full border rounded-xl p-3 outline-none ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
                               <option value="ENGAGEMENT">💬 Engagement</option>
                             </select>
                           </div>
                           <div className="flex-1 min-w-0">
                             <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Conversion Location</label>
-                            <select value={conversionLocation} onChange={(e) => saveParam("conversionLoc", e.target.value, setConversionLocation)} className={`w-full border rounded-xl p-3 outline-none ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
+                            <select value={conversionLocation} onChange={(e) => saveParam("conversionLoc", e.target.value, setConversionLocation)} className={`w-full border rounded-xl p-3 outline-none ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
                               <option value="MESSAGES">📨 Message destinations</option>
                               <option value="ON_AD">👍 On your ad</option>
                             </select>
@@ -5674,7 +5674,7 @@ const handleOpenDuplicateModal = () => {
                         <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-blue-950/20 border-blue-900' : 'bg-[#f2f6fc] border-blue-100'}`}>
                           <label className={`block text-sm font-bold mb-1 ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>Performance goal</label>
                           <p className={`text-[12px] mb-3 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>How you measure success for your ads.</p>
-                          <select value={performanceGoal} onChange={(e) => saveParam("performanceGoal", e.target.value, setPerformanceGoal)} className={`w-full border rounded-xl p-3 text-sm outline-none focus:border-blue-500 shadow-sm font-semibold cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
+                          <select value={performanceGoal} onChange={(e) => saveParam("performanceGoal", e.target.value, setPerformanceGoal)} className={`w-full border rounded-xl p-3 text-sm outline-none focus:border-blue-500 shadow-sm font-semibold cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
                             <option value="CONVERSATIONS">💬 Maximize number of conversations</option>
                             <option value="LEAD_GENERATION">📝 Maximize number of leads through messaging</option>
                             <option value="LINK_CLICKS">🔗 Maximize number of link clicks</option>
@@ -5684,18 +5684,18 @@ const handleOpenDuplicateModal = () => {
                       </div>
                     )}
                     
-                    <div className={`p-4 rounded-xl border mt-1 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                    <div className={`p-4 rounded-xl border mt-1 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                       <label className={`block text-sm font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>Budget strategy (ទឹកលុយចំណាយ)</label>
                       <div className="flex flex-col sm:flex-row gap-3">
                         <div className="flex-1 min-w-0">
-                          <select value={budgetType} onChange={(e) => saveParam("budgetType", e.target.value, setBudgetType)} className={`w-full border rounded-xl p-3 text-sm outline-none font-medium cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
+                          <select value={budgetType} onChange={(e) => saveParam("budgetType", e.target.value, setBudgetType)} className={`w-full border rounded-xl p-3 text-sm outline-none font-medium cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
                             <option value="DAILY">Daily budget</option>
                             <option value="LIFETIME">Lifetime budget</option>
                           </select>
                         </div>
                         <div className="flex-1 relative min-w-0">
                           <span className="absolute left-3.5 top-3 font-bold text-slate-500">$</span>
-                          <input type="number" min="1" step="0.5" value={budget} onChange={(e) => saveParam("budget", e.target.value, setBudget)} className={`w-full border rounded-xl p-3 pl-8 text-sm outline-none font-bold focus:border-blue-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-800'}`} />
+                          <input type="number" min="1" step="0.5" value={budget} onChange={(e) => saveParam("budget", e.target.value, setBudget)} className={`w-full border rounded-xl p-3 pl-8 text-sm outline-none font-bold focus:border-blue-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-800'}`} />
                         </div>
                       </div>
 
@@ -5703,7 +5703,7 @@ const handleOpenDuplicateModal = () => {
                         <div className="mt-4 flex flex-col gap-3">
                           <div className="flex items-center gap-3">
                             <label className={`text-sm font-medium ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>ដំណើរការរយៈពេល (ថ្ងៃ)៖</label>
-                            <input type="number" min="1" value={duration} onChange={(e) => saveParam("duration", e.target.value, setDuration)} className={`w-24 border rounded-xl p-2.5 text-sm outline-none text-center font-bold focus:border-blue-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
+                            <input type="number" min="1" value={duration} onChange={(e) => saveParam("duration", e.target.value, setDuration)} className={`w-24 border rounded-xl p-2.5 text-sm outline-none text-center font-bold focus:border-blue-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
                           </div>
                           
                           <div className={`text-[13px] p-3.5 rounded-xl border flex flex-col gap-1 shadow-sm ${theme === 'dark' ? 'bg-blue-950/20 border-blue-800 text-slate-300' : 'bg-blue-50 border-blue-100 text-slate-700'}`}>
@@ -5728,20 +5728,20 @@ const handleOpenDuplicateModal = () => {
                   </div>
 
                   {/* --- ២. Ad Set Details --- */}
-                  <div className={`p-6 rounded-2xl shadow-sm border flex flex-col gap-5 w-full min-w-0 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
+                  <div className={`p-6 rounded-2xl shadow-sm border flex flex-col gap-5 w-full min-w-0 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
                     <h3 className={`font-bold border-b pb-3 flex items-center gap-2 text-[15px] ${theme === 'dark' ? 'border-slate-700 text-white' : 'border-slate-200 text-slate-800'}`}>
-                      <span className={`p-1.5 rounded-xl ${theme === 'dark' ? 'bg-[#3A3B3C]' : 'bg-slate-100'}`}>🎯</span> ២. Ad Set (Targeting & Placements)
+                      <span className={`p-1.5 rounded-xl ${theme === 'dark' ? 'bg-[#1C2128]' : 'bg-slate-100'}`}>🎯</span> ២. Ad Set (Targeting & Placements)
                     </h3>
 
                     <div>
                       <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Ad set name</label>
-                      <input type="text" value={adsetName} onChange={(e) => saveParam("adsetName", e.target.value, setAdsetName)} className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'}`} />
+                      <input type="text" value={adsetName} onChange={(e) => saveParam("adsetName", e.target.value, setAdsetName)} className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'}`} />
                     </div>
                     
                     <div className="flex gap-4 flex-col sm:flex-row">
                       <div className="flex-1 min-w-0">
                         <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Locations</label>
-                        <select value={location} onChange={(e) => saveParam("location", e.target.value, setLocation)} className={`w-full border rounded-xl p-3 outline-none text-sm font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
+                        <select value={location} onChange={(e) => saveParam("location", e.target.value, setLocation)} className={`w-full border rounded-xl p-3 outline-none text-sm font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
                           <option value="CAMBODIA">📍 ទូទាំងប្រទេសកម្ពុជា</option>
                           <option value="PHNOM_PENH">🏙️ រាជធានីភ្នំពេញ</option>
                           <option value="SIEM_REAP">🏛️ ខេត្តសៀមរាប</option>
@@ -5772,7 +5772,7 @@ const handleOpenDuplicateModal = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Gender</label>
-                        <select value={gender} onChange={(e) => saveParam("gender", e.target.value, setGender)} className={`w-full border rounded-xl p-3 outline-none text-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
+                        <select value={gender} onChange={(e) => saveParam("gender", e.target.value, setGender)} className={`w-full border rounded-xl p-3 outline-none text-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
                           <option value="ALL">All genders</option>
                           <option value="MALE">Men</option>
                           <option value="FEMALE">Women</option>
@@ -5783,9 +5783,9 @@ const handleOpenDuplicateModal = () => {
                     <div>
                       <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Age</label>
                       <div className="flex items-center gap-3">
-                        <input type="number" min="13" max="65" value={ageMin} onChange={(e) => saveParam("ageMin", e.target.value, setAgeMin)} className={`w-full border rounded-xl p-3 outline-none text-center ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
+                        <input type="number" min="13" max="65" value={ageMin} onChange={(e) => saveParam("ageMin", e.target.value, setAgeMin)} className={`w-full border rounded-xl p-3 outline-none text-center ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
                         <span className="text-slate-400 font-bold">-</span>
-                        <input type="number" min="13" max="65" value={ageMax} onChange={(e) => saveParam("ageMax", e.target.value, setAgeMax)} className={`w-full border rounded-xl p-3 outline-none text-center ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
+                        <input type="number" min="13" max="65" value={ageMax} onChange={(e) => saveParam("ageMax", e.target.value, setAgeMax)} className={`w-full border rounded-xl p-3 outline-none text-center ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
                       </div>
                     </div>
 
@@ -5801,7 +5801,7 @@ const handleOpenDuplicateModal = () => {
                             localStorage.setItem("interestQuery", e.target.value);
                           }}
                           placeholder="Search interests (e.g. Shoes, Footwear)..."
-                          className={`w-full border rounded-xl p-3 text-sm outline-none focus:border-blue-500 shadow-sm font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white placeholder-slate-400' : 'bg-white border-slate-300 text-slate-800'}`}
+                          className={`w-full border rounded-xl p-3 text-sm outline-none focus:border-blue-500 shadow-sm font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white placeholder-slate-400' : 'bg-white border-slate-300 text-slate-800'}`}
                         />
                         
                         <button
@@ -5839,7 +5839,7 @@ const handleOpenDuplicateModal = () => {
                         rows={3}
                         value={targeting} 
                         onChange={(e) => { setTargeting(e.target.value); localStorage.setItem("targeting", e.target.value); }} 
-                        className={`w-full border rounded-xl p-3 mt-2 outline-none focus:border-blue-500 text-sm font-medium resize-y shadow-inner ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-200 placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-700'}`} 
+                        className={`w-full border rounded-xl p-3 mt-2 outline-none focus:border-blue-500 text-sm font-medium resize-y shadow-inner ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-200 placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-700'}`} 
                         placeholder="Selected keywords will appear here and sync to Ad Set..."
                       />
                     </div>
@@ -5847,7 +5847,7 @@ const handleOpenDuplicateModal = () => {
                     <div className={`border rounded-xl overflow-visible mt-2 flex-1 ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
                       
                       {/* Placements Dropdown Header ជាមួយនឹង Smart Presets ធំជាងមុន */}
-                      <div className={`p-3.5 border-b flex flex-wrap justify-between items-center select-none transition-colors gap-3 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-700 text-white' : 'bg-slate-100 border-slate-200 text-slate-800'}`}>
+                      <div className={`p-3.5 border-b flex flex-wrap justify-between items-center select-none transition-colors gap-3 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-700 text-white' : 'bg-slate-100 border-slate-200 text-slate-800'}`}>
                         
                         <div onClick={() => setShowPlacementsSection(!showPlacementsSection)} className="flex items-center gap-2 cursor-pointer">
                           <label className="block text-[14px] font-extrabold cursor-pointer tracking-wide">
@@ -5893,7 +5893,7 @@ const handleOpenDuplicateModal = () => {
                       </div>
 
                       {showPlacementsSection && (
-                        <div className={`p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200 ${theme === 'dark' ? 'bg-[#242526]' : 'bg-white'}`}>
+                        <div className={`p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200 ${theme === 'dark' ? 'bg-[#0D1117]' : 'bg-white'}`}>
                           <select 
                             value={placementType} 
                             onChange={(e) => saveParam("placementType", e.target.value, setPlacementType)} 
@@ -5907,7 +5907,7 @@ const handleOpenDuplicateModal = () => {
                             <div className={`flex flex-col gap-4 pt-4 border-t animate-in fade-in text-sm ${theme === 'dark' ? 'border-slate-700' : 'border-slate-100'}`}>
                               
                               {/* Devices and OS */}
-                              <div className={`rounded-xl border shadow-sm transition-all ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                              <div className={`rounded-xl border shadow-sm transition-all ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                                 <div className="flex justify-between items-center p-3.5 cursor-pointer select-none" onClick={() => setShowDevices(!showDevices)}>
                                     <h4 className={`font-bold ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>Devices and operating systems</h4>
                                     <span className="text-slate-500 font-black text-xs">{showDevices ? '▲' : '▼'}</span>
@@ -5915,12 +5915,12 @@ const handleOpenDuplicateModal = () => {
                                 
                                 {showDevices && (
                                     <div className="flex flex-col gap-3 px-3.5 pb-4 animate-in fade-in slide-in-from-top-2">
-                                      <select value={deviceType} onChange={(e) => saveParam("deviceType", e.target.value, setDeviceType)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
+                                      <select value={deviceType} onChange={(e) => saveParam("deviceType", e.target.value, setDeviceType)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
                                           <option value="ALL">All devices (recommended)</option>
                                           <option value="MOBILE">Mobile</option>
                                           <option value="DESKTOP">Desktop</option>
                                       </select>
-                                      <select value={osType} onChange={(e) => saveParam("osType", e.target.value, setOsType)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
+                                      <select value={osType} onChange={(e) => saveParam("osType", e.target.value, setOsType)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
                                           <option value="ALL">All mobile devices</option>
                                           <option value="ANDROID">Android devices only</option>
                                           <option value="IOS">iOS devices only</option>
@@ -5934,7 +5934,7 @@ const handleOpenDuplicateModal = () => {
                                               setWifiOnly(e.target.checked); 
                                               localStorage.setItem("wifiOnly", String(e.target.checked)); 
                                             }} 
-                                            className={`w-4 h-4 rounded text-blue-600 focus:ring-blue-500 cursor-pointer ${theme === 'dark' ? 'border-slate-600 bg-[#3A3B3C]' : 'border-slate-300'}`} 
+                                            className={`w-4 h-4 rounded text-blue-600 focus:ring-blue-500 cursor-pointer ${theme === 'dark' ? 'border-slate-600 bg-[#1C2128]' : 'border-slate-300'}`} 
                                           /> 
                                           Only when connected to Wi-Fi
                                       </label>
@@ -5943,8 +5943,8 @@ const handleOpenDuplicateModal = () => {
                               </div>
 
                               {/* Platforms */}
-                              <div className={`border rounded-xl shadow-sm transition-all ${theme === 'dark' ? 'bg-[#242526] border-slate-700' : 'bg-white border-slate-200'}`}>
-                                <div className={`p-3.5 font-bold flex justify-between cursor-pointer select-none ${theme === 'dark' ? 'bg-[#3A3B3C] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlatforms(!showPlatforms)}>
+                              <div className={`border rounded-xl shadow-sm transition-all ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700' : 'bg-white border-slate-200'}`}>
+                                <div className={`p-3.5 font-bold flex justify-between cursor-pointer select-none ${theme === 'dark' ? 'bg-[#1C2128] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlatforms(!showPlatforms)}>
                                     Platforms <span className="text-slate-500 font-black text-xs">{showPlatforms ? '▲' : '▼'}</span>
                                 </div>
                                 
@@ -5961,8 +5961,8 @@ const handleOpenDuplicateModal = () => {
                               </div>
 
                               {/* Placement Controls */}
-                              <div className={`border rounded-xl shadow-sm mb-2 transition-all ${theme === 'dark' ? 'bg-[#242526] border-slate-700' : 'bg-white border-slate-200'}`}>
-                                <div className={`p-3.5 font-bold flex justify-between items-center cursor-pointer select-none ${theme === 'dark' ? 'bg-[#3A3B3C] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlacementCtrls(!showPlacementCtrls)}>
+                              <div className={`border rounded-xl shadow-sm mb-2 transition-all ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700' : 'bg-white border-slate-200'}`}>
+                                <div className={`p-3.5 font-bold flex justify-between items-center cursor-pointer select-none ${theme === 'dark' ? 'bg-[#1C2128] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlacementCtrls(!showPlacementCtrls)}>
                                     <span className="flex items-center gap-1">Placement controls <span className="w-3.5 h-3.5 rounded-full bg-slate-400 text-[9px] flex items-center justify-center font-bold text-white">i</span></span>
                                     <span className="text-slate-500 font-black text-xs">{showPlacementCtrls ? '▲' : '▼'}</span>
                                 </div>
@@ -5972,7 +5972,7 @@ const handleOpenDuplicateModal = () => {
                                     
                                     {/* Feeds */}
                                     <div>
-                                        <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                        <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                           <div className="flex items-center gap-3">
                                             <input type="checkbox" checked={isGroupChecked('feeds')} onChange={(e) => handleGroupToggle('feeds', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                             <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('feeds')}>🪟 Feeds</span>
@@ -5982,7 +5982,7 @@ const handleOpenDuplicateModal = () => {
                                           </div>
                                         </div>
                                         {expandedPlacements.feeds && (
-                                          <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                          <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_feed} onChange={()=>handleDetailedPlacementChange('fb_feed')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook Feed</label>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_profile} onChange={()=>handleDetailedPlacementChange('fb_profile')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook profile feed</label>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.ig_feed} onChange={()=>handleDetailedPlacementChange('ig_feed')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Instagram feed</label>
@@ -5999,7 +5999,7 @@ const handleOpenDuplicateModal = () => {
 
                                     {/* Stories, Status, Reels */}
                                     <div>
-                                        <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                        <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                           <div className="flex items-center gap-3">
                                             <input type="checkbox" checked={isGroupChecked('stories')} onChange={(e) => handleGroupToggle('stories', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                             <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('stories')}>📱 Stories, Status, Reels</span>
@@ -6009,7 +6009,7 @@ const handleOpenDuplicateModal = () => {
                                           </div>
                                         </div>
                                         {expandedPlacements.stories && (
-                                          <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                          <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.ig_stories} onChange={()=>handleDetailedPlacementChange('ig_stories')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Instagram Stories</label>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_stories} onChange={()=>handleDetailedPlacementChange('fb_stories')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook Stories</label>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.msg_stories} onChange={()=>handleDetailedPlacementChange('msg_stories')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Messenger Stories</label>
@@ -6022,7 +6022,7 @@ const handleOpenDuplicateModal = () => {
 
                                     {/* In-stream ads for reels */}
                                     <div>
-                                        <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                        <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                           <div className="flex items-center gap-3">
                                             <input type="checkbox" checked={isGroupChecked('instream')} onChange={(e) => handleGroupToggle('instream', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                             <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('instream')}>▷ In-stream ads for reels</span>
@@ -6032,7 +6032,7 @@ const handleOpenDuplicateModal = () => {
                                           </div>
                                         </div>
                                         {expandedPlacements.instream && (
-                                          <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                          <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.instream_reels} onChange={()=>handleDetailedPlacementChange('instream_reels')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> In-stream for Reels</label>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_reels_ads} onChange={()=>handleDetailedPlacementChange('fb_reels_ads')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Ads on Facebook Reels</label>
                                           </div>
@@ -6041,7 +6041,7 @@ const handleOpenDuplicateModal = () => {
 
                                     {/* Search results */}
                                     <div>
-                                        <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                        <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                           <div className="flex items-center gap-3">
                                             <input type="checkbox" checked={isGroupChecked('search')} onChange={(e) => handleGroupToggle('search', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                             <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('search')}>🔍 Search results</span>
@@ -6051,7 +6051,7 @@ const handleOpenDuplicateModal = () => {
                                           </div>
                                         </div>
                                         {expandedPlacements.search && (
-                                          <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                          <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_search} onChange={()=>handleDetailedPlacementChange('fb_search')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook search results</label>
                                             <label className="flex items-center gap-3 cursor-pointer opacity-50"><input type="checkbox" disabled checked={detailedPlacements.ig_search} className="w-4 h-4 rounded border-slate-500 bg-slate-500/20" /> Instagram search results</label>
                                           </div>
@@ -6060,7 +6060,7 @@ const handleOpenDuplicateModal = () => {
 
                                     {/* Apps and sites */}
                                     <div>
-                                        <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                        <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                           <div className="flex items-center gap-3">
                                             <input type="checkbox" checked={isGroupChecked('apps')} onChange={(e) => handleGroupToggle('apps', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                             <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('apps')}>💻 Apps and sites</span>
@@ -6070,7 +6070,7 @@ const handleOpenDuplicateModal = () => {
                                           </div>
                                         </div>
                                         {expandedPlacements.apps && (
-                                          <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                          <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.an_native} onChange={()=>handleDetailedPlacementChange('an_native')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Audience Network native, banner and interstitial</label>
                                             <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.an_rewarded} onChange={()=>handleDetailedPlacementChange('an_rewarded')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Audience Network rewarded videos</label>
                                           </div>
@@ -6088,21 +6088,21 @@ const handleOpenDuplicateModal = () => {
                   </div>
 
                   {/* --- ៣. Ad Setup & Conversations Card (រួមបញ្ចូលគ្នា) --- */}
-                  <div className={`p-6 rounded-2xl shadow-sm border flex flex-col gap-5 w-full min-w-0 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
+                  <div className={`p-6 rounded-2xl shadow-sm border flex flex-col gap-5 w-full min-w-0 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
                     <h3 className={`font-bold border-b pb-3 flex items-center gap-2 text-[15px] ${theme === 'dark' ? 'border-slate-700 text-white' : 'border-slate-200 text-slate-800'}`}>
-                      <span className={`p-1.5 rounded-xl ${theme === 'dark' ? 'bg-[#3A3B3C]' : 'bg-slate-100'}`}>🖼️</span> ៣. Ad Setup & Conversations
+                      <span className={`p-1.5 rounded-xl ${theme === 'dark' ? 'bg-[#1C2128]' : 'bg-slate-100'}`}>🖼️</span> ៣. Ad Setup & Conversations
                     </h3>
 
                     <div>
                       <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Ad name (ឈ្មោះការផ្សាយ)</label>
-                      <input type="text" value={adName} onChange={(e) => saveParam("adName", e.target.value, setAdName)} className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'}`} placeholder="New Engagement Ad" />
+                      <input type="text" value={adName} onChange={(e) => saveParam("adName", e.target.value, setAdName)} className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'}`} placeholder="New Engagement Ad" />
                     </div>
 
                     {/* 🌟 Custom Dropdown ទំនើបបង្ហាញទាំង Logo Page និងឈ្មោះ */}
                     <div className="relative">
                       <div 
                         onClick={() => setIsPageMenuOpen(!isPageMenuOpen)}
-                        className={`p-3 flex justify-between items-center cursor-pointer border rounded-xl transition ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                        className={`p-3 flex justify-between items-center cursor-pointer border rounded-xl transition ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                       >
                         <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
                           {/* ឆែករកមើល Logo ពី pages ឬ facebookPages */}
@@ -6126,7 +6126,7 @@ const handleOpenDuplicateModal = () => {
                       {isPageMenuOpen && (
                         <>
                           <div className="fixed inset-0 z-40" onClick={() => setIsPageMenuOpen(false)}></div>
-                          <div className={`absolute top-[110%] left-0 w-full border rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto p-1.5 flex flex-col gap-1 ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-300'}`}>
+                          <div className={`absolute top-[110%] left-0 w-full border rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto p-1.5 flex flex-col gap-1 ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-300'}`}>
                             {pages && pages.length > 0 ? (
                               pages.map((page: any) => (
                                 <div 
@@ -6138,7 +6138,7 @@ const handleOpenDuplicateModal = () => {
                                     localStorage.setItem("fbPageName", page.name);
                                     setIsPageMenuOpen(false);
                                   }}
-                                  className={`p-2.5 rounded-lg flex items-center gap-3 cursor-pointer transition ${selectedPage === page.id ? 'bg-blue-600 text-white font-bold' : (theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-100')}`}
+                                  className={`p-2.5 rounded-lg flex items-center gap-3 cursor-pointer transition ${selectedPage === page.id ? 'bg-blue-600 text-white font-bold' : (theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-100')}`}
                                 >
                                   {page.picture?.data?.url ? (
                                     <img src={page.picture.data.url} className="w-7 h-7 rounded-full object-cover shrink-0 border border-slate-200" alt="Page Logo" />
@@ -6159,7 +6159,7 @@ const handleOpenDuplicateModal = () => {
                                     localStorage.setItem("fbPageName", page.name);
                                     setIsPageMenuOpen(false);
                                   }}
-                                  className={`p-2.5 rounded-lg flex items-center gap-3 cursor-pointer transition ${selectedPage === page.id ? 'bg-blue-600 text-white font-bold' : (theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-100')}`}
+                                  className={`p-2.5 rounded-lg flex items-center gap-3 cursor-pointer transition ${selectedPage === page.id ? 'bg-blue-600 text-white font-bold' : (theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-100')}`}
                                 >
                                   {page.picture?.data?.url ? (
                                     <img src={page.picture.data.url} className="w-8 h-8 rounded-full object-cover shrink-0 border" alt="Logo" />
@@ -6179,9 +6179,9 @@ const handleOpenDuplicateModal = () => {
 
                     <div>
                       <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Ad creative</label>
-                      <div className={`border rounded-xl overflow-visible shadow-sm relative ${theme === 'dark' ? 'border-slate-700 bg-[#18191A]' : 'border-slate-200 bg-white'}`}>
+                      <div className={`border rounded-xl overflow-visible shadow-sm relative ${theme === 'dark' ? 'border-slate-700 bg-[#0B0F17]' : 'border-slate-200 bg-white'}`}>
                         <div className="p-4">
-                          <div className={`w-full border rounded-xl p-3 flex items-center justify-between mb-4 shadow-sm relative overflow-hidden group ${theme === 'dark' ? 'bg-[#242526] border-slate-600' : 'bg-white border-slate-300'}`}>
+                          <div className={`w-full border rounded-xl p-3 flex items-center justify-between mb-4 shadow-sm relative overflow-hidden group ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600' : 'bg-white border-slate-300'}`}>
                             <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
                               {fetchingPosts ? (
                                 <span className="text-slate-500 font-medium text-sm">⏳ កំពុងទាញយក...</span>
@@ -6208,7 +6208,7 @@ const handleOpenDuplicateModal = () => {
                                 <span className="text-lg leading-none mb-0.5">📄</span> <span>ជ្រើសរើស Post (Select post)</span>
                               </span>
                             </button>
-                            <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-3 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                            <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-3 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                               + Create post
                             </button>
                           </div>
@@ -6220,7 +6220,7 @@ const handleOpenDuplicateModal = () => {
                     {/* Call to Action */}
                     <div>
                       <label className={`block text-[13px] font-bold mb-1.5 flex items-center gap-1 ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>Call to action</label>
-                      <select value={callToAction} onChange={(e) => saveParam("callToAction", e.target.value, setCallToAction)} className={`w-full border rounded-xl p-3 text-[14px] font-medium outline-none focus:border-[#1877F2] focus:ring-1 focus:ring-[#1877F2] shadow-sm cursor-pointer ${theme === 'dark' ? 'bg-[#242526] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-800'}`}>
+                      <select value={callToAction} onChange={(e) => saveParam("callToAction", e.target.value, setCallToAction)} className={`w-full border rounded-xl p-3 text-[14px] font-medium outline-none focus:border-[#1877F2] focus:ring-1 focus:ring-[#1877F2] shadow-sm cursor-pointer ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-800'}`}>
                         <option value="SEND_MESSAGE">Send message</option>
                         <option value="LEARN_MORE">Learn more</option>
                         <option value="SHOP_NOW">Shop now</option>
@@ -6231,12 +6231,12 @@ const handleOpenDuplicateModal = () => {
                     {/* ============================================== */}
                     {/* 🌟 ផ្នែក Conversation (ស្ថិតក្នុងទម្រង់ Dropdown ទំនើប) */}
                     {/* ============================================== */}
-                    <div className={`rounded-2xl border shadow-sm overflow-hidden mb-6 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'}`}>
+                    <div className={`rounded-2xl border shadow-sm overflow-hidden mb-6 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'}`}>
                       
                       {/* Header សម្រាប់ចុចបើក/បិទ */}
                       <div 
                         onClick={() => setShowConversationSection(!showConversationSection)}
-                        className={`p-4 flex justify-between items-center cursor-pointer select-none transition-colors ${theme === 'dark' ? 'bg-[#3A3B3C] hover:bg-[#4E4F50]' : 'bg-slate-100 hover:bg-slate-200'}`}
+                        className={`p-4 flex justify-between items-center cursor-pointer select-none transition-colors ${theme === 'dark' ? 'bg-[#1C2128] hover:bg-[#4E4F50]' : 'bg-slate-100 hover:bg-slate-200'}`}
                       >
                         <div className="flex items-center gap-2.5">
                           <span className="text-xl">💬</span>
@@ -6258,11 +6258,11 @@ const handleOpenDuplicateModal = () => {
                         <div className="p-5 border-t border-slate-200 dark:border-slate-700 animate-in fade-in duration-200 space-y-4">
                           
                           <div className="flex gap-2 mb-4">
-                            <button type="button" onClick={() => setTemplateTab("suggested")} className={`px-4 py-2 rounded-xl text-[13px] font-bold transition ${templateTab === "suggested" ? (theme === 'dark' ? 'bg-blue-900/50 text-blue-400' : 'bg-blue-50 text-[#1877F2]') : (theme === 'dark' ? 'text-slate-400 hover:bg-[#3A3B3C]' : 'text-slate-600 hover:bg-slate-100')}`}>Suggested template</button>
-                            <button type="button" onClick={() => setTemplateTab("saved")} className={`px-4 py-2 rounded-xl text-[13px] font-bold transition ${templateTab === "saved" ? (theme === 'dark' ? 'bg-blue-900/50 text-blue-400' : 'bg-blue-50 text-[#1877F2]') : (theme === 'dark' ? 'text-slate-400 hover:bg-[#3A3B3C]' : 'text-slate-600 hover:bg-slate-100')}`}>Saved templates</button>
+                            <button type="button" onClick={() => setTemplateTab("suggested")} className={`px-4 py-2 rounded-xl text-[13px] font-bold transition ${templateTab === "suggested" ? (theme === 'dark' ? 'bg-blue-900/50 text-blue-400' : 'bg-blue-50 text-[#1877F2]') : (theme === 'dark' ? 'text-slate-400 hover:bg-[#1C2128]' : 'text-slate-600 hover:bg-slate-100')}`}>Suggested template</button>
+                            <button type="button" onClick={() => setTemplateTab("saved")} className={`px-4 py-2 rounded-xl text-[13px] font-bold transition ${templateTab === "saved" ? (theme === 'dark' ? 'bg-blue-900/50 text-blue-400' : 'bg-blue-50 text-[#1877F2]') : (theme === 'dark' ? 'text-slate-400 hover:bg-[#1C2128]' : 'text-slate-600 hover:bg-slate-100')}`}>Saved templates</button>
                           </div>
 
-                          <div className={`border rounded-xl p-5 mb-4 shadow-sm min-w-0 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                          <div className={`border rounded-xl p-5 mb-4 shadow-sm min-w-0 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                             <div className={`font-bold text-sm mb-1.5 ${theme === 'dark' ? 'text-slate-200' : 'text-slate-800'}`}>Greeting</div>
                             <div className={`text-[13px] mb-4 break-words whitespace-normal ${theme === 'dark' ? 'text-slate-400' : 'text-slate-700'}`}>{msgGreeting}</div>
 
@@ -6275,10 +6275,10 @@ const handleOpenDuplicateModal = () => {
                           </div>
 
                           <div className="flex gap-3">
-                            <button type="button" onClick={() => setIsEditingConversations(true)} className={`border rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm flex items-center gap-2 transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                            <button type="button" onClick={() => setIsEditingConversations(true)} className={`border rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm flex items-center gap-2 transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                               <span>✎</span> Edit
                             </button>
-                            <button type="button" className={`border rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm flex items-center gap-2 transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                            <button type="button" className={`border rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm flex items-center gap-2 transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                               <span>+</span> Create template
                             </button>
                           </div>
@@ -6307,28 +6307,28 @@ const handleOpenDuplicateModal = () => {
                   </div>
 
                   {/* Ad Preview Area */}
-                  <div className={`rounded-2xl border overflow-hidden shadow-sm flex flex-col w-full ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-[#F0F2F5] border-gray-300'}`}>
-                    <div className={`border-b ${theme === 'dark' ? 'bg-[#242526] border-slate-700' : 'bg-white border-gray-200'}`}>
+                  <div className={`rounded-2xl border overflow-hidden shadow-sm flex flex-col w-full ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-[#F0F2F5] border-gray-300'}`}>
+                    <div className={`border-b ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700' : 'bg-white border-gray-200'}`}>
                       <div className={`flex justify-between items-center p-3 border-b ${theme === 'dark' ? 'border-slate-700' : 'border-gray-100'}`}>
                         <div className="flex items-center gap-2">
                           <div className="w-9 h-5 bg-[#1877F2] rounded-full relative cursor-pointer"><div className="w-4 h-4 bg-white rounded-full absolute right-0.5 top-0.5 shadow"></div></div>
                           <span className={`font-semibold text-[14px] ${theme === 'dark' ? 'text-white' : 'text-[#050505]'}`}>Ad preview</span>
                         </div>
-                        <div className={`flex rounded-xl p-0.5 border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-[#F5F6F8] border-gray-200'}`}>
-                          <button type="button" className={`px-3 py-1 rounded-lg shadow-sm text-[12px] font-semibold text-[#1877F2] ${theme === 'dark' ? 'bg-[#3A3B3C]' : 'bg-white'}`}>Ad</button>
+                        <div className={`flex rounded-xl p-0.5 border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-[#F5F6F8] border-gray-200'}`}>
+                          <button type="button" className={`px-3 py-1 rounded-lg shadow-sm text-[12px] font-semibold text-[#1877F2] ${theme === 'dark' ? 'bg-[#1C2128]' : 'bg-white'}`}>Ad</button>
                           <button type="button" className={`px-3 py-1 text-[12px] font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-[#65676B]'}`}>Destination</button>
                         </div>
                       </div>
                       
                       {/* Real Placement Switcher */}
-                      <div className={`flex items-center justify-between p-2.5 overflow-x-auto min-w-0 ${theme === 'dark' ? 'bg-[#242526]' : 'bg-white'}`}>
+                      <div className={`flex items-center justify-between p-2.5 overflow-x-auto min-w-0 ${theme === 'dark' ? 'bg-[#0D1117]' : 'bg-white'}`}>
                         <div className="flex items-center gap-1.5 shrink-0">
-                          <button type="button" className={`w-8 h-8 rounded-xl flex items-center justify-center border border-transparent ${theme === 'dark' ? 'text-slate-400 hover:bg-[#3A3B3C]' : 'text-[#65676B] hover:bg-gray-100'}`}>💻</button>
-                          <button type="button" className={`w-12 h-8 rounded-xl flex items-center justify-center gap-1 text-[10px] border border-transparent ${theme === 'dark' ? 'text-slate-400 hover:bg-[#3A3B3C]' : 'text-[#65676B] hover:bg-gray-100'}`}>📱 ▼</button>
+                          <button type="button" className={`w-8 h-8 rounded-xl flex items-center justify-center border border-transparent ${theme === 'dark' ? 'text-slate-400 hover:bg-[#1C2128]' : 'text-[#65676B] hover:bg-gray-100'}`}>💻</button>
+                          <button type="button" className={`w-12 h-8 rounded-xl flex items-center justify-center gap-1 text-[10px] border border-transparent ${theme === 'dark' ? 'text-slate-400 hover:bg-[#1C2128]' : 'text-[#65676B] hover:bg-gray-100'}`}>📱 ▼</button>
                           <div className={`h-4 w-px mx-2 ${theme === 'dark' ? 'bg-slate-600' : 'bg-gray-300'}`}></div>
                           
                           <div className="relative group">
-                            <select value={previewMode} onChange={(e) => setPreviewMode(e.target.value)} className={`appearance-none border rounded-xl px-3 py-1.5 pr-8 text-[12px] font-bold outline-none cursor-pointer transition shadow-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200' : 'bg-slate-50 border-slate-300 text-slate-700'}`}>
+                            <select value={previewMode} onChange={(e) => setPreviewMode(e.target.value)} className={`appearance-none border rounded-xl px-3 py-1.5 pr-8 text-[12px] font-bold outline-none cursor-pointer transition shadow-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200' : 'bg-slate-50 border-slate-300 text-slate-700'}`}>
                                 <option value="fb_feed">Facebook Feed</option>
                                 <option value="ig_feed">Instagram Feed</option>
                                 <option value="stories">Stories & Reels</option>
@@ -6338,18 +6338,18 @@ const handleOpenDuplicateModal = () => {
                           </div>
                         </div>
                         <div className="flex items-center gap-1 shrink-0">
-                          <button type="button" className={`w-8 h-8 rounded-xl flex items-center justify-center text-[14px] ${theme === 'dark' ? 'text-slate-400 hover:bg-[#3A3B3C]' : 'text-[#65676B] hover:bg-gray-100'}`}>⤢</button>
-                          <button type="button" className={`w-8 h-8 rounded-xl flex items-center justify-center text-[14px] ${theme === 'dark' ? 'text-slate-400 hover:bg-[#3A3B3C]' : 'text-[#65676B] hover:bg-gray-100'}`}>➦ ▼</button>
+                          <button type="button" className={`w-8 h-8 rounded-xl flex items-center justify-center text-[14px] ${theme === 'dark' ? 'text-slate-400 hover:bg-[#1C2128]' : 'text-[#65676B] hover:bg-gray-100'}`}>⤢</button>
+                          <button type="button" className={`w-8 h-8 rounded-xl flex items-center justify-center text-[14px] ${theme === 'dark' ? 'text-slate-400 hover:bg-[#1C2128]' : 'text-[#65676B] hover:bg-gray-100'}`}>➦ ▼</button>
                         </div>
                       </div>
                     </div>
 
-                    <div className={`p-4 flex gap-4 overflow-x-auto items-start min-h-[450px] justify-center ${theme === 'dark' ? 'bg-[#18191A]' : 'bg-[#F0F2F5]'}`}>
+                    <div className={`p-4 flex gap-4 overflow-x-auto items-start min-h-[450px] justify-center ${theme === 'dark' ? 'bg-[#0B0F17]' : 'bg-[#F0F2F5]'}`}>
                       {selectedPostData ? (
                         <>
                           {/* FB Feed Card */}
                           {previewMode === "fb_feed" && (
-                            <div className={`w-[280px] shrink-0 rounded-2xl shadow border overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200 mx-auto ${theme === 'dark' ? 'bg-[#242526] border-slate-700' : 'bg-white border-gray-200'}`}>
+                            <div className={`w-[280px] shrink-0 rounded-2xl shadow border overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200 mx-auto ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700' : 'bg-white border-gray-200'}`}>
                               <div className="p-3.5 flex justify-between items-start">
                                 <div className="flex items-center gap-2.5">
                                   {selectedPageData?.picture?.data?.url ? <img src={selectedPageData.picture.data.url} className={`w-9 h-9 rounded-full object-cover border ${theme === 'dark' ? 'border-slate-600' : 'border-gray-100'}`} /> : <div className="w-9 h-9 bg-gray-400 rounded-full"></div>}
@@ -6385,10 +6385,10 @@ const handleOpenDuplicateModal = () => {
                               ) : selectedPostData?.full_picture ? (
                                 <img src={selectedPostData.full_picture} className="w-full object-cover max-h-[300px]" alt="Ad single" />
                               ) : (
-                                <div className={`w-full h-[200px] flex items-center justify-center text-xs ${theme === 'dark' ? 'bg-[#18191A] text-slate-500' : 'bg-gray-100 text-gray-400'}`}>No Image</div>
+                                <div className={`w-full h-[200px] flex items-center justify-center text-xs ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-500' : 'bg-gray-100 text-gray-400'}`}>No Image</div>
                               )}
 
-                              <div className={`px-3.5 py-2.5 flex justify-between items-center ${theme === 'dark' ? 'bg-[#3A3B3C]' : 'bg-[#F0F2F5]'}`}>
+                              <div className={`px-3.5 py-2.5 flex justify-between items-center ${theme === 'dark' ? 'bg-[#1C2128]' : 'bg-[#F0F2F5]'}`}>
                                 <div className="flex flex-col">
                                     <span className={`text-[10px] uppercase font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-[#65676B]'}`}>CHAT IN MESSENGER</span>
                                     <span className={`font-bold text-[14px] ${theme === 'dark' ? 'text-white' : 'text-[#050505]'}`}>{callToAction === 'SEND_MESSAGE' ? 'Send message' : callToAction === 'LEARN_MORE' ? 'Learn more' : callToAction === 'SHOP_NOW' ? 'Shop now' : 'Learn more'}</span>
@@ -6398,7 +6398,7 @@ const handleOpenDuplicateModal = () => {
                                 )}
                               </div>
 
-                              <div className={`px-3.5 py-2.5 flex justify-between text-[12px] border-t ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-400' : 'bg-white border-gray-200 text-[#65676B]'}`}>
+                              <div className={`px-3.5 py-2.5 flex justify-between text-[12px] border-t ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-400' : 'bg-white border-gray-200 text-[#65676B]'}`}>
                                 <div className="flex gap-4 font-semibold">
                                   <span className="cursor-pointer hover:text-blue-500 transition">👍 {selectedPostData?.likesCount > 0 ? selectedPostData.likesCount : 'Like'}</span>
                                   <span className="cursor-pointer hover:text-blue-500 transition">💬 {selectedPostData?.commentsCount > 0 ? selectedPostData.commentsCount : 'Comment'}</span>
@@ -6421,7 +6421,7 @@ const handleOpenDuplicateModal = () => {
                               {selectedPostData?.full_picture ? (
                                 <img src={selectedPostData.full_picture} className="w-full aspect-square object-cover" alt="Ad" />
                               ) : (
-                                <div className={`w-full aspect-square flex items-center justify-center text-xs ${theme === 'dark' ? 'bg-[#18191A] text-slate-500' : 'bg-gray-100 text-slate-400'}`}>No Image</div>
+                                <div className={`w-full aspect-square flex items-center justify-center text-xs ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-500' : 'bg-gray-100 text-slate-400'}`}>No Image</div>
                               )}
                               <div className={`px-3.5 py-2.5 flex justify-between items-center border-y ${theme === 'dark' ? 'bg-[#121212] border-slate-800' : 'bg-[#F0F2F5] border-gray-200'}`}>
                                 <span className={`font-bold text-[13px] flex items-center gap-1 ${theme === 'dark' ? 'text-white' : 'text-[#050505]'}`}>💬 Chat in Messenger</span>
@@ -6462,8 +6462,8 @@ const handleOpenDuplicateModal = () => {
 
                           {/* Marketplace Card */}
                           {previewMode === "marketplace" && (
-                            <div className={`w-[280px] shrink-0 rounded-2xl shadow border overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200 mx-auto ${theme === 'dark' ? 'bg-[#242526] border-slate-700' : 'bg-white border-gray-200'}`}>
-                                <div className={`p-3.5 flex items-center justify-between border-b ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-700' : 'bg-slate-50 border-gray-100'}`}>
+                            <div className={`w-[280px] shrink-0 rounded-2xl shadow border overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200 mx-auto ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700' : 'bg-white border-gray-200'}`}>
+                                <div className={`p-3.5 flex items-center justify-between border-b ${theme === 'dark' ? 'bg-[#1C2128] border-slate-700' : 'bg-slate-50 border-gray-100'}`}>
                                   <span className={`font-bold text-[13px] ${theme === 'dark' ? 'text-white' : 'text-[#050505]'}`}>Marketplace</span>
                                   <span className={`text-[11px] font-bold ${theme === 'dark' ? 'text-slate-400' : 'text-[#65676B]'}`}>Sponsored</span>
                                 </div>
@@ -6471,14 +6471,14 @@ const handleOpenDuplicateModal = () => {
                                   {selectedPostData?.full_picture ? (
                                       <img src={selectedPostData.full_picture} className="w-full h-full object-cover" alt="Ad" />
                                   ) : (
-                                      <div className={`w-full h-full flex items-center justify-center text-xs ${theme === 'dark' ? 'bg-[#18191A] text-slate-500' : 'bg-gray-100 text-slate-400'}`}>No Image</div>
+                                      <div className={`w-full h-full flex items-center justify-center text-xs ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-500' : 'bg-gray-100 text-slate-400'}`}>No Image</div>
                                   )}
                                   <div className="absolute bottom-2.5 left-2.5 bg-black/70 text-white font-bold px-2.5 py-1 rounded-xl text-xs backdrop-blur-sm">$25</div>
                                 </div>
-                                <div className={`p-3.5 ${theme === 'dark' ? 'bg-[#242526]' : 'bg-white'}`}>
+                                <div className={`p-3.5 ${theme === 'dark' ? 'bg-[#0D1117]' : 'bg-white'}`}>
                                   <div className={`font-bold text-[14px] line-clamp-1 mb-1 ${theme === 'dark' ? 'text-white' : 'text-[#050505]'}`}>{selectedPageData?.name || "Product"}</div>
                                   <div className={`text-[12px] line-clamp-2 mb-3 leading-snug ${theme === 'dark' ? 'text-slate-400' : 'text-[#65676B]'}`}>{selectedPostData?.message || ""}</div>
-                                  <button className={`w-full py-2 rounded-xl text-[13px] font-bold transition ${theme === 'dark' ? 'bg-[#3A3B3C] text-white hover:bg-[#4E4F50]' : 'bg-[#E4E6EB] text-[#050505] hover:bg-slate-200'}`}>Shop Now</button>
+                                  <button className={`w-full py-2 rounded-xl text-[13px] font-bold transition ${theme === 'dark' ? 'bg-[#1C2128] text-white hover:bg-[#4E4F50]' : 'bg-[#E4E6EB] text-[#050505] hover:bg-slate-200'}`}>Shop Now</button>
                                 </div>
                             </div>
                           )}
@@ -6493,7 +6493,7 @@ const handleOpenDuplicateModal = () => {
                     </div>
                   </div>
                   {/* --- Action Buttons (Close / Publish) នៅបាតខាងឆ្វេង --- */}
-                  <div className={`p-5 rounded-2xl border flex flex-col sm:flex-row justify-between items-center gap-4 shadow-sm w-full mt-2 mb-16 md:mb-4 relative z-30 ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
+                  <div className={`p-5 rounded-2xl border flex flex-col sm:flex-row justify-between items-center gap-4 shadow-sm w-full mt-2 mb-16 md:mb-4 relative z-30 ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
                     <div className="text-[12px] hidden sm:block opacity-80">
                       By clicking Publish, you acknowledge Meta's <span className="text-[#1877F2] cursor-pointer hover:underline">Terms and Conditions</span>.
                     </div>
@@ -6501,7 +6501,7 @@ const handleOpenDuplicateModal = () => {
                       <button 
                         type="button" 
                         onClick={() => setActiveTab("MANAGE")}
-                        className={`px-6 py-3 border rounded-xl font-bold text-[14px] transition shadow-sm cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}
+                        className={`px-6 py-3 border rounded-xl font-bold text-[14px] transition shadow-sm cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}
                       >
                         Close
                       </button>
@@ -6511,7 +6511,7 @@ const handleOpenDuplicateModal = () => {
                         disabled={loading || !selectedPost || isBudgetError} 
                         className={`px-8 py-3.5 rounded-xl font-black text-[14px] transition-all cursor-pointer relative ${
                           loading || !selectedPost || isBudgetError 
-                            ? (theme === 'dark' ? 'bg-[#3A3B3C] text-slate-500 cursor-not-allowed border border-slate-700' : 'bg-[#E4E6EB] text-[#BCC0C4] cursor-not-allowed border border-slate-300') 
+                            ? (theme === 'dark' ? 'bg-[#1C2128] text-slate-500 cursor-not-allowed border border-slate-700' : 'bg-[#E4E6EB] text-[#BCC0C4] cursor-not-allowed border border-slate-300') 
                             : 'btn-futuristic btn-shimmer active:scale-[0.98]'
                         }`}
                       >
@@ -6539,9 +6539,9 @@ const handleOpenDuplicateModal = () => {
             {/* ============================================== */}
             {isPostMenuOpen && (
             <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/75 backdrop-blur-md p-4 animate-in fade-in duration-200">
-              <div className={`rounded-xl shadow-2xl w-full max-w-5xl overflow-hidden flex flex-col h-[85vh] transform transition-all ${theme === 'dark' ? 'bg-[#242526] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'}`}>
+              <div className={`rounded-xl shadow-2xl w-full max-w-5xl overflow-hidden flex flex-col h-[85vh] transform transition-all ${theme === 'dark' ? 'bg-[#0D1117] border border-slate-700 text-slate-100' : 'bg-white border border-slate-300 text-slate-900'}`}>
                   
-                  <div className={`px-6 py-4 border-b flex justify-between items-center ${theme === 'dark' ? 'border-slate-700 bg-[#3A3B3C]' : 'border-slate-200 bg-[#F5F6F8]'}`}>
+                  <div className={`px-6 py-4 border-b flex justify-between items-center ${theme === 'dark' ? 'border-slate-700 bg-[#1C2128]' : 'border-slate-200 bg-[#F5F6F8]'}`}>
                     <div>
                       <h2 className="font-bold text-[18px]">Select posts</h2>
                       <p className="text-[13px] text-slate-500">Select up to 5 posts to display in your ad.</p>
@@ -6549,14 +6549,14 @@ const handleOpenDuplicateModal = () => {
                     <button type="button" onClick={() => setIsPostMenuOpen(false)} className="text-[24px] leading-none text-slate-400 hover:text-red-500 cursor-pointer">&times;</button>
                   </div>
 
-                  <div className={`px-6 py-2.5 border-b flex items-center gap-6 text-[13px] font-bold ${theme === 'dark' ? 'border-slate-700 bg-[#18191A]' : 'border-slate-200 bg-white'}`}>
+                  <div className={`px-6 py-2.5 border-b flex items-center gap-6 text-[13px] font-bold ${theme === 'dark' ? 'border-slate-700 bg-[#0B0F17]' : 'border-slate-200 bg-white'}`}>
                     <span className="text-[#1877F2] border-b-[3px] border-[#1877F2] pb-2 cursor-pointer flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#1877F2]"></span> Facebook</span>
                     <span className="text-slate-500 hover:text-slate-700 cursor-pointer flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#E1306C]"></span> Instagram</span>
                     <span className="text-slate-500 hover:text-slate-700 cursor-pointer flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#F5C33B]"></span> Partner Content</span>
                   </div>
 
                   {/* 🌟 ប្រអប់ Filter Dropdown និង Search ថ្មីដូច Facebook 100% */}
-                  <div className={`px-4 py-2 border-b flex items-center gap-3 ${theme === 'dark' ? 'border-slate-700 bg-[#242526]' : 'border-slate-200 bg-white'}`}>
+                  <div className={`px-4 py-2 border-b flex items-center gap-3 ${theme === 'dark' ? 'border-slate-700 bg-[#0D1117]' : 'border-slate-200 bg-white'}`}>
                     <div className="text-[12px] text-slate-500 font-medium whitespace-nowrap">Filter by:</div>
                     
                     {/* Dropdown ជ្រើសរើសប្រភេទ Post (All, Published, Ads, Scheduled, Available) */}
@@ -6564,7 +6564,7 @@ const handleOpenDuplicateModal = () => {
                       <button 
                         type="button"
                         onClick={() => setIsPostFilterMenuOpen(!isPostFilterMenuOpen)}
-                        className={`flex items-center justify-between border rounded p-1.5 px-3 text-[13px] font-semibold outline-none min-w-[160px] shadow-xs transition-colors cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-[#F0F2F5] hover:bg-[#E4E6EB] border-[#CED0D4] text-[#050505]'}`}
+                        className={`flex items-center justify-between border rounded p-1.5 px-3 text-[13px] font-semibold outline-none min-w-[160px] shadow-xs transition-colors cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-[#F0F2F5] hover:bg-[#E4E6EB] border-[#CED0D4] text-[#050505]'}`}
                       >
                         <span>{postFilterType}</span>
                         <span className="text-[10px] ml-2 text-slate-500">▼</span>
@@ -6573,12 +6573,12 @@ const handleOpenDuplicateModal = () => {
                       {isPostFilterMenuOpen && (
                         <>
                           <div className="fixed inset-0 z-40" onClick={() => setIsPostFilterMenuOpen(false)}></div>
-                          <div className={`absolute top-full left-0 mt-1 w-[220px] border rounded-lg shadow-xl z-50 py-1.5 ${theme === 'dark' ? 'bg-[#242526] border-slate-600 text-white' : 'bg-white border-[#CED0D4] text-[#050505]'}`}>
+                          <div className={`absolute top-full left-0 mt-1 w-[220px] border rounded-lg shadow-xl z-50 py-1.5 ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600 text-white' : 'bg-white border-[#CED0D4] text-[#050505]'}`}>
                             {['All post types', 'Published posts', 'Ads posts', 'Scheduled posts', 'Available posts only'].map((type) => (
                               <div 
                                 key={type}
                                 onClick={() => { setPostFilterType(type); setIsPostFilterMenuOpen(false); }}
-                                className={`px-3 py-2 flex items-center gap-3 cursor-pointer text-[13px] transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-[#F0F2F5]'}`}
+                                className={`px-3 py-2 flex items-center gap-3 cursor-pointer text-[13px] transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-[#F0F2F5]'}`}
                               >
                                 <span className="w-4 flex justify-center text-[#1877F2] font-bold text-[14px]">
                                   {postFilterType === type ? '✓' : ''}
@@ -6599,14 +6599,14 @@ const handleOpenDuplicateModal = () => {
                         value={postSearchQuery}
                         onChange={(e) => setPostSearchQuery(e.target.value)}
                         placeholder="Post, image or video IDs, or other keywords" 
-                        className={`w-full border rounded p-1.5 pl-8 text-[12px] outline-none shadow-xs transition-colors focus:border-[#1877F2] ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white placeholder-slate-400' : 'bg-white hover:bg-[#F5F6F8] border-[#CED0D4] text-[#050505] placeholder-[#65676B]'}`} 
+                        className={`w-full border rounded p-1.5 pl-8 text-[12px] outline-none shadow-xs transition-colors focus:border-[#1877F2] ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white placeholder-slate-400' : 'bg-white hover:bg-[#F5F6F8] border-[#CED0D4] text-[#050505] placeholder-[#65676B]'}`} 
                       />
                     </div>
                   </div>
 
                   <div className="flex-1 overflow-y-auto overflow-x-auto p-0 custom-scrollbar">
                     <table className="w-full text-left border-collapse min-w-[950px]">
-                      <thead className={`sticky top-0 z-10 text-[11px] uppercase font-bold border-b ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-400' : 'bg-[#F0F2F5] border-slate-200 text-slate-500'}`}>
+                      <thead className={`sticky top-0 z-10 text-[11px] uppercase font-bold border-b ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-400' : 'bg-[#F0F2F5] border-slate-200 text-slate-500'}`}>
                         <tr>
                           <th className="p-3 w-10 text-center border-r border-slate-200 dark:border-slate-700">
                             <input type="checkbox" className="w-3.5 h-3.5 accent-[#1877F2]" />
@@ -6660,7 +6660,7 @@ const handleOpenDuplicateModal = () => {
                                   className={`cursor-pointer transition-colors ${
                                     isSelected 
                                       ? (theme === 'dark' ? 'bg-blue-900/30' : 'bg-[#EBF5FF]') 
-                                      : (theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50')
+                                      : (theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50')
                                   }`}
                                 >
                                   <td className="p-3 text-center align-middle border-r border-slate-200 dark:border-slate-700">
@@ -6718,7 +6718,7 @@ const handleOpenDuplicateModal = () => {
                     </table>
                   </div>
 
-                  <div className={`p-4 flex justify-between items-center ${theme === 'dark' ? 'border-t border-slate-700 bg-[#3A3B3C]' : 'border-t border-slate-200 bg-[#F5F6F8]'}`}>
+                  <div className={`p-4 flex justify-between items-center ${theme === 'dark' ? 'border-t border-slate-700 bg-[#1C2128]' : 'border-t border-slate-200 bg-[#F5F6F8]'}`}>
                     <div className="flex items-center gap-3">
                       <span className="text-[13px] font-bold text-slate-500">
                         {tempSelectedPost ? '1 of 5 selected' : '0 of 5 selected'}
@@ -6970,7 +6970,7 @@ const handleOpenDuplicateModal = () => {
                         onClick={handleManualRefresh} 
                         disabled={isRefreshing}
                         className={`transition-all text-base p-1.5 rounded-xl cursor-pointer border shadow-xs flex items-center justify-center hover:-translate-y-0.5 active:translate-y-0 ${
-                          theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
+                          theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
                         }`} 
                         title="Refresh data"
                       >
@@ -6981,7 +6981,7 @@ const handleOpenDuplicateModal = () => {
                     {/* អា ៣ ហ្នឹងតម្រៀបជាជួរតែមួយ (រត់លើ Desktop ប៉ុណ្ណោះ លាក់លើ Mobile) */}
                     <div className="flex items-center gap-2">
                       <span className={`text-[12px] font-medium hidden md:inline ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>Updated just now</span>
-                      <button className={`font-semibold py-2 px-3.5 rounded-xl border text-xs transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${theme === 'dark' ? 'bg-[#3A3B3C] hover:bg-[#4E4F50] text-slate-200 border-slate-600' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'}`}>Discard drafts</button>
+                      <button className={`font-semibold py-2 px-3.5 rounded-xl border text-xs transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${theme === 'dark' ? 'bg-[#1C2128] hover:bg-[#4E4F50] text-slate-200 border-slate-600' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'}`}>Discard drafts</button>
                       <button className="btn-futuristic btn-shimmer py-2 px-4 rounded-xl text-xs cursor-pointer shadow-md">
                         <span className="relative z-10">Review & publish</span>
                       </button>
@@ -6997,7 +6997,7 @@ const handleOpenDuplicateModal = () => {
 
                 {/* 1. សម្រាប់ WEBSITE (បង្ហាញចំនួន Selected ត្រឹមត្រូវតាមចំនួនจริง និងមានប៊ូតុង AI Audit ក្នុង Tab Ads) */}
                 <div className={`sticky top-[118px] md:top-[74px] z-30 px-3 pt-2 border-b hidden md:flex flex-col sm:flex-row justify-between items-start sm:items-end text-[13px] select-none gap-2 transition-colors shadow-sm ${
-                  theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-300' : 'bg-[#F5F6F8] border-slate-200 text-slate-700'
+                  theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-300' : 'bg-[#F5F6F8] border-slate-200 text-slate-700'
                 }`}>
                   
                   {/* ផ្នែកខាងឆ្វេង៖ Tabs ទាំង ៣ */}
@@ -7006,8 +7006,8 @@ const handleOpenDuplicateModal = () => {
                     {/* Tab: Campaigns */}
                     <div className={`flex items-center gap-1.5 px-3 py-2 border-t border-l border-r rounded-t-md transition cursor-pointer shrink-0 ${
                       activeManageTab === 'CAMPAIGNS' 
-                        ? (theme === 'dark' ? 'bg-[#242526] border-slate-700 border-b-[#242526] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
-                        : (theme === 'dark' ? 'border-transparent hover:bg-[#3A3B3C]' : 'border-transparent hover:bg-slate-200/60')
+                        ? (theme === 'dark' ? 'bg-[#0D1117] border-slate-700 border-b-[#0D1117] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
+                        : (theme === 'dark' ? 'border-transparent hover:bg-[#1C2128]' : 'border-transparent hover:bg-slate-200/60')
                     }`}>
                       <button onClick={() => { setActiveManageTab('CAMPAIGNS'); localStorage.setItem('activeManageTab', 'CAMPAIGNS'); }} className="flex items-center gap-1.5 cursor-pointer">
                         <span className="text-blue-500 font-bold">📁</span> 
@@ -7027,8 +7027,8 @@ const handleOpenDuplicateModal = () => {
                     {/* Tab: Ad sets (បង្ហាញចំនួន Selected តែពេលមានមែនទែន) */}
                     <div className={`flex items-center gap-1.5 px-3 py-2 border-t border-l border-r rounded-t-md transition cursor-pointer shrink-0 ${
                       activeManageTab === 'ADSETS' 
-                        ? (theme === 'dark' ? 'bg-[#242526] border-slate-700 border-b-[#242526] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
-                        : (theme === 'dark' ? 'border-transparent hover:bg-[#3A3B3C]' : 'border-transparent hover:bg-slate-200/60')
+                        ? (theme === 'dark' ? 'bg-[#0D1117] border-slate-700 border-b-[#0D1117] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
+                        : (theme === 'dark' ? 'border-transparent hover:bg-[#1C2128]' : 'border-transparent hover:bg-slate-200/60')
                     }`}>
                       <button onClick={() => { setActiveManageTab('ADSETS'); localStorage.setItem('activeManageTab', 'ADSETS'); }} className="flex items-center gap-1.5 cursor-pointer">
                         <span className="text-indigo-500 font-bold">⊞</span> 
@@ -7047,8 +7047,8 @@ const handleOpenDuplicateModal = () => {
                     {/* Tab: Ads (បញ្ចូល AI Audit ទៅក្នុងនេះតែមួយ) */}
                     <div className={`flex items-center gap-2 px-3 py-2 border-t border-l border-r rounded-t-md transition cursor-pointer shrink-0 ${
                       activeManageTab === 'ADS' 
-                        ? (theme === 'dark' ? 'bg-[#242526] border-slate-700 border-b-[#242526] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
-                        : (theme === 'dark' ? 'border-transparent hover:bg-[#3A3B3C]' : 'border-transparent hover:bg-slate-200/60')
+                        ? (theme === 'dark' ? 'bg-[#0D1117] border-slate-700 border-b-[#0D1117] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
+                        : (theme === 'dark' ? 'border-transparent hover:bg-[#1C2128]' : 'border-transparent hover:bg-slate-200/60')
                     }`}>
                       <button onClick={() => { setActiveManageTab('ADS'); localStorage.setItem('activeManageTab', 'ADS'); }} className="flex items-center gap-1.5 cursor-pointer">
                         <span className="text-sky-500 font-bold">📄</span> 
@@ -7087,8 +7087,8 @@ const handleOpenDuplicateModal = () => {
 
                   {/* ផ្នែកខាងស្តាំ៖ Columns និង Breakdown */}
                   <div className="hidden sm:flex gap-2 pb-1.5 w-full sm:w-auto justify-end">
-                    <button className={`flex items-center gap-1.5 border px-2.5 py-1 rounded text-[12px] font-semibold shadow-xs cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>Columns: Performance ▼</button>
-                    <button className={`flex items-center gap-1.5 border px-2.5 py-1 rounded text-[12px] font-semibold shadow-xs cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>Breakdown ▼</button>
+                    <button className={`flex items-center gap-1.5 border px-2.5 py-1 rounded text-[12px] font-semibold shadow-xs cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>Columns: Performance ▼</button>
+                    <button className={`flex items-center gap-1.5 border px-2.5 py-1 rounded text-[12px] font-semibold shadow-xs cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>Breakdown ▼</button>
                   </div>
 
                 </div>
@@ -7096,14 +7096,14 @@ const handleOpenDuplicateModal = () => {
 
                 {/* 2. សម្រាប់ MOBILE APP (ទម្រង់ Grid ៣ ស្មើគ្នា ដាច់ដោយឡែកពី Website) */}
                 <div className={`sticky top-[118px] md:top-[74px] z-30 px-3 pt-2 border-b grid md:hidden grid-cols-3 gap-2 text-[13px] select-none transition-colors shadow-sm ${
-                  theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-300' : 'bg-[#F5F6F8] border-slate-200 text-slate-700'
+                  theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-300' : 'bg-[#F5F6F8] border-slate-200 text-slate-700'
                 }`}>
                   
                   {/* Mobile Tab: Campaigns */}
                   <div className={`flex items-center justify-center gap-1 px-1 py-2 border-t border-l border-r rounded-t-md transition cursor-pointer text-center ${
                     activeManageTab === 'CAMPAIGNS' 
-                      ? (theme === 'dark' ? 'bg-[#242526] border-slate-700 border-b-[#242526] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
-                      : (theme === 'dark' ? 'border-transparent hover:bg-[#3A3B3C]' : 'border-transparent hover:bg-slate-200/60')
+                      ? (theme === 'dark' ? 'bg-[#0D1117] border-slate-700 border-b-[#0D1117] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
+                      : (theme === 'dark' ? 'border-transparent hover:bg-[#1C2128]' : 'border-transparent hover:bg-slate-200/60')
                   }`}>
                     <button onClick={() => { setActiveManageTab('CAMPAIGNS'); localStorage.setItem('activeManageTab', 'CAMPAIGNS'); }} className="flex items-center justify-center gap-1 cursor-pointer truncate w-full text-[12px]">
                       <span className="text-blue-500 font-bold shrink-0">📁</span> 
@@ -7114,8 +7114,8 @@ const handleOpenDuplicateModal = () => {
                   {/* Mobile Tab: Ad sets */}
                   <div className={`flex items-center justify-center gap-1 px-1 py-2 border-t border-l border-r rounded-t-md transition cursor-pointer text-center ${
                     activeManageTab === 'ADSETS' 
-                      ? (theme === 'dark' ? 'bg-[#242526] border-slate-700 border-b-[#242526] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
-                      : (theme === 'dark' ? 'border-transparent hover:bg-[#3A3B3C]' : 'border-transparent hover:bg-slate-200/60')
+                      ? (theme === 'dark' ? 'bg-[#0D1117] border-slate-700 border-b-[#0D1117] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
+                      : (theme === 'dark' ? 'border-transparent hover:bg-[#1C2128]' : 'border-transparent hover:bg-slate-200/60')
                   }`}>
                     <button onClick={() => { setActiveManageTab('ADSETS'); localStorage.setItem('activeManageTab', 'ADSETS'); }} className="flex items-center justify-center gap-1 cursor-pointer truncate w-full text-[12px]">
                       <span className="text-indigo-500 font-bold shrink-0">⊞</span> 
@@ -7126,8 +7126,8 @@ const handleOpenDuplicateModal = () => {
                   {/* Mobile Tab: Ads AI */}
                   <div className={`flex items-center justify-center gap-1 px-1 py-2 border-t border-l border-r rounded-t-md transition cursor-pointer text-center ${
                     activeManageTab === 'ADS' 
-                      ? (theme === 'dark' ? 'bg-[#242526] border-slate-700 border-b-[#242526] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
-                      : (theme === 'dark' ? 'border-transparent hover:bg-[#3A3B3C]' : 'border-transparent hover:bg-slate-200/60')
+                      ? (theme === 'dark' ? 'bg-[#0D1117] border-slate-700 border-b-[#0D1117] font-bold text-white -mb-[1px] shadow-sm' : 'bg-white border-slate-300 border-b-white font-bold text-slate-900 -mb-[1px] shadow-sm') 
+                      : (theme === 'dark' ? 'border-transparent hover:bg-[#1C2128]' : 'border-transparent hover:bg-slate-200/60')
                   }`}>
                     <button onClick={() => { setActiveManageTab('ADS'); localStorage.setItem('activeManageTab', 'ADS'); }} className="flex items-center justify-center gap-1 cursor-pointer truncate w-full text-[12px]">
                       <span className="text-purple-600 font-bold shrink-0">✨</span> 
@@ -7138,9 +7138,9 @@ const handleOpenDuplicateModal = () => {
                 </div>
 
                 {/* 🌟 តារាងទិន្នន័យ (មានរុំដោយ overflow-x-auto ធានាមិនបែកប្លង់ទូរសព្ទ) */}
-                <div className={`flex-1 overflow-x-auto relative transition-colors h-[500px] lg:h-[calc(100vh-230px)] custom-scrollbar ${theme === 'dark' ? 'bg-[#242526]' : 'bg-white'}`}>
+                <div className={`flex-1 overflow-x-auto relative transition-colors h-[500px] lg:h-[calc(100vh-230px)] custom-scrollbar ${theme === 'dark' ? 'bg-[#0D1117]' : 'bg-white'}`}>
                   {loadingCampaigns && (
-                    <div className={`absolute inset-0 flex flex-col items-center justify-center z-30 ${theme === 'dark' ? 'bg-[#242526]/80' : 'bg-white/80'}`}>
+                    <div className={`absolute inset-0 flex flex-col items-center justify-center z-30 ${theme === 'dark' ? 'bg-[#0D1117]/80' : 'bg-white/80'}`}>
                       <div className="w-8 h-8 border-4 border-[#1877F2]/20 border-t-[#1877F2] rounded-full animate-spin mb-4"></div>
                       <p className={`font-bold text-[13px] ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Loading data...</p>
                     </div>
@@ -7152,7 +7152,7 @@ const handleOpenDuplicateModal = () => {
                 <div className="w-full h-full flex flex-col justify-between min-w-full">
                   <div className="w-full overflow-x-auto flex-1 custom-scrollbar">
                     <table className="w-full text-left border-collapse min-w-[1650px]">
-                      <thead className={`sticky top-0 z-20 shadow-[0_1px_0_0_rgba(0,0,0,0.1)] ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-[#F5F6F8] text-[#65676B]'}`}>
+                      <thead className={`sticky top-0 z-20 shadow-[0_1px_0_0_rgba(0,0,0,0.1)] ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-[#F5F6F8] text-[#65676B]'}`}>
                         <tr className="text-[12px]">
                           <th className={`p-3 border-r w-10 text-center ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
                             <input 
@@ -7166,14 +7166,14 @@ const handleOpenDuplicateModal = () => {
                             />
                           </th>
                           <th className={`p-3 border-r w-16 text-center font-bold ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>Off / On</th>
-                          <th onClick={() => handleSort('name')} className={`p-3 border-r min-w-[280px] font-bold cursor-pointer transition select-none ${theme === 'dark' ? 'border-slate-700 bg-[#3A3B3C] hover:bg-[#4E4F50] text-slate-200' : 'border-slate-200 bg-[#ECEEF2] hover:bg-[#DEE1E6] text-slate-800'}`}>
+                          <th onClick={() => handleSort('name')} className={`p-3 border-r min-w-[280px] font-bold cursor-pointer transition select-none ${theme === 'dark' ? 'border-slate-700 bg-[#1C2128] hover:bg-[#4E4F50] text-slate-200' : 'border-slate-200 bg-[#ECEEF2] hover:bg-[#DEE1E6] text-slate-800'}`}>
                             <div className="flex items-center justify-between"><span>Campaign</span><span>{sortField === 'name' ? (sortDirection === 'asc' ? '↑' : '↓') : '↕'}</span></div>
                           </th>
-                          <th onClick={() => handleSort('status')} className={`p-3 border-r min-w-[120px] font-bold cursor-pointer select-none ${theme === 'dark' ? 'border-slate-700 hover:bg-[#3A3B3C]' : 'border-slate-200 hover:bg-slate-200'}`}>
+                          <th onClick={() => handleSort('status')} className={`p-3 border-r min-w-[120px] font-bold cursor-pointer select-none ${theme === 'dark' ? 'border-slate-700 hover:bg-[#1C2128]' : 'border-slate-200 hover:bg-slate-200'}`}>
                             <div className="flex items-center justify-between"><span>Delivery</span><span>{sortField === 'status' ? (sortDirection === 'asc' ? '↑' : '↓') : '↕'}</span></div>
                           </th>
                           <th className={`p-3 border-r min-w-[140px] font-bold ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>Actions</th>
-                          <th onClick={() => handleSort('results')} className={`p-3 border-r min-w-[150px] font-bold cursor-pointer select-none ${theme === 'dark' ? 'border-slate-700 hover:bg-[#3A3B3C]' : 'border-slate-200 hover:bg-slate-200'}`}>
+                          <th onClick={() => handleSort('results')} className={`p-3 border-r min-w-[150px] font-bold cursor-pointer select-none ${theme === 'dark' ? 'border-slate-700 hover:bg-[#1C2128]' : 'border-slate-200 hover:bg-slate-200'}`}>
                             <div className="flex items-center justify-between"><span>Results</span><span>{sortField === 'results' ? (sortDirection === 'asc' ? '↑' : '↓') : '↕'}</span></div>
                           </th>
                           <th className={`p-3 border-r min-w-[120px] font-bold ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>Cost per result</th>
@@ -7183,16 +7183,16 @@ const handleOpenDuplicateModal = () => {
                             ការវាយតម្លៃ AI (CPA)
                           </th>
 
-                          <th onClick={() => handleSort('budget')} className={`p-3 border-r min-w-[100px] font-bold cursor-pointer select-none ${theme === 'dark' ? 'border-slate-700 hover:bg-[#3A3B3C]' : 'border-slate-200 hover:bg-slate-200'}`}>
+                          <th onClick={() => handleSort('budget')} className={`p-3 border-r min-w-[100px] font-bold cursor-pointer select-none ${theme === 'dark' ? 'border-slate-700 hover:bg-[#1C2128]' : 'border-slate-200 hover:bg-slate-200'}`}>
                             <div className="flex items-center justify-between"><span>Budget</span><span>{sortField === 'budget' ? (sortDirection === 'asc' ? '↑' : '↓') : '↕'}</span></div>
                           </th>
-                          <th onClick={() => handleSort('spend')} className={`p-3 border-r min-w-[120px] font-bold cursor-pointer transition ${theme === 'dark' ? 'border-slate-700 bg-[#3A3B3C] hover:bg-[#4E4F50] text-slate-200' : 'border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-900'}`}>
+                          <th onClick={() => handleSort('spend')} className={`p-3 border-r min-w-[120px] font-bold cursor-pointer transition ${theme === 'dark' ? 'border-slate-700 bg-[#1C2128] hover:bg-[#4E4F50] text-slate-200' : 'border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-900'}`}>
                             <div className="flex items-center justify-between"><span>Amount spent</span><span>{sortField === 'spend' ? (sortDirection === 'asc' ? '↑' : '↓') : '↕'}</span></div>
                           </th>
-                          <th onClick={() => handleSort('impressions')} className={`p-3 border-r min-w-[100px] font-bold cursor-pointer select-none ${theme === 'dark' ? 'border-slate-700 hover:bg-[#3A3B3C]' : 'border-slate-200 hover:bg-slate-200'}`}>
+                          <th onClick={() => handleSort('impressions')} className={`p-3 border-r min-w-[100px] font-bold cursor-pointer select-none ${theme === 'dark' ? 'border-slate-700 hover:bg-[#1C2128]' : 'border-slate-200 hover:bg-slate-200'}`}>
                             <div className="flex items-center justify-between"><span>Impressions</span><span>{sortField === 'impressions' ? (sortDirection === 'asc' ? '↑' : '↓') : '↕'}</span></div>
                           </th>
-                          <th onClick={() => handleSort('reach')} className={`p-3 border-r min-w-[100px] font-bold cursor-pointer select-none ${theme === 'dark' ? 'border-slate-700 hover:bg-[#3A3B3C]' : 'border-slate-200 hover:bg-slate-200'}`}>
+                          <th onClick={() => handleSort('reach')} className={`p-3 border-r min-w-[100px] font-bold cursor-pointer select-none ${theme === 'dark' ? 'border-slate-700 hover:bg-[#1C2128]' : 'border-slate-200 hover:bg-slate-200'}`}>
                             <div className="flex items-center justify-between"><span>Reach</span><span>{sortField === 'reach' ? (sortDirection === 'asc' ? '↑' : '↓') : '↕'}</span></div>
                           </th>
                           <th className="p-3 min-w-[100px] font-bold">Ends</th>
@@ -7201,7 +7201,7 @@ const handleOpenDuplicateModal = () => {
                       <tbody className={`text-[13px] ${theme === 'dark' ? 'text-slate-300' : 'text-[#050505]'}`}>
                         {campaignsList.length === 0 && !loadingCampaigns ? (
                           <tr>
-                            <td colSpan={13} className={`p-10 text-center font-medium ${theme === 'dark' ? 'bg-[#242526] text-slate-500' : 'bg-slate-50 text-slate-500'}`}>No campaigns found.</td>
+                            <td colSpan={13} className={`p-10 text-center font-medium ${theme === 'dark' ? 'bg-[#0D1117] text-slate-500' : 'bg-slate-50 text-slate-500'}`}>No campaigns found.</td>
                           </tr>
                         ) : (
                           campaignsList.map((c) => {
@@ -7212,7 +7212,7 @@ const handleOpenDuplicateModal = () => {
                             const isSelected = selectedCampaigns.includes(c.id);
 
                             return (
-                              <tr key={c.id} className={`border-b transition duration-150 group min-h-[48px] ${theme === 'dark' ? (isSelected ? 'bg-blue-900/30 border-slate-700' : 'border-slate-700 hover:bg-[#3A3B3C]') : (isSelected ? 'bg-[#EBF5FF] border-slate-200' : 'border-slate-200 hover:bg-[#F0F2F5]')}`}>
+                              <tr key={c.id} className={`border-b transition duration-150 group min-h-[48px] ${theme === 'dark' ? (isSelected ? 'bg-blue-900/30 border-slate-700' : 'border-slate-700 hover:bg-[#1C2128]') : (isSelected ? 'bg-[#EBF5FF] border-slate-200' : 'border-slate-200 hover:bg-[#F0F2F5]')}`}>
                                 <td className={`p-3 border-r text-center align-middle w-10 ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
                                   <input 
                                     type="checkbox" 
@@ -7242,7 +7242,7 @@ const handleOpenDuplicateModal = () => {
                                         type="text" 
                                         defaultValue={c.name}
                                         id={`campNameInput_${c.id}`}
-                                        className="w-full px-2 py-1 text-xs border rounded font-bold text-blue-600 bg-white dark:bg-[#3A3B3C] outline-none"
+                                        className="w-full px-2 py-1 text-xs border rounded font-bold text-blue-600 bg-white dark:bg-[#1C2128] outline-none"
                                         autoFocus
                                       />
                                       <button 
@@ -7370,7 +7370,7 @@ const handleOpenDuplicateModal = () => {
                                 </td>
 
                                 <td className={`p-3 border-r align-middle min-w-[140px] ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
-                                  <span className={`text-[11px] border px-2 py-0.5 rounded-full font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400 border-slate-600' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>2 recommendations</span>
+                                  <span className={`text-[11px] border px-2 py-0.5 rounded-full font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400 border-slate-600' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>2 recommendations</span>
                                 </td>
 
                                 <td className={`p-3 border-r text-right align-middle min-w-[150px] ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
@@ -7396,7 +7396,7 @@ const handleOpenDuplicateModal = () => {
                                         step="0.5"
                                         defaultValue={c.daily_budget ? Number(c.daily_budget)/100 : (c.lifetime_budget ? Number(c.lifetime_budget)/100 : 5)}
                                         id={`budgetInput_${c.id}`}
-                                        className="w-20 px-2 py-1 text-xs border rounded font-bold text-emerald-500 bg-white dark:bg-[#3A3B3C] outline-none"
+                                        className="w-20 px-2 py-1 text-xs border rounded font-bold text-emerald-500 bg-white dark:bg-[#1C2128] outline-none"
                                         autoFocus
                                       />
                                       <button 
@@ -7475,7 +7475,7 @@ const handleOpenDuplicateModal = () => {
                                           // រក្សាទុកតម្លៃដែលបានជ្រើសរើសចូលក្នុង Element ផ្ទាល់ដើម្បីងាយស្រួលទាញយក
                                           (e.target as HTMLInputElement).setAttribute('data-val', e.target.value);
                                         }}
-                                        className="px-2 py-1 text-xs border rounded font-bold text-emerald-500 bg-white dark:bg-[#3A3B3C] outline-none"
+                                        className="px-2 py-1 text-xs border rounded font-bold text-emerald-500 bg-white dark:bg-[#1C2128] outline-none"
                                         autoFocus
                                       />
                                       <button 
@@ -7573,7 +7573,7 @@ const handleOpenDuplicateModal = () => {
 
 
                         {/* 🌟 Footer បូកសរុប (បានតម្រឹមបន្ថែម ១ ជួរឈរ សម្រាប់ CPA Status ឱ្យស្មើគ្នា ១០០%) */}
-                        <tfoot className={`sticky bottom-0 z-20 font-bold text-[13px] border-t-2 ${theme === 'dark' ? 'bg-[#18191A] border-slate-600 text-white' : 'bg-[#F5F6F8] border-slate-300 text-slate-900'}`}>
+                        <tfoot className={`sticky bottom-0 z-20 font-bold text-[13px] border-t-2 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-600 text-white' : 'bg-[#F5F6F8] border-slate-300 text-slate-900'}`}>
                           <tr>
                             <td colSpan={5} className="p-3 border-r border-slate-300 dark:border-slate-700">
                               <div className="flex items-center gap-2">
@@ -7621,7 +7621,7 @@ const handleOpenDuplicateModal = () => {
                   {activeManageTab === 'ADSETS' && (
                   <div className="w-full overflow-x-auto">
                     <table className="w-full text-left border-collapse min-w-[1800px]">
-                      <thead className={`sticky top-0 z-20 shadow-[0_1px_0_0_rgba(0,0,0,0.1)] ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-[#F5F6F8] text-[#65676B]'}`}>
+                      <thead className={`sticky top-0 z-20 shadow-[0_1px_0_0_rgba(0,0,0,0.1)] ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-[#F5F6F8] text-[#65676B]'}`}>
                         <tr className="text-[12px] uppercase">
                           <th className={`p-3 border-r w-10 text-center ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
                             <input 
@@ -7681,7 +7681,7 @@ const handleOpenDuplicateModal = () => {
                             const endDate = adset.end_time ? new Date(adset.end_time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Ongoing';
 
                             return (
-                              <tr key={adset.id} className={`border-b transition min-h-[48px] ${theme === 'dark' ? (selectedAdSets.includes(adset.id) ? 'bg-blue-900/30 border-slate-700' : 'border-slate-700 hover:bg-[#3A3B3C]') : (selectedAdSets.includes(adset.id) ? 'bg-[#EBF5FF] border-slate-200' : 'border-slate-200 hover:bg-slate-50')}`}>
+                              <tr key={adset.id} className={`border-b transition min-h-[48px] ${theme === 'dark' ? (selectedAdSets.includes(adset.id) ? 'bg-blue-900/30 border-slate-700' : 'border-slate-700 hover:bg-[#1C2128]') : (selectedAdSets.includes(adset.id) ? 'bg-[#EBF5FF] border-slate-200' : 'border-slate-200 hover:bg-slate-50')}`}>
                                 <td className={`p-3 border-r text-center align-middle ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
                                   <input 
                                     type="checkbox" 
@@ -7741,7 +7741,7 @@ const handleOpenDuplicateModal = () => {
                                           type="text" 
                                           defaultValue={adset.name}
                                           id={`adsetNameInput_${adset.id}`}
-                                          className="w-full px-2 py-1 text-xs border rounded font-bold text-blue-600 bg-white dark:bg-[#3A3B3C] outline-none"
+                                          className="w-full px-2 py-1 text-xs border rounded font-bold text-blue-600 bg-white dark:bg-[#1C2128] outline-none"
                                           autoFocus
                                         />
                                         <button 
@@ -7847,7 +7847,7 @@ const handleOpenDuplicateModal = () => {
                                       step="0.5"
                                       defaultValue={adset.daily_budget ? Number(adset.daily_budget)/100 : (adset.lifetime_budget ? Number(adset.lifetime_budget)/100 : 5)}
                                       id={`adsetInput_${adset.id}`}
-                                      className="w-20 px-2 py-1 text-xs border rounded font-bold text-emerald-500 bg-white dark:bg-[#3A3B3C] outline-none"
+                                      className="w-20 px-2 py-1 text-xs border rounded font-bold text-emerald-500 bg-white dark:bg-[#1C2128] outline-none"
                                       autoFocus
                                     />
                                     <button 
@@ -7926,7 +7926,7 @@ const handleOpenDuplicateModal = () => {
                                         type="datetime-local" 
                                         defaultValue={adset.end_time ? new Date(adset.end_time).toISOString().slice(0, 16) : ''}
                                         id={`adsetEndTimeInput_${adset.id}`}
-                                        className="px-2 py-1 text-xs border rounded font-bold text-emerald-500 bg-white dark:bg-[#3A3B3C] outline-none w-[130px]"
+                                        className="px-2 py-1 text-xs border rounded font-bold text-emerald-500 bg-white dark:bg-[#1C2128] outline-none w-[130px]"
                                         autoFocus
                                       />
                                       <button 
@@ -7995,7 +7995,7 @@ const handleOpenDuplicateModal = () => {
                       </tbody>
                       
                       {/* 🌟 ដាក់កូដ Total Footer Ad Sets ថ្មីនៅទីនេះ */}
-                      <tfoot className={`sticky bottom-0 z-20 font-bold text-[13px] border-t-2 ${theme === 'dark' ? 'bg-[#18191A] border-slate-600 text-white' : 'bg-[#F5F6F8] border-slate-300 text-slate-900'}`}>
+                      <tfoot className={`sticky bottom-0 z-20 font-bold text-[13px] border-t-2 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-600 text-white' : 'bg-[#F5F6F8] border-slate-300 text-slate-900'}`}>
                         <tr>
                           <td colSpan={4} className="p-3 border-r border-slate-300 dark:border-slate-700">
                             <div className="flex items-center gap-2">
@@ -8041,7 +8041,7 @@ const handleOpenDuplicateModal = () => {
                   {activeManageTab === 'ADS' && (
                     <div className="w-full overflow-x-auto">
                       <table className="w-full text-left border-collapse min-w-[1650px]">
-                        <thead className={`sticky top-0 z-20 shadow-[0_1px_0_0_rgba(0,0,0,0.1)] ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-[#F5F6F8] text-[#65676B]'}`}>
+                        <thead className={`sticky top-0 z-20 shadow-[0_1px_0_0_rgba(0,0,0,0.1)] ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-[#F5F6F8] text-[#65676B]'}`}>
                           <tr className="text-[12px]">
                             <th className={`p-3 border-r w-10 text-center ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
                               <input 
@@ -8095,7 +8095,7 @@ const handleOpenDuplicateModal = () => {
                               const isAdSelected = selectedAds.includes(ad.id);
 
                               return (
-                                <tr key={ad.id} className={`border-b transition min-h-[48px] ${theme === 'dark' ? (isAdSelected ? 'bg-blue-900/30 border-slate-700' : 'border-slate-700 hover:bg-[#3A3B3C]') : (isAdSelected ? 'bg-[#EBF5FF] border-slate-200' : 'border-slate-200 hover:bg-slate-50')}`}>
+                                <tr key={ad.id} className={`border-b transition min-h-[48px] ${theme === 'dark' ? (isAdSelected ? 'bg-blue-900/30 border-slate-700' : 'border-slate-700 hover:bg-[#1C2128]') : (isAdSelected ? 'bg-[#EBF5FF] border-slate-200' : 'border-slate-200 hover:bg-slate-50')}`}>
                                   
                                   {/* Checkbox */}
                                   <td className={`p-3 border-r text-center align-middle ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
@@ -8131,7 +8131,7 @@ const handleOpenDuplicateModal = () => {
                                           type="text" 
                                           defaultValue={ad.name}
                                           id={`adNameInput_${ad.id}`}
-                                          className="w-full px-2 py-1 text-xs border rounded font-bold text-blue-600 bg-white dark:bg-[#3A3B3C] outline-none"
+                                          className="w-full px-2 py-1 text-xs border rounded font-bold text-blue-600 bg-white dark:bg-[#1C2128] outline-none"
                                           autoFocus
                                         />
                                         <button 
@@ -8233,7 +8233,7 @@ const handleOpenDuplicateModal = () => {
 
                                           {/* 🚀 ផ្ទាំង Popover សម្រាប់ Desktop (Hover) និង Mobile (Click) */}
                                           <div 
-                                            className={`flex-col w-[340px] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border overflow-hidden z-[999999] bg-white dark:bg-[#242526] border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white animate-in fade-in zoom-in-95 duration-200 
+                                            className={`flex-col w-[340px] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border overflow-hidden z-[999999] bg-white dark:bg-[#0D1117] border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white animate-in fade-in zoom-in-95 duration-200 
                                             ${activePreviewAdId === ad.id 
                                               ? 'flex fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lg:hidden' 
                                               : 'hidden lg:group-hover/preview:flex fixed top-1/2 right-[5%] transform -translate-y-1/2 pointer-events-none'
@@ -8248,7 +8248,7 @@ const handleOpenDuplicateModal = () => {
                                               </button>
                                             )}
                                             
-                                            <div className="p-3.5 flex justify-between items-start bg-white dark:bg-[#242526]">
+                                            <div className="p-3.5 flex justify-between items-start bg-white dark:bg-[#0D1117]">
                                               <div className="flex items-center gap-2.5">
                                                 {selectedPageData?.picture?.data?.url ? (
                                                   <img src={selectedPageData.picture.data.url} className="w-9 h-9 rounded-full object-cover border border-slate-100 dark:border-slate-600" />
@@ -8263,7 +8263,7 @@ const handleOpenDuplicateModal = () => {
                                               <span className="tracking-widest text-[16px] -mt-2 text-[#65676B] dark:text-slate-400">...</span>
                                             </div>
 
-                                            <div className="px-3.5 pb-2 text-[13px] break-words whitespace-normal line-clamp-4 text-[#050505] dark:text-slate-300 bg-white dark:bg-[#242526]">
+                                            <div className="px-3.5 pb-2 text-[13px] break-words whitespace-normal line-clamp-4 text-[#050505] dark:text-slate-300 bg-white dark:bg-[#0D1117]">
                                               {(() => {
                                                 const storyId = ad.creative?.effective_object_story_id || ad.creative?.object_story_id;
                                                 const matchedPost = (storyId && typeof posts !== 'undefined') ? posts.find((p: any) => p.id === storyId || (p.id && p.id.endsWith(storyId.split('_').pop() || ''))) : null;
@@ -8359,7 +8359,7 @@ const handleOpenDuplicateModal = () => {
                                               })()}
                                             </div>
 
-                                            <div className="px-3.5 py-2.5 flex justify-between items-center bg-[#F0F2F5] dark:bg-[#3A3B3C]">
+                                            <div className="px-3.5 py-2.5 flex justify-between items-center bg-[#F0F2F5] dark:bg-[#1C2128]">
                                               <div className="flex flex-col">
                                                 <span className="text-[10px] uppercase font-bold text-[#65676B] dark:text-slate-400">CHAT IN MESSENGER</span>
                                                 <span className="font-bold text-[14px] text-[#050505] dark:text-white">Send message</span>
@@ -8367,7 +8367,7 @@ const handleOpenDuplicateModal = () => {
                                               <button type="button" className="px-4 py-1.5 rounded-xl text-[13px] font-bold bg-[#E4E6EB] text-[#050505] dark:bg-[#4E4F50] dark:text-white shadow-sm">Send</button>
                                             </div>
 
-                                            <div className="px-3.5 py-2.5 flex justify-between text-[12px] border-t bg-white border-gray-200 text-[#65676B] dark:bg-[#242526] dark:border-slate-700 dark:text-slate-400">
+                                            <div className="px-3.5 py-2.5 flex justify-between text-[12px] border-t bg-white border-gray-200 text-[#65676B] dark:bg-[#0D1117] dark:border-slate-700 dark:text-slate-400">
                                               <div className="flex gap-4 font-semibold">
                                                 <span>👍 Like</span>
                                                 <span>💬 Comment</span>
@@ -8466,7 +8466,7 @@ const handleOpenDuplicateModal = () => {
                                           step="0.5"
                                           defaultValue={ad.daily_budget ? Number(ad.daily_budget)/100 : (ad.lifetime_budget ? Number(ad.lifetime_budget)/100 : 5)}
                                           id={`adsetInput_${ad.id}`}
-                                          className="w-20 px-2 py-1 text-xs border rounded font-bold text-emerald-500 bg-white dark:bg-[#3A3B3C] outline-none"
+                                          className="w-20 px-2 py-1 text-xs border rounded font-bold text-emerald-500 bg-white dark:bg-[#1C2128] outline-none"
                                           autoFocus
                                         />
                                         <button 
@@ -8550,7 +8550,7 @@ const handleOpenDuplicateModal = () => {
                         </tbody>
                       
                       {/* 🌟 ដាក់កូដ Total Footer Ads ថ្មីនៅទីនេះ */}
-                      <tfoot className={`sticky bottom-0 z-20 font-bold text-[13px] border-t-2 ${theme === 'dark' ? 'bg-[#18191A] border-slate-600 text-white' : 'bg-[#F5F6F8] border-slate-300 text-slate-900'}`}>
+                      <tfoot className={`sticky bottom-0 z-20 font-bold text-[13px] border-t-2 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-600 text-white' : 'bg-[#F5F6F8] border-slate-300 text-slate-900'}`}>
                         <tr>
                           <td colSpan={4} className="p-3 border-r border-slate-300 dark:border-slate-700">
                             <div className="flex items-center gap-2">
@@ -9207,9 +9207,9 @@ const handleOpenDuplicateModal = () => {
       {/* ============================================== */}
       {isEditModalOpen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4">
-          <div className={`rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto flex flex-col transform transition-all ${theme === 'dark' ? 'bg-[#242526] border border-slate-700' : 'bg-white border border-slate-100'}`}>
+          <div className={`rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto flex flex-col transform transition-all ${theme === 'dark' ? 'bg-[#0D1117] border border-slate-700' : 'bg-white border border-slate-100'}`}>
             
-            <div className={`px-5 py-3.5 border-b flex justify-between items-center sticky top-0 z-10 ${theme === 'dark' ? 'border-slate-700 bg-[#3A3B3C]' : 'border-slate-200 bg-slate-50'}`}>
+            <div className={`px-5 py-3.5 border-b flex justify-between items-center sticky top-0 z-10 ${theme === 'dark' ? 'border-slate-700 bg-[#1C2128]' : 'border-slate-200 bg-slate-50'}`}>
               <h2 className={`font-bold text-base sm:text-lg flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-[#050505]'}`}>
                 <span className="bg-blue-100 text-blue-600 p-1.5 rounded-lg text-sm">✏️</span> កែប្រែយុទ្ធនាការរហ័ស
               </h2>
@@ -9219,34 +9219,34 @@ const handleOpenDuplicateModal = () => {
             <div className="p-4 sm:p-6 flex flex-col gap-4 sm:gap-5">
               <div>
                 <label className={`block text-[13px] sm:text-[14px] font-bold mb-1.5 ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>១. ចំណងជើងយុទ្ធនាការ (Campaign Name)</label>
-                <input type="text" value={editCampaignName} onChange={(e) => setEditCampaignName(e.target.value)} className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold text-sm ${theme === 'dark' ? 'bg-[#18191A] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
+                <input type="text" value={editCampaignName} onChange={(e) => setEditCampaignName(e.target.value)} className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold text-sm ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
               </div>
 
               <div>
                 <label className={`block text-[13px] sm:text-[14px] font-bold mb-1.5 ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>២. ថវិកា (Budget)</label>
                 <div className="relative">
                   <span className="absolute left-3.5 top-3 font-bold text-slate-500">$</span>
-                  <input type="number" min="1" step="0.5" value={editBudget} onChange={(e) => setEditBudget(e.target.value)} className={`w-full border rounded-xl p-3 pl-8 outline-none focus:border-blue-500 font-bold text-sm sm:text-[15px] ${theme === 'dark' ? 'bg-[#18191A] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
+                  <input type="number" min="1" step="0.5" value={editBudget} onChange={(e) => setEditBudget(e.target.value)} className={`w-full border rounded-xl p-3 pl-8 outline-none focus:border-blue-500 font-bold text-sm sm:text-[15px] ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
                 </div>
               </div>
 
-              <div className={`p-3.5 sm:p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+              <div className={`p-3.5 sm:p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                  <label className={`block text-[13px] sm:text-[14px] font-bold mb-2.5 ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>៣. កាលវិភាគ (Schedule)</label>
                  <div className="flex flex-col gap-3">
                     <div className="flex-1">
                        <span className="block text-[11px] mb-1 text-slate-500 font-bold uppercase">ថ្ងៃចាប់ផ្តើម (Start)</span>
-                       <input type="datetime-local" value={editStartDate} onChange={(e) => setEditStartDate(e.target.value)} className={`w-full border rounded-lg p-2.5 outline-none focus:border-blue-500 text-xs sm:text-[13.5px] cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-800'}`} />
+                       <input type="datetime-local" value={editStartDate} onChange={(e) => setEditStartDate(e.target.value)} className={`w-full border rounded-lg p-2.5 outline-none focus:border-blue-500 text-xs sm:text-[13.5px] cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-800'}`} />
                     </div>
                     <div className="flex-1">
                        <span className="block text-[11px] mb-1 text-[#1877F2] font-bold uppercase">ថ្ងៃបញ្ចប់ (End)</span>
-                       <input type="datetime-local" value={editEndDate} onChange={(e) => setEditEndDate(e.target.value)} className={`w-full border rounded-lg p-2.5 outline-none focus:border-[#1877F2] focus:ring-1 focus:ring-[#1877F2] text-xs sm:text-[13.5px] font-bold cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-[#1877F2]/50 text-white' : 'bg-white border-[#1877F2]/30 text-slate-900'}`} />
+                       <input type="datetime-local" value={editEndDate} onChange={(e) => setEditEndDate(e.target.value)} className={`w-full border rounded-lg p-2.5 outline-none focus:border-[#1877F2] focus:ring-1 focus:ring-[#1877F2] text-xs sm:text-[13.5px] font-bold cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#1C2128] border-[#1877F2]/50 text-white' : 'bg-white border-[#1877F2]/30 text-slate-900'}`} />
                     </div>
                  </div>
               </div>
             </div>
 
-            <div className={`p-4 border-t flex flex-row justify-end gap-2.5 sticky bottom-0 z-10 ${theme === 'dark' ? 'border-slate-700 bg-[#3A3B3C]' : 'border-slate-200 bg-slate-50'}`}>
-              <button type="button" onClick={() => setIsEditModalOpen(false)} className={`px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-[14px] border transition cursor-pointer ${theme === 'dark' ? 'bg-[#242526] border-slate-600 text-slate-300 hover:bg-[#18191A]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}>បោះបង់</button>
+            <div className={`p-4 border-t flex flex-row justify-end gap-2.5 sticky bottom-0 z-10 ${theme === 'dark' ? 'border-slate-700 bg-[#1C2128]' : 'border-slate-200 bg-slate-50'}`}>
+              <button type="button" onClick={() => setIsEditModalOpen(false)} className={`px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-[14px] border transition cursor-pointer ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600 text-slate-300 hover:bg-[#0B0F17]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}>បោះបង់</button>
               <button type="button" onClick={handleSaveQuickEdit} disabled={isSavingEdit || !editCampaignName} className="px-6 sm:px-8 py-2.5 rounded-xl font-bold text-xs sm:text-[14px] text-white bg-[#1877F2] hover:bg-[#166FE5] shadow-sm disabled:opacity-50 cursor-pointer">
                 {isSavingEdit ? 'កំពុងរក្សាទុក...' : '✓ រក្សាទុក'}
               </button>
@@ -9261,7 +9261,7 @@ const handleOpenDuplicateModal = () => {
       {/* ============================================== */}
       {isResetModalOpen && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col p-6 transform transition-all scale-100 ${theme === 'dark' ? 'bg-[#242526] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
+          <div className={`rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col p-6 transform transition-all scale-100 ${theme === 'dark' ? 'bg-[#0D1117] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
             
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xl shrink-0 font-bold">
@@ -9273,7 +9273,7 @@ const handleOpenDuplicateModal = () => {
               </div>
             </div>
 
-            <p className={`text-xs leading-relaxed mb-6 p-3 rounded-xl border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+            <p className={`text-xs leading-relaxed mb-6 p-3 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
               សកម្មភាពនេះនឹងលុបការកំណត់ Manual Placements ទាំងអស់ ហើយទម្លាក់វាឱ្យត្រឡប់ទៅទម្រង់ដើម (Default) វិញភ្លាមៗ។
             </p>
 
@@ -9281,7 +9281,7 @@ const handleOpenDuplicateModal = () => {
               <button 
                 type="button" 
                 onClick={() => setIsResetModalOpen(false)} 
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer border ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer border ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}
               >
                 បោះបង់
               </button>
@@ -9334,10 +9334,10 @@ const handleOpenDuplicateModal = () => {
       {isDuplicateModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           {/* 🌟 កែប្រែត្រង់នេះ៖ បន្ថែម max-h-[90vh] និង overflow-y-auto ដើម្បីឱ្យវាមាន Scrollbar អូសចុះអូសឡើង និងមិនបាត់ប៊ូតុង */}
-          <div className={`rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto flex flex-col transform transition-all custom-scrollbar ${theme === 'dark' ? 'bg-[#242526] border border-slate-700 text-white' : 'bg-white border border-slate-100 text-slate-900'}`}>
+          <div className={`rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto flex flex-col transform transition-all custom-scrollbar ${theme === 'dark' ? 'bg-[#0D1117] border border-slate-700 text-white' : 'bg-white border border-slate-100 text-slate-900'}`}>
             
             {/* Header */}
-            <div className={`px-6 py-4 border-b flex justify-between items-center sticky top-0 z-20 ${theme === 'dark' ? 'border-slate-700 bg-[#3A3B3C]' : 'border-slate-200 bg-slate-50'}`}>
+            <div className={`px-6 py-4 border-b flex justify-between items-center sticky top-0 z-20 ${theme === 'dark' ? 'border-slate-700 bg-[#1C2128]' : 'border-slate-200 bg-slate-50'}`}>
               <h2 className="font-bold text-lg flex items-center gap-2.5">
                 <span className="bg-blue-100 text-blue-600 p-1.5 rounded-lg text-sm">📄</span> Duplicate & Edit Ad
               </h2>
@@ -9348,15 +9348,15 @@ const handleOpenDuplicateModal = () => {
             <div className="p-6 flex flex-col gap-6">
               <div>
                 <label className="block text-[14px] font-bold mb-2">Ad name (ឈ្មោះការផ្សាយ)</label>
-                <input type="text" value={duplicateAdName} onChange={(e) => setDuplicateAdName(e.target.value)} className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#18191A] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
+                <input type="text" value={duplicateAdName} onChange={(e) => setDuplicateAdName(e.target.value)} className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
               </div>
 
               {/* Ad Creative Preview (ដែលយើងទើបតែធ្វើឱ្យធំស្អាត) */}
-              <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+              <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                 <label className="block text-[14px] font-bold mb-3">Ad creative (ជ្រើសរើស Post ថ្មី)</label>
                 
                 {/* 🌟 ប្រអប់ Preview Post ធំពេញទម្រង់ */}
-                <div className={`w-full border rounded-2xl overflow-hidden mb-4 shadow-sm ${theme === 'dark' ? 'bg-[#242526] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
+                <div className={`w-full border rounded-2xl overflow-hidden mb-4 shadow-sm ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
                   
                   {/* Header Page */}
                   <div className="p-3.5 flex justify-between items-start">
@@ -9411,7 +9411,7 @@ const handleOpenDuplicateModal = () => {
                   })()}
 
                   {/* Messenger Bar */}
-                  <div className="px-3.5 py-2.5 flex justify-between items-center bg-[#F0F2F5] dark:bg-[#3A3B3C]">
+                  <div className="px-3.5 py-2.5 flex justify-between items-center bg-[#F0F2F5] dark:bg-[#1C2128]">
                     <div className="flex flex-col">
                       <span className="text-[10px] uppercase font-bold text-slate-500">CHAT IN MESSENGER</span>
                       <span className="font-bold text-[13px]">Send message</span>
@@ -9441,8 +9441,8 @@ const handleOpenDuplicateModal = () => {
             </div>
 
             {/* Footer Buttons (ប៊ូតុងបោះបង់ និង Duplicate ដាក់ជាប់ស្អិតខាងក្រោម មាន z-20 មិនឱ្យបាត់) */}
-            <div className={`px-6 py-4 border-t flex justify-end gap-3 sticky bottom-0 z-20 shadow-md ${theme === 'dark' ? 'border-slate-700 bg-[#3A3B3C]' : 'border-slate-200 bg-slate-50'}`}>
-              <button type="button" onClick={() => setIsDuplicateModalOpen(false)} className={`px-5 py-2.5 rounded-xl font-bold text-[14px] border transition cursor-pointer ${theme === 'dark' ? 'bg-[#242526] border-slate-600 text-slate-300 hover:bg-[#18191A]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}>បោះបង់</button>
+            <div className={`px-6 py-4 border-t flex justify-end gap-3 sticky bottom-0 z-20 shadow-md ${theme === 'dark' ? 'border-slate-700 bg-[#1C2128]' : 'border-slate-200 bg-slate-50'}`}>
+              <button type="button" onClick={() => setIsDuplicateModalOpen(false)} className={`px-5 py-2.5 rounded-xl font-bold text-[14px] border transition cursor-pointer ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600 text-slate-300 hover:bg-[#0B0F17]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}>បោះបង់</button>
               <button type="button" onClick={executeDuplicate} className="px-8 py-2.5 rounded-xl font-bold text-[14px] text-white bg-blue-600 hover:bg-blue-700 shadow-sm disabled:opacity-50 flex items-center gap-2 cursor-pointer">
                 {isDuplicating ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> Duplicating...</> : '📄 Duplicate Ad'}
               </button>
@@ -9455,7 +9455,7 @@ const handleOpenDuplicateModal = () => {
       {/* 🌟 Modal សម្រាប់កែប្រែព័ត៌មានអតិថិជន (Edit Client Modal) */}
       {isEditClientModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[99999] p-4">
-          <div className={`rounded-2xl max-w-lg w-full p-6 shadow-2xl border ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
+          <div className={`rounded-2xl max-w-lg w-full p-6 shadow-2xl border ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
             
             <div className="flex justify-between items-center mb-4 border-b pb-3 dark:border-slate-700">
               <h3 className="font-bold text-lg flex items-center gap-2">
@@ -9472,7 +9472,7 @@ const handleOpenDuplicateModal = () => {
                   value={editClientName} 
                   onChange={(e) => setEditClientName(e.target.value)} 
                   required 
-                  className={`w-full p-3 rounded-xl border text-sm outline-none font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
+                  className={`w-full p-3 rounded-xl border text-sm outline-none font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
                 />
               </div>
 
@@ -9483,7 +9483,7 @@ const handleOpenDuplicateModal = () => {
                   value={editClientEmail} 
                   onChange={(e) => setEditClientEmail(e.target.value)} 
                   required 
-                  className={`w-full p-3 rounded-xl border text-sm outline-none font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
+                  className={`w-full p-3 rounded-xl border text-sm outline-none font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
                 />
               </div>
 
@@ -9493,7 +9493,7 @@ const handleOpenDuplicateModal = () => {
                   type="text" 
                   value={editClientPhone} 
                   onChange={(e) => setEditClientPhone(e.target.value)} 
-                  className={`w-full p-3 rounded-xl border text-sm outline-none font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
+                  className={`w-full p-3 rounded-xl border text-sm outline-none font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
                 />
               </div>
 
@@ -9504,7 +9504,7 @@ const handleOpenDuplicateModal = () => {
                     type="text" 
                     value={editPackageName} 
                     onChange={(e) => setEditPackageName(e.target.value)} 
-                    className={`w-full p-3 rounded-xl border text-sm outline-none font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
+                    className={`w-full p-3 rounded-xl border text-sm outline-none font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
                   />
                 </div>
                 <div>
@@ -9513,7 +9513,7 @@ const handleOpenDuplicateModal = () => {
                     type="number" 
                     value={editAmountPaid} 
                     onChange={(e) => setEditAmountPaid(e.target.value)} 
-                    className={`w-full p-3 rounded-xl border text-sm outline-none font-bold text-emerald-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
+                    className={`w-full p-3 rounded-xl border text-sm outline-none font-bold text-emerald-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
                   />
                 </div>
               </div>
@@ -9526,7 +9526,7 @@ const handleOpenDuplicateModal = () => {
                     type="date" 
                     value={editStartDate} 
                     onChange={(e) => setEditStartDate(e.target.value)} 
-                    className={`w-full p-3 rounded-xl border text-sm outline-none font-medium cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
+                    className={`w-full p-3 rounded-xl border text-sm outline-none font-medium cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
                   />
                 </div>
                 <div>
@@ -9535,7 +9535,7 @@ const handleOpenDuplicateModal = () => {
                     type="date" 
                     value={editExpiryDate} 
                     onChange={(e) => setEditExpiryDate(e.target.value)} 
-                    className={`w-full p-3 rounded-xl border text-sm outline-none font-bold text-red-500 cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
+                    className={`w-full p-3 rounded-xl border text-sm outline-none font-bold text-red-500 cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} 
                   />
                 </div>
               </div>
@@ -9564,7 +9564,7 @@ const handleOpenDuplicateModal = () => {
       {/* 🌟 Mobile Bottom Navigation Bar (Floating Puffy & Rounded Style) */}
       <nav className={`md:hidden fixed bottom-3 left-4 right-4 z-[99999] flex justify-around items-center h-[64px] px-3 rounded-[32px] shadow-[0_10px_30px_rgba(0,0,0,0.15),0_1px_3px_rgba(0,0,0,0.1)] transition-all duration-300 ${
         theme === 'dark' 
-          ? 'bg-[#242526]/95 border border-slate-700/60 text-slate-200 shadow-[0_10px_30px_rgba(0,0,0,0.4)]' 
+          ? 'bg-[#0D1117]/95 border border-slate-700/60 text-slate-200 shadow-[0_10px_30px_rgba(0,0,0,0.4)]' 
           : 'bg-white/95 border border-slate-100 text-slate-700'
       }`}>
          
@@ -9649,7 +9649,7 @@ const handleOpenDuplicateModal = () => {
             {isMobileSettingsOpen && (
                <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsMobileSettingsOpen(false)}></div>
-                  <div className={`absolute bottom-[115%] right-0 w-[250px] border rounded-3xl shadow-2xl z-50 p-3 flex flex-col gap-2 animate-in slide-in-from-bottom-2 fade-in duration-200 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-white border-slate-100'}`}>
+                  <div className={`absolute bottom-[115%] right-0 w-[250px] border rounded-3xl shadow-2xl z-50 p-3 flex flex-col gap-2 animate-in slide-in-from-bottom-2 fade-in duration-200 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-white border-slate-100'}`}>
                      
                      {/* 🌟 ១. គ្រប់គ្រងអតិថិជន (បង្ហាញតែ Admin) */}
                      {isAdmin && (
@@ -9659,13 +9659,13 @@ const handleOpenDuplicateModal = () => {
                            className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-[13.5px] font-bold transition-all text-left relative ${
                               activeTab === 'SUBSCRIPTIONS' 
                                  ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-md' 
-                                 : (theme === 'dark' ? 'bg-[#242526] text-slate-200 hover:bg-[#3A3B3C] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
+                                 : (theme === 'dark' ? 'bg-[#0D1117] text-slate-200 hover:bg-[#1C2128] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
                            }`}
                         >
                            <span className="text-lg leading-none">👥</span> 
                            <span className="flex-1">គ្រប់គ្រងអតិថិជន</span>
                            {pendingSlipsCount > 0 && (
-                              <span className="absolute -top-2 -right-2 bg-red-500 text-white px-2 py-0.5 rounded-full text-[10px] font-black shadow-sm border-2 border-white dark:border-[#18191A] animate-bounce">
+                              <span className="absolute -top-2 -right-2 bg-red-500 text-white px-2 py-0.5 rounded-full text-[10px] font-black shadow-sm border-2 border-white dark:border-[#0B0F17] animate-bounce">
                                  {pendingSlipsCount} ថ្មី
                               </span>
                            )}
@@ -9679,7 +9679,7 @@ const handleOpenDuplicateModal = () => {
                         className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-[13.5px] font-bold transition-all text-left ${
                            activeTab === 'PAYMENTS' 
                               ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' 
-                              : (theme === 'dark' ? 'bg-[#242526] text-slate-200 hover:bg-[#3A3B3C] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
+                              : (theme === 'dark' ? 'bg-[#0D1117] text-slate-200 hover:bg-[#1C2128] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
                         }`}
                      >
                         <span className="text-lg leading-none">💳</span> <span className="flex-1">ការទូទាត់ Payment</span>
@@ -9692,7 +9692,7 @@ const handleOpenDuplicateModal = () => {
                         className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-[13.5px] font-bold transition-all text-left ${
                            activeTab === 'SETTINGS' 
                               ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md' 
-                              : (theme === 'dark' ? 'bg-[#242526] text-slate-200 hover:bg-[#3A3B3C] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
+                              : (theme === 'dark' ? 'bg-[#0D1117] text-slate-200 hover:bg-[#1C2128] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
                         }`}
                      >
                         <span className="text-lg leading-none">🔒</span> <span className="flex-1">Change Password</span>
@@ -9705,7 +9705,7 @@ const handleOpenDuplicateModal = () => {
                         className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-[13.5px] font-bold transition-all text-left ${
                            activeTab === 'HELP' 
                               ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md' 
-                              : (theme === 'dark' ? 'bg-[#242526] text-slate-200 hover:bg-[#3A3B3C] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
+                              : (theme === 'dark' ? 'bg-[#0D1117] text-slate-200 hover:bg-[#1C2128] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
                         }`}
                      >
                         <span className="text-lg leading-none">🎓</span> <span className="flex-1">ជំនួយ & វីដេអូបង្រៀន</span>
@@ -9718,7 +9718,7 @@ const handleOpenDuplicateModal = () => {
                         className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-[13.5px] font-bold transition-all text-left ${
                            activeTab === 'TELEGRAM' 
                               ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md' 
-                              : (theme === 'dark' ? 'bg-[#242526] text-slate-200 hover:bg-[#3A3B3C] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
+                              : (theme === 'dark' ? 'bg-[#0D1117] text-slate-200 hover:bg-[#1C2128] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
                         }`}
                      >
                         <span className="text-lg leading-none">🤖</span> <span className="flex-1">ភ្ជាប់ Telegram Bot</span>
@@ -9748,7 +9748,7 @@ const handleOpenDuplicateModal = () => {
       {/* 🚀 AI Audit Modal */}
       {isAuditModalOpen && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col p-6 ${theme === 'dark' ? 'bg-[#242526] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
+          <div className={`rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col p-6 ${theme === 'dark' ? 'bg-[#0D1117] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
 
             <div className="flex justify-between items-center border-b pb-3 mb-3">
               <div className="flex items-center gap-3">
@@ -9798,7 +9798,7 @@ const handleOpenDuplicateModal = () => {
                   </div>
                 </div>
 
-                <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                   <div className="text-xs font-bold text-slate-400 uppercase mb-1">📊 ការវិភាគស៊ីជម្រៅ៖</div>
                   <p className="text-sm leading-relaxed whitespace-pre-wrap">{auditResult.analysis}</p>
                 </div>
@@ -9826,7 +9826,7 @@ const handleOpenDuplicateModal = () => {
       {/* ============================================== */}
       {isRestartModalOpen && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col p-6 text-center transform transition-all ${theme === 'dark' ? 'bg-[#242526] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
+          <div className={`rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col p-6 text-center transform transition-all ${theme === 'dark' ? 'bg-[#0D1117] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
             
             {/* Icon ព្រមាន */}
             <div className="w-14 h-14 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-inner">
@@ -9843,7 +9843,7 @@ const handleOpenDuplicateModal = () => {
               <button 
                 type="button" 
                 onClick={() => setIsRestartModalOpen(false)} 
-                className={`flex-1 py-2.5 rounded-xl font-bold text-sm border transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'}`}
+                className={`flex-1 py-2.5 rounded-xl font-bold text-sm border transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'}`}
               >
                 បោះបង់
               </button>
@@ -9893,7 +9893,7 @@ const handleOpenDuplicateModal = () => {
       {/* ============================================== */}
       {presetModalOpen !== 'none' && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col p-6 transform transition-all scale-100 ${theme === 'dark' ? 'bg-[#242526] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
+          <div className={`rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col p-6 transform transition-all scale-100 ${theme === 'dark' ? 'bg-[#0D1117] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
             
             <div className="flex items-center gap-3 mb-3">
               <div className={`w-11 h-11 rounded-full flex items-center justify-center text-xl shrink-0 font-bold shadow-inner ${presetModalOpen === 'photo' ? 'bg-emerald-100 text-emerald-600' : 'bg-purple-100 text-purple-600'}`}>
@@ -9907,7 +9907,7 @@ const handleOpenDuplicateModal = () => {
               </div>
             </div>
 
-            <p className={`text-[13px] leading-relaxed mb-6 p-3.5 rounded-xl border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+            <p className={`text-[13px] leading-relaxed mb-6 p-3.5 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
               តើបងពិតជាចង់រៀបចំការកំណត់ស្តង់ដារពិសេសសម្រាប់ <strong>{presetModalOpen === 'photo' ? 'ការ Boost រូបភាព' : 'ការ Boost វីដេអូ'}</strong> នេះមែនទេ?
             </p>
 
@@ -9915,7 +9915,7 @@ const handleOpenDuplicateModal = () => {
               <button 
                 type="button" 
                 onClick={() => setPresetModalOpen('none')} 
-                className={`px-5 py-2.5 rounded-xl text-[13px] font-bold transition cursor-pointer border ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}
+                className={`px-5 py-2.5 rounded-xl text-[13px] font-bold transition cursor-pointer border ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}
               >
                 បោះបង់
               </button>
@@ -9942,7 +9942,7 @@ const handleOpenDuplicateModal = () => {
       {/* 🌟 Custom Error Modal: ពេលចុច OK វានឹងបើកផ្ទាំង Meta Ads Manager ដូចរូបភាពទី ២ */}
       {customError && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-2xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col p-6 text-center ${theme === 'dark' ? 'bg-[#242526] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
+          <div className={`rounded-2xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col p-6 text-center ${theme === 'dark' ? 'bg-[#0D1117] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
             
             <div className="w-14 h-14 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-inner">
               ⚠️
@@ -9969,7 +9969,7 @@ const handleOpenDuplicateModal = () => {
               <button 
                 type="button" 
                 onClick={() => { setCustomError(null); setErrorActionUrl(null); }} 
-                className={`w-full py-2.5 rounded-xl font-bold text-sm border transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'}`}
+                className={`w-full py-2.5 rounded-xl font-bold text-sm border transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'}`}
               >
                 បោះបង់ (Cancel)
               </button>
@@ -9981,7 +9981,7 @@ const handleOpenDuplicateModal = () => {
       {/* 🌟 Footer Section (មានភ្ជាប់ Privacy Policy & Terms) */}
       <footer className={`mt-auto py-8 px-4 sm:px-8 border-t text-center transition-colors ${
         theme === 'dark' 
-          ? 'bg-[#18191A] border-slate-800 text-slate-400' 
+          ? 'bg-[#0B0F17] border-slate-800 text-slate-400' 
           : 'bg-white border-slate-200 text-slate-500'
       }`}>
         <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -10018,7 +10018,7 @@ const handleOpenDuplicateModal = () => {
       {/* ============================================== */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-2xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col p-6 text-center ${theme === 'dark' ? 'bg-[#242526] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
+          <div className={`rounded-2xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col p-6 text-center ${theme === 'dark' ? 'bg-[#0D1117] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
             
             <div className="w-14 h-14 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-inner">
               🗑️
@@ -10034,7 +10034,7 @@ const handleOpenDuplicateModal = () => {
                 type="button" 
                 disabled={isDeleting}
                 onClick={() => setIsDeleteModalOpen(false)} 
-                className={`flex-1 py-2.5 rounded-xl font-bold text-sm border transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'}`}
+                className={`flex-1 py-2.5 rounded-xl font-bold text-sm border transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'}`}
               >
                 បោះបង់ (Cancel)
               </button>
@@ -10090,7 +10090,7 @@ const handleOpenDuplicateModal = () => {
       {/* ============================================== */}
       {isDeleteSuccessModal && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col p-6 text-center transform transition-all scale-100 ${theme === 'dark' ? 'bg-[#242526] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
+          <div className={`rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col p-6 text-center transform transition-all scale-100 ${theme === 'dark' ? 'bg-[#0D1117] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
             
             {/* Icon  ടിកសញ្ញាគ្រីសបៃតង */}
             <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-4 shadow-inner">
@@ -10118,7 +10118,7 @@ const handleOpenDuplicateModal = () => {
       {showExpiryAlertModal && clientExpiryDaysLeftModal !== null && !isAdmin && (
         <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/70 backdrop-blur-md p-4 animate-in fade-in duration-300">
           <div className={`rounded-3xl max-w-md w-full p-6 shadow-2xl border text-center transform transition-all scale-100 ${
-            theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
+            theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}>
             
             <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner animate-bounce">
@@ -10156,7 +10156,7 @@ const handleOpenDuplicateModal = () => {
                   type="button"
                   onClick={() => setShowExpiryAlertModal(false)}
                   className={`w-full py-2.5 rounded-xl font-bold text-xs border transition cursor-pointer ${
-                    theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+                    theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
                   បិទជាបណ្ដោះអាសន្ន (Close)
@@ -10171,7 +10171,7 @@ const handleOpenDuplicateModal = () => {
       {isRevenueModalOpen && (
         <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/75 backdrop-blur-md p-4 animate-in fade-in zoom-in-95 duration-200">
           <div className={`rounded-3xl max-w-sm w-full p-6 shadow-2xl border text-center transform transition-all ${
-            theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
+            theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}>
             
             <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center text-white text-2xl mx-auto mb-4 shadow-lg shadow-orange-500/20">
@@ -10190,7 +10190,7 @@ const handleOpenDuplicateModal = () => {
                 onChange={(e) => setCustomRevenueInput(e.target.value)} 
                 placeholder="0.00"
                 className={`w-full pl-9 pr-4 py-3 rounded-2xl border text-base outline-none font-black text-emerald-500 shadow-inner ${
-                  theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'
+                  theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'
                 }`}
                 autoFocus
               />
@@ -10201,7 +10201,7 @@ const handleOpenDuplicateModal = () => {
                 type="button"
                 onClick={() => setIsRevenueModalOpen(false)}
                 className={`flex-1 py-3 rounded-xl font-bold text-xs border transition cursor-pointer ${
-                  theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+                  theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
                 }`}
               >
                 បោះបង់
@@ -10234,7 +10234,7 @@ const handleOpenDuplicateModal = () => {
       {isAdDuplicateModalOpen && (
         <div className="fixed inset-0 z-[99990] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className={`rounded-3xl max-w-4xl w-full p-6 shadow-2xl border flex flex-col max-h-[90vh] overflow-hidden ${
-            theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
+            theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}>
             
             {/* Modal Header */}
@@ -10258,7 +10258,7 @@ const handleOpenDuplicateModal = () => {
             <div className="flex-1 overflow-y-auto custom-scrollbar space-y-6 pr-2 mb-4 text-xs">
               
               {/* 1. Campaign Details */}
-              <div className={`p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+              <div className={`p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                 <div className="font-bold text-sm text-blue-600 dark:text-blue-400 flex items-center gap-1.5 border-b pb-2 dark:border-slate-800">
                   <span>📁</span> 1. Campaign Details
                 </div>
@@ -10268,7 +10268,7 @@ const handleOpenDuplicateModal = () => {
                     type="text" 
                     value={campaignName}
                     onChange={(e) => saveParam("campaignName", e.target.value, setCampaignName)}
-                    className={`w-full font-bold p-3 rounded-xl border outline-none text-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                    className={`w-full font-bold p-3 rounded-xl border outline-none text-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -10277,7 +10277,7 @@ const handleOpenDuplicateModal = () => {
                     <select 
                       value={budgetType} 
                       onChange={(e) => saveParam("budgetType", e.target.value, setBudgetType)} 
-                      className={`w-full p-3 rounded-xl border outline-none font-semibold text-xs ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                      className={`w-full p-3 rounded-xl border outline-none font-semibold text-xs ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                     >
                       <option value="DAILY">Daily budget</option>
                       <option value="LIFETIME">Lifetime budget</option>
@@ -10290,14 +10290,14 @@ const handleOpenDuplicateModal = () => {
                       step="0.5"
                       value={budget}
                       onChange={(e) => saveParam("budget", e.target.value, setBudget)}
-                      className={`w-full font-bold p-3 rounded-xl border outline-none text-sm text-emerald-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                      className={`w-full font-bold p-3 rounded-xl border outline-none text-sm text-emerald-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                     />
                   </div>
                 </div>
               </div>
 
               {/* 2. Ad Set (Targeting & Placements) - ដំណើរការ 100% ដូច UI ដើម */}
-              <div className={`p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+              <div className={`p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                 <div className="font-bold text-sm text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5 border-b pb-2 dark:border-slate-800">
                   <span>🎯</span> 2. Ad Set (Targeting & Placements)
                 </div>
@@ -10307,13 +10307,13 @@ const handleOpenDuplicateModal = () => {
                     type="text" 
                     value={adsetName}
                     onChange={(e) => saveParam("adsetName", e.target.value, setAdsetName)}
-                    className={`w-full font-semibold p-3 rounded-xl border outline-none text-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                    className={`w-full font-semibold p-3 rounded-xl border outline-none text-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-slate-400 font-bold mb-1.5">Locations</label>
-                    <select value={location} onChange={(e) => saveParam("location", e.target.value, setLocation)} className={`w-full p-3 rounded-xl border outline-none font-medium text-xs cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
+                    <select value={location} onChange={(e) => saveParam("location", e.target.value, setLocation)} className={`w-full p-3 rounded-xl border outline-none font-medium text-xs cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
                       <option value="CAMBODIA">📍 ទូទាំងប្រទេសកម្ពុជា</option>
                       <option value="PHNOM_PENH">🏙️ រាជធានីភ្នំពេញ</option>
                       <option value="SIEM_REAP">🏛️ ខេត្តសៀមរាប</option>
@@ -10344,7 +10344,7 @@ const handleOpenDuplicateModal = () => {
                   </div>
                   <div>
                     <label className="block text-slate-400 font-bold mb-1.5">Gender</label>
-                    <select value={gender} onChange={(e) => saveParam("gender", e.target.value, setGender)} className={`w-full p-3 rounded-xl border outline-none font-medium text-xs cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
+                    <select value={gender} onChange={(e) => saveParam("gender", e.target.value, setGender)} className={`w-full p-3 rounded-xl border outline-none font-medium text-xs cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
                       <option value="ALL">All genders</option>
                       <option value="MALE">Men</option>
                       <option value="FEMALE">Women</option>
@@ -10354,9 +10354,9 @@ const handleOpenDuplicateModal = () => {
                 <div>
                   <label className="block text-slate-400 font-bold mb-1.5">Age Range</label>
                   <div className="flex items-center gap-3">
-                    <input type="number" value={ageMin} onChange={(e) => saveParam("ageMin", e.target.value, setAgeMin)} className={`w-full p-3 rounded-xl border text-center font-bold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
+                    <input type="number" value={ageMin} onChange={(e) => saveParam("ageMin", e.target.value, setAgeMin)} className={`w-full p-3 rounded-xl border text-center font-bold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
                     <span className="text-slate-400 font-bold">ដល់</span>
-                    <input type="number" value={ageMax} onChange={(e) => saveParam("ageMax", e.target.value, setAgeMax)} className={`w-full p-3 rounded-xl border text-center font-bold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
+                    <input type="number" value={ageMax} onChange={(e) => saveParam("ageMax", e.target.value, setAgeMax)} className={`w-full p-3 rounded-xl border text-center font-bold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
                   </div>
                 </div>
 
@@ -10372,7 +10372,7 @@ const handleOpenDuplicateModal = () => {
                         localStorage.setItem("interestQuery", e.target.value);
                       }}
                       placeholder="Search interests (e.g. Shoes, Footwear)..."
-                      className={`w-full p-2.5 rounded-xl border text-xs outline-none focus:border-blue-500 font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white placeholder-slate-400' : 'bg-white border-slate-300 text-slate-900'}`}
+                      className={`w-full p-2.5 rounded-xl border text-xs outline-none focus:border-blue-500 font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white placeholder-slate-400' : 'bg-white border-slate-300 text-slate-900'}`}
                     />
                     <button 
                       type="button" 
@@ -10407,7 +10407,7 @@ const handleOpenDuplicateModal = () => {
                     rows={3}
                     value={targeting}
                     onChange={(e) => { setTargeting(e.target.value); localStorage.setItem("targeting", e.target.value); }}
-                    className={`w-full p-3 rounded-xl border outline-none font-medium text-xs resize-y shadow-inner focus:border-blue-500 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-200 placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-700'}`}
+                    className={`w-full p-3 rounded-xl border outline-none font-medium text-xs resize-y shadow-inner focus:border-blue-500 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-200 placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-700'}`}
                   />
                 </div>
 
@@ -10415,7 +10415,7 @@ const handleOpenDuplicateModal = () => {
                 <div className={`border rounded-xl overflow-visible mt-2 flex-1 ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
                       
                   {/* Placements Dropdown Header ជាមួយនឹង Smart Presets ធំជាងមុន */}
-                  <div className={`p-3.5 border-b flex flex-wrap justify-between items-center select-none transition-colors gap-3 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-700 text-white' : 'bg-slate-100 border-slate-200 text-slate-800'}`}>
+                  <div className={`p-3.5 border-b flex flex-wrap justify-between items-center select-none transition-colors gap-3 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-700 text-white' : 'bg-slate-100 border-slate-200 text-slate-800'}`}>
                     
                     <div onClick={() => setShowPlacementsSection(!showPlacementsSection)} className="flex items-center gap-2 cursor-pointer">
                       <label className="block text-[14px] font-extrabold cursor-pointer tracking-wide">
@@ -10457,11 +10457,11 @@ const handleOpenDuplicateModal = () => {
                   </div>
 
                   {showPlacementsSection && (
-                    <div className={`p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200 ${theme === 'dark' ? 'bg-[#242526]' : 'bg-white'}`}>
+                    <div className={`p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200 ${theme === 'dark' ? 'bg-[#0D1117]' : 'bg-white'}`}>
                       <select 
                         value={placementType} 
                         onChange={(e) => setPlacementType(e.target.value)} 
-                        className={`w-full border rounded-xl p-3 outline-none font-semibold text-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                        className={`w-full border rounded-xl p-3 outline-none font-semibold text-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                       >
                         <option value="ADVANTAGE">✨ Advantage+ placements</option>
                         <option value="MANUAL">⚙️ Manual placements</option>
@@ -10471,7 +10471,7 @@ const handleOpenDuplicateModal = () => {
                         <div className={`flex flex-col gap-4 pt-4 border-t animate-in fade-in text-sm ${theme === 'dark' ? 'border-slate-700' : 'border-slate-100'}`}>
                           
                           {/* Devices and OS */}
-                          <div className={`rounded-xl border shadow-sm transition-all ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                          <div className={`rounded-xl border shadow-sm transition-all ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                             <div className="flex justify-between items-center p-3.5 cursor-pointer select-none" onClick={() => setShowDevices(!showDevices)}>
                                 <h4 className={`font-bold ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>Devices and operating systems</h4>
                                 <span className="text-slate-500 font-black text-xs">{showDevices ? '▲' : '▼'}</span>
@@ -10479,12 +10479,12 @@ const handleOpenDuplicateModal = () => {
                             
                             {showDevices && (
                                 <div className="flex flex-col gap-3 px-3.5 pb-4 animate-in fade-in slide-in-from-top-2">
-                                  <select value={deviceType} onChange={(e) => setDeviceType(e.target.value)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
+                                  <select value={deviceType} onChange={(e) => setDeviceType(e.target.value)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
                                       <option value="ALL">All devices (recommended)</option>
                                       <option value="MOBILE">Mobile</option>
                                       <option value="DESKTOP">Desktop</option>
                                   </select>
-                                  <select value={osType} onChange={(e) => setOsType(e.target.value)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
+                                  <select value={osType} onChange={(e) => setOsType(e.target.value)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
                                       <option value="ALL">All mobile devices</option>
                                       <option value="ANDROID">Android devices only</option>
                                       <option value="IOS">iOS devices only</option>
@@ -10498,7 +10498,7 @@ const handleOpenDuplicateModal = () => {
                                           setWifiOnly(e.target.checked); 
                                           localStorage.setItem("wifiOnly", String(e.target.checked)); 
                                         }} 
-                                        className={`w-4 h-4 rounded text-blue-600 focus:ring-blue-500 cursor-pointer ${theme === 'dark' ? 'border-slate-600 bg-[#3A3B3C]' : 'border-slate-300'}`} 
+                                        className={`w-4 h-4 rounded text-blue-600 focus:ring-blue-500 cursor-pointer ${theme === 'dark' ? 'border-slate-600 bg-[#1C2128]' : 'border-slate-300'}`} 
                                       /> 
                                       Only when connected to Wi-Fi
                                   </label>
@@ -10507,8 +10507,8 @@ const handleOpenDuplicateModal = () => {
                           </div>
 
                           {/* Platforms */}
-                          <div className={`border rounded-xl shadow-sm transition-all ${theme === 'dark' ? 'bg-[#242526] border-slate-700' : 'bg-white border-slate-200'}`}>
-                            <div className={`p-3.5 font-bold flex justify-between cursor-pointer select-none ${theme === 'dark' ? 'bg-[#3A3B3C] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlatforms(!showPlatforms)}>
+                          <div className={`border rounded-xl shadow-sm transition-all ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700' : 'bg-white border-slate-200'}`}>
+                            <div className={`p-3.5 font-bold flex justify-between cursor-pointer select-none ${theme === 'dark' ? 'bg-[#1C2128] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlatforms(!showPlatforms)}>
                                 Platforms <span className="text-slate-500 font-black text-xs">{showPlatforms ? '▲' : '▼'}</span>
                             </div>
                             
@@ -10525,8 +10525,8 @@ const handleOpenDuplicateModal = () => {
                           </div>
 
                           {/* Placement Controls */}
-                          <div className={`border rounded-xl shadow-sm mb-2 transition-all ${theme === 'dark' ? 'bg-[#242526] border-slate-700' : 'bg-white border-slate-200'}`}>
-                            <div className={`p-3.5 font-bold flex justify-between items-center cursor-pointer select-none ${theme === 'dark' ? 'bg-[#3A3B3C] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlacementCtrls(!showPlacementCtrls)}>
+                          <div className={`border rounded-xl shadow-sm mb-2 transition-all ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700' : 'bg-white border-slate-200'}`}>
+                            <div className={`p-3.5 font-bold flex justify-between items-center cursor-pointer select-none ${theme === 'dark' ? 'bg-[#1C2128] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlacementCtrls(!showPlacementCtrls)}>
                                 <span className="flex items-center gap-1">Placement controls <span className="w-3.5 h-3.5 rounded-full bg-slate-400 text-[9px] flex items-center justify-center font-bold text-white">i</span></span>
                                 <span className="text-slate-500 font-black text-xs">{showPlacementCtrls ? '▲' : '▼'}</span>
                             </div>
@@ -10536,7 +10536,7 @@ const handleOpenDuplicateModal = () => {
                                 
                                 {/* Feeds */}
                                 <div>
-                                    <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                    <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                       <div className="flex items-center gap-3">
                                         <input type="checkbox" checked={isGroupChecked('feeds')} onChange={(e) => handleGroupToggle('feeds', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                         <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('feeds')}>🪟 Feeds</span>
@@ -10546,7 +10546,7 @@ const handleOpenDuplicateModal = () => {
                                       </div>
                                     </div>
                                     {expandedPlacements.feeds && (
-                                      <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                      <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_feed} onChange={()=>handleDetailedPlacementChange('fb_feed')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook Feed</label>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_profile} onChange={()=>handleDetailedPlacementChange('fb_profile')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook profile feed</label>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.ig_feed} onChange={()=>handleDetailedPlacementChange('ig_feed')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Instagram feed</label>
@@ -10563,7 +10563,7 @@ const handleOpenDuplicateModal = () => {
 
                                 {/* Stories, Status, Reels */}
                                 <div>
-                                    <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                    <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                       <div className="flex items-center gap-3">
                                         <input type="checkbox" checked={isGroupChecked('stories')} onChange={(e) => handleGroupToggle('stories', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                         <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('stories')}>📱 Stories, Status, Reels</span>
@@ -10573,7 +10573,7 @@ const handleOpenDuplicateModal = () => {
                                       </div>
                                     </div>
                                     {expandedPlacements.stories && (
-                                      <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                      <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.ig_stories} onChange={()=>handleDetailedPlacementChange('ig_stories')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Instagram Stories</label>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_stories} onChange={()=>handleDetailedPlacementChange('fb_stories')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook Stories</label>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.msg_stories} onChange={()=>handleDetailedPlacementChange('msg_stories')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Messenger Stories</label>
@@ -10586,7 +10586,7 @@ const handleOpenDuplicateModal = () => {
 
                                 {/* In-stream ads for reels */}
                                 <div>
-                                    <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                    <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                       <div className="flex items-center gap-3">
                                         <input type="checkbox" checked={isGroupChecked('instream')} onChange={(e) => handleGroupToggle('instream', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                         <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('instream')}>▷ In-stream ads for reels</span>
@@ -10596,7 +10596,7 @@ const handleOpenDuplicateModal = () => {
                                       </div>
                                     </div>
                                     {expandedPlacements.instream && (
-                                      <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                      <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.instream_reels} onChange={()=>handleDetailedPlacementChange('instream_reels')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> In-stream for Reels</label>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_reels_ads} onChange={()=>handleDetailedPlacementChange('fb_reels_ads')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Ads on Facebook Reels</label>
                                       </div>
@@ -10605,7 +10605,7 @@ const handleOpenDuplicateModal = () => {
 
                                 {/* Search results */}
                                 <div>
-                                    <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                    <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                       <div className="flex items-center gap-3">
                                         <input type="checkbox" checked={isGroupChecked('search')} onChange={(e) => handleGroupToggle('search', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                         <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('search')}>🔍 Search results</span>
@@ -10615,7 +10615,7 @@ const handleOpenDuplicateModal = () => {
                                       </div>
                                     </div>
                                     {expandedPlacements.search && (
-                                      <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                      <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_search} onChange={()=>handleDetailedPlacementChange('fb_search')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook search results</label>
                                         <label className="flex items-center gap-3 cursor-pointer opacity-50"><input type="checkbox" disabled checked={detailedPlacements.ig_search} className="w-4 h-4 rounded border-slate-500 bg-slate-500/20" /> Instagram search results</label>
                                       </div>
@@ -10624,7 +10624,7 @@ const handleOpenDuplicateModal = () => {
 
                                 {/* Apps and sites */}
                                 <div>
-                                    <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                    <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                       <div className="flex items-center gap-3">
                                         <input type="checkbox" checked={isGroupChecked('apps')} onChange={(e) => handleGroupToggle('apps', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                         <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('apps')}>💻 Apps and sites</span>
@@ -10634,7 +10634,7 @@ const handleOpenDuplicateModal = () => {
                                       </div>
                                     </div>
                                     {expandedPlacements.apps && (
-                                      <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                      <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.an_native} onChange={()=>handleDetailedPlacementChange('an_native')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Audience Network native, banner and interstitial</label>
                                         <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.an_rewarded} onChange={()=>handleDetailedPlacementChange('an_rewarded')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Audience Network rewarded videos</label>
                                       </div>
@@ -10653,9 +10653,9 @@ const handleOpenDuplicateModal = () => {
               </div>
 
               {/* --- ៣. Ad Setup & Conversations Card (រួមបញ្ចូលគ្នា) --- */}
-              <div className={`p-6 rounded-2xl shadow-sm border flex flex-col gap-5 w-full min-w-0 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
+              <div className={`p-6 rounded-2xl shadow-sm border flex flex-col gap-5 w-full min-w-0 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
                 <h3 className={`font-bold border-b pb-3 flex items-center gap-2 text-[15px] ${theme === 'dark' ? 'border-slate-700 text-white' : 'border-slate-200 text-slate-800'}`}>
-                  <span className={`p-1.5 rounded-xl ${theme === 'dark' ? 'bg-[#3A3B3C]' : 'bg-slate-100'}`}>🖼️</span> ៣. Ad Setup & Conversations
+                  <span className={`p-1.5 rounded-xl ${theme === 'dark' ? 'bg-[#1C2128]' : 'bg-slate-100'}`}>🖼️</span> ៣. Ad Setup & Conversations
                 </h3>
 
                 <div>
@@ -10664,7 +10664,7 @@ const handleOpenDuplicateModal = () => {
                     type="text" 
                     value={adName} 
                     onChange={(e) => saveParam("adName", e.target.value, setAdName)} 
-                    className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'}`} 
+                    className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'}`} 
                     placeholder="New Engagement Ad" 
                   />
                 </div>
@@ -10673,7 +10673,7 @@ const handleOpenDuplicateModal = () => {
                 <div className="relative">
                   <div 
                     onClick={() => setIsPageMenuOpen(!isPageMenuOpen)}
-                    className={`p-3 flex justify-between items-center cursor-pointer border rounded-xl transition ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                    className={`p-3 flex justify-between items-center cursor-pointer border rounded-xl transition ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                   >
                     <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
                       {/* ឆែករកមើល Logo ពី pages ឬ facebookPages */}
@@ -10697,7 +10697,7 @@ const handleOpenDuplicateModal = () => {
                   {isPageMenuOpen && (
                     <>
                       <div className="fixed inset-0 z-40" onClick={() => setIsPageMenuOpen(false)}></div>
-                      <div className={`absolute top-[110%] left-0 w-full border rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto p-1.5 flex flex-col gap-1 ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-300'}`}>
+                      <div className={`absolute top-[110%] left-0 w-full border rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto p-1.5 flex flex-col gap-1 ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-300'}`}>
                         {pages && pages.length > 0 ? (
                           pages.map((page: any) => (
                             <div 
@@ -10709,7 +10709,7 @@ const handleOpenDuplicateModal = () => {
                                 localStorage.setItem("fbPageName", page.name);
                                 setIsPageMenuOpen(false);
                               }}
-                              className={`p-2.5 rounded-lg flex items-center gap-3 cursor-pointer transition ${selectedPage === page.id ? 'bg-blue-600 text-white font-bold' : (theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-100')}`}
+                              className={`p-2.5 rounded-lg flex items-center gap-3 cursor-pointer transition ${selectedPage === page.id ? 'bg-blue-600 text-white font-bold' : (theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-100')}`}
                             >
                               {page.picture?.data?.url ? (
                                 <img src={page.picture.data.url} className="w-7 h-7 rounded-full object-cover shrink-0 border border-slate-200" alt="Page Logo" />
@@ -10730,7 +10730,7 @@ const handleOpenDuplicateModal = () => {
                                 localStorage.setItem("fbPageName", page.name);
                                 setIsPageMenuOpen(false);
                               }}
-                              className={`p-2.5 rounded-lg flex items-center gap-3 cursor-pointer transition ${selectedPage === page.id ? 'bg-blue-600 text-white font-bold' : (theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-100')}`}
+                              className={`p-2.5 rounded-lg flex items-center gap-3 cursor-pointer transition ${selectedPage === page.id ? 'bg-blue-600 text-white font-bold' : (theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-100')}`}
                             >
                               {page.picture?.data?.url ? (
                                 <img src={page.picture.data.url} className="w-8 h-8 rounded-full object-cover shrink-0 border" alt="Logo" />
@@ -10750,9 +10750,9 @@ const handleOpenDuplicateModal = () => {
 
                 <div>
                   <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Ad creative</label>
-                  <div className={`border rounded-xl overflow-visible shadow-sm relative ${theme === 'dark' ? 'border-slate-700 bg-[#18191A]' : 'border-slate-200 bg-white'}`}>
+                  <div className={`border rounded-xl overflow-visible shadow-sm relative ${theme === 'dark' ? 'border-slate-700 bg-[#0B0F17]' : 'border-slate-200 bg-white'}`}>
                     <div className="p-4">
-                      <div className={`w-full border rounded-xl p-3 flex items-center justify-between mb-4 shadow-sm relative overflow-hidden group ${theme === 'dark' ? 'bg-[#242526] border-slate-600' : 'bg-white border-slate-300'}`}>
+                      <div className={`w-full border rounded-xl p-3 flex items-center justify-between mb-4 shadow-sm relative overflow-hidden group ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600' : 'bg-white border-slate-300'}`}>
                         <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
                           {fetchingPosts ? (
                             <span className="text-slate-500 font-medium text-sm">⏳ កំពុងទាញយក...</span>
@@ -10774,10 +10774,10 @@ const handleOpenDuplicateModal = () => {
                       </div>
 
                       <div className="flex flex-wrap items-center gap-3 mb-2">
-                        <button type="button" onClick={() => { setPostSelectionContext('create'); setIsPostMenuOpen(true); }} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                        <button type="button" onClick={() => { setPostSelectionContext('create'); setIsPostMenuOpen(true); }} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                           <span className="text-lg leading-none mb-0.5">📄</span> Select post
                         </button>
-                        <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                        <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                           + Create post
                         </button>
                       </div>
@@ -10789,7 +10789,7 @@ const handleOpenDuplicateModal = () => {
                 {/* Call to Action */}
                 <div>
                   <label className={`block text-[13px] font-bold mb-1.5 flex items-center gap-1 ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>Call to action</label>
-                  <select value={callToAction} onChange={(e) => saveParam("callToAction", e.target.value, setCallToAction)} className={`w-full border rounded-xl p-3 text-[14px] font-medium outline-none focus:border-[#1877F2] focus:ring-1 focus:ring-[#1877F2] shadow-sm cursor-pointer ${theme === 'dark' ? 'bg-[#242526] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-800'}`}>
+                  <select value={callToAction} onChange={(e) => saveParam("callToAction", e.target.value, setCallToAction)} className={`w-full border rounded-xl p-3 text-[14px] font-medium outline-none focus:border-[#1877F2] focus:ring-1 focus:ring-[#1877F2] shadow-sm cursor-pointer ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-800'}`}>
                     <option value="SEND_MESSAGE">Send message</option>
                     <option value="LEARN_MORE">Learn more</option>
                     <option value="SHOP_NOW">Shop now</option>
@@ -10800,12 +10800,12 @@ const handleOpenDuplicateModal = () => {
                 {/* ============================================== */}
                 {/* 🌟 ផ្នែក Conversation (ស្ថិតក្នុងទម្រង់ Dropdown ទំនើប) */}
                 {/* ============================================== */}
-                <div className={`rounded-2xl border shadow-sm overflow-hidden mb-6 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'}`}>
+                <div className={`rounded-2xl border shadow-sm overflow-hidden mb-6 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'}`}>
                   
                   {/* Header សម្រាប់ចុចបើក/បិទ */}
                   <div 
                     onClick={() => setShowConversationSection(!showConversationSection)}
-                    className={`p-4 flex justify-between items-center cursor-pointer select-none transition-colors ${theme === 'dark' ? 'bg-[#3A3B3C] hover:bg-[#4E4F50]' : 'bg-slate-100 hover:bg-slate-200'}`}
+                    className={`p-4 flex justify-between items-center cursor-pointer select-none transition-colors ${theme === 'dark' ? 'bg-[#1C2128] hover:bg-[#4E4F50]' : 'bg-slate-100 hover:bg-slate-200'}`}
                   >
                     <div className="flex items-center gap-2.5">
                       <span className="text-xl">💬</span>
@@ -10827,11 +10827,11 @@ const handleOpenDuplicateModal = () => {
                     <div className="p-5 border-t border-slate-200 dark:border-slate-700 animate-in fade-in duration-200 space-y-4">
                       
                       <div className="flex gap-2 mb-4">
-                        <button type="button" onClick={() => setTemplateTab("suggested")} className={`px-4 py-2 rounded-xl text-[13px] font-bold transition ${templateTab === "suggested" ? (theme === 'dark' ? 'bg-blue-900/50 text-blue-400' : 'bg-blue-50 text-[#1877F2]') : (theme === 'dark' ? 'text-slate-400 hover:bg-[#3A3B3C]' : 'text-slate-600 hover:bg-slate-100')}`}>Suggested template</button>
-                        <button type="button" onClick={() => setTemplateTab("saved")} className={`px-4 py-2 rounded-xl text-[13px] font-bold transition ${templateTab === "saved" ? (theme === 'dark' ? 'bg-blue-900/50 text-blue-400' : 'bg-blue-50 text-[#1877F2]') : (theme === 'dark' ? 'text-slate-400 hover:bg-[#3A3B3C]' : 'text-slate-600 hover:bg-slate-100')}`}>Saved templates</button>
+                        <button type="button" onClick={() => setTemplateTab("suggested")} className={`px-4 py-2 rounded-xl text-[13px] font-bold transition ${templateTab === "suggested" ? (theme === 'dark' ? 'bg-blue-900/50 text-blue-400' : 'bg-blue-50 text-[#1877F2]') : (theme === 'dark' ? 'text-slate-400 hover:bg-[#1C2128]' : 'text-slate-600 hover:bg-slate-100')}`}>Suggested template</button>
+                        <button type="button" onClick={() => setTemplateTab("saved")} className={`px-4 py-2 rounded-xl text-[13px] font-bold transition ${templateTab === "saved" ? (theme === 'dark' ? 'bg-blue-900/50 text-blue-400' : 'bg-blue-50 text-[#1877F2]') : (theme === 'dark' ? 'text-slate-400 hover:bg-[#1C2128]' : 'text-slate-600 hover:bg-slate-100')}`}>Saved templates</button>
                       </div>
 
-                      <div className={`border rounded-xl p-5 mb-4 shadow-sm min-w-0 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                      <div className={`border rounded-xl p-5 mb-4 shadow-sm min-w-0 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                         <div className={`font-bold text-sm mb-1.5 ${theme === 'dark' ? 'text-slate-200' : 'text-slate-800'}`}>Greeting</div>
                         <div className={`text-[13px] mb-4 break-words whitespace-normal ${theme === 'dark' ? 'text-slate-400' : 'text-slate-700'}`}>{msgGreeting}</div>
 
@@ -10844,10 +10844,10 @@ const handleOpenDuplicateModal = () => {
                       </div>
 
                       <div className="flex gap-3">
-                        <button type="button" onClick={() => setIsEditingConversations(true)} className={`border rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm flex items-center gap-2 transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                        <button type="button" onClick={() => setIsEditingConversations(true)} className={`border rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm flex items-center gap-2 transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                           <span>✎</span> Edit
                         </button>
-                        <button type="button" className={`border rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm flex items-center gap-2 transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                        <button type="button" className={`border rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm flex items-center gap-2 transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                           <span>+</span> Create template
                         </button>
                       </div>
@@ -10865,7 +10865,7 @@ const handleOpenDuplicateModal = () => {
                 type="button" 
                 onClick={() => setIsAdDuplicateModalOpen(false)} 
                 className={`px-5 py-2.5 rounded-xl text-xs font-bold border transition cursor-pointer ${
-                  theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
+                  theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 បោះបង់ (Cancel)
@@ -10898,7 +10898,7 @@ const handleOpenDuplicateModal = () => {
       {/* 🌟 Modal សម្រាប់ Duplicate Ads ក្នុង Tab Ads (រចនាប័ទ្មថ្មីស្អាត ដូចទម្រង់ Create Ad) */}
       {isSingleAdDuplicateModalOpen && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-2xl max-w-xl w-full p-6 shadow-2xl border max-h-[90vh] overflow-y-auto custom-scrollbar ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
+          <div className={`rounded-2xl max-w-xl w-full p-6 shadow-2xl border max-h-[90vh] overflow-y-auto custom-scrollbar ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
             
             {/* Header */}
             <div className="flex justify-between items-center mb-5 border-b pb-3.5 dark:border-slate-700">
@@ -10919,7 +10919,7 @@ const handleOpenDuplicateModal = () => {
                   type="text" 
                   value={duplicateAdName} 
                   onChange={(e) => setDuplicateAdName(e.target.value)} 
-                  className={`w-full p-3.5 rounded-xl border text-sm font-semibold outline-none transition ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white focus:border-blue-500' : 'bg-slate-50 border-slate-300 text-slate-900 focus:border-blue-500'}`} 
+                  className={`w-full p-3.5 rounded-xl border text-sm font-semibold outline-none transition ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white focus:border-blue-500' : 'bg-slate-50 border-slate-300 text-slate-900 focus:border-blue-500'}`} 
                   placeholder="New Engagement Ads"
                 />
               </div>
@@ -10929,7 +10929,7 @@ const handleOpenDuplicateModal = () => {
                 <label className={`block font-bold mb-1.5 text-[13px] ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
                   Facebook Page
                 </label>
-                <div className={`p-3 rounded-xl border flex items-center justify-between ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-800'}`}>
+                <div className={`p-3 rounded-xl border flex items-center justify-between ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-800'}`}>
                   <div className="flex items-center gap-2.5 truncate">
                     {selectedPageData?.picture?.data?.url ? (
                       <img src={selectedPageData.picture.data.url} className="w-6 h-6 rounded-full object-cover border" alt="Page Logo" />
@@ -10948,7 +10948,7 @@ const handleOpenDuplicateModal = () => {
                   Ad creative (ប្រភព Post សម្រាប់ការផ្សាយ)
                 </label>
                 
-                <div className={`border rounded-2xl p-4 transition ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-[#F8F9FA] border-slate-300'}`}>
+                <div className={`border rounded-2xl p-4 transition ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-[#F8F9FA] border-slate-300'}`}>
                   <div className="flex items-start gap-3">
                     {(() => {
                       const matchedPost = posts.find(p => p.id === duplicatePostId);
@@ -11005,7 +11005,7 @@ const handleOpenDuplicateModal = () => {
               <button 
                 type="button" 
                 onClick={() => setIsSingleAdDuplicateModalOpen(false)} 
-                className={`px-5 py-2.5 rounded-xl font-bold text-xs border transition cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}
+                className={`px-5 py-2.5 rounded-xl font-bold text-xs border transition cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}
               >
                 បោះបង់
               </button>
@@ -11041,7 +11041,7 @@ const handleOpenDuplicateModal = () => {
       {isCustomDeleteModalOpen && itemToDeleteData && (
         <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className={`rounded-3xl max-w-md w-full p-6 shadow-2xl border text-center transform transition-all scale-100 ${
-            theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
+            theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}>
             
             <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
@@ -11063,7 +11063,7 @@ const handleOpenDuplicateModal = () => {
                   setItemToDeleteData(null);
                 }} 
                 className={`flex-1 py-3 rounded-xl font-bold text-xs border transition cursor-pointer ${
-                  theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+                  theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
                 }`}
               >
                 បោះបង់ (Cancel)
@@ -11093,7 +11093,7 @@ const handleOpenDuplicateModal = () => {
       {isFullEditModalOpen && (
         <div className="fixed inset-0 z-[99990] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className={`rounded-3xl max-w-4xl w-full p-6 shadow-2xl border flex flex-col max-h-[90vh] overflow-hidden ${
-            theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
+            theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}>
             
             {/* Modal Header */}
@@ -11117,7 +11117,7 @@ const handleOpenDuplicateModal = () => {
             <div className="flex-1 overflow-y-auto custom-scrollbar space-y-6 pr-2 mb-4 text-xs">
               
               {/* 1. Campaign Details */}
-              <div className={`p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+              <div className={`p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                 <div className="font-bold text-sm text-blue-600 dark:text-blue-400 flex items-center gap-1.5 border-b pb-2 dark:border-slate-800">
                   <span>📁</span> 1. Campaign Details
                 </div>
@@ -11127,7 +11127,7 @@ const handleOpenDuplicateModal = () => {
                     type="text" 
                     value={campaignName}
                     onChange={(e) => saveParam("campaignName", e.target.value, setCampaignName)}
-                    className={`w-full font-bold p-3 rounded-xl border outline-none text-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                    className={`w-full font-bold p-3 rounded-xl border outline-none text-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -11136,7 +11136,7 @@ const handleOpenDuplicateModal = () => {
                     <select 
                       value={budgetType} 
                       onChange={(e) => saveParam("budgetType", e.target.value, setBudgetType)} 
-                      className={`w-full p-3 rounded-xl border outline-none font-semibold text-xs ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                      className={`w-full p-3 rounded-xl border outline-none font-semibold text-xs ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                     >
                       <option value="DAILY">Daily budget</option>
                       <option value="LIFETIME">Lifetime budget</option>
@@ -11149,14 +11149,14 @@ const handleOpenDuplicateModal = () => {
                       step="0.5"
                       value={budget}
                       onChange={(e) => saveParam("budget", e.target.value, setBudget)}
-                      className={`w-full font-bold p-3 rounded-xl border outline-none text-sm text-emerald-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                      className={`w-full font-bold p-3 rounded-xl border outline-none text-sm text-emerald-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                     />
                   </div>
                 </div>
               </div>
 
               {/* 2. Ad Set (Targeting & Placements) - មានប្រអប់ Placements និងប្រអប់តូចៗទាំងអស់ 100% */}
-              <div className={`p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+              <div className={`p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                 <div className="font-bold text-sm text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5 border-b pb-2 dark:border-slate-800">
                   <span>🎯</span> 2. Ad Set (Targeting & Placements)
                 </div>
@@ -11166,13 +11166,13 @@ const handleOpenDuplicateModal = () => {
                     type="text" 
                     value={adsetName}
                     onChange={(e) => saveParam("adsetName", e.target.value, setAdsetName)}
-                    className={`w-full font-semibold p-3 rounded-xl border outline-none text-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                    className={`w-full font-semibold p-3 rounded-xl border outline-none text-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-slate-400 font-bold mb-1.5">Locations</label>
-                    <select value={location} onChange={(e) => saveParam("location", e.target.value, setLocation)} className={`w-full p-3 rounded-xl border outline-none font-medium text-xs cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
+                    <select value={location} onChange={(e) => saveParam("location", e.target.value, setLocation)} className={`w-full p-3 rounded-xl border outline-none font-medium text-xs cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
                       <option value="CAMBODIA">📍 ទូទាំងប្រទេសកម្ពុជា</option>
                       <option value="PHNOM_PENH">🏙️ រាជធានីភ្នំពេញ</option>
                       <option value="SIEM_REAP">🏛️ ខេត្តសៀមរាប</option>
@@ -11203,7 +11203,7 @@ const handleOpenDuplicateModal = () => {
                   </div>
                   <div>
                     <label className="block text-slate-400 font-bold mb-1.5">Gender</label>
-                    <select value={gender} onChange={(e) => saveParam("gender", e.target.value, setGender)} className={`w-full p-3 rounded-xl border outline-none font-medium text-xs cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
+                    <select value={gender} onChange={(e) => saveParam("gender", e.target.value, setGender)} className={`w-full p-3 rounded-xl border outline-none font-medium text-xs cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}>
                       <option value="ALL">All genders</option>
                       <option value="MALE">Men</option>
                       <option value="FEMALE">Women</option>
@@ -11213,9 +11213,9 @@ const handleOpenDuplicateModal = () => {
                 <div>
                   <label className="block text-slate-400 font-bold mb-1.5">Age Range</label>
                   <div className="flex items-center gap-3">
-                    <input type="number" value={ageMin} onChange={(e) => saveParam("ageMin", e.target.value, setAgeMin)} className={`w-full p-3 rounded-xl border text-center font-bold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
+                    <input type="number" value={ageMin} onChange={(e) => saveParam("ageMin", e.target.value, setAgeMin)} className={`w-full p-3 rounded-xl border text-center font-bold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
                     <span className="text-slate-400 font-bold">ដល់</span>
-                    <input type="number" value={ageMax} onChange={(e) => saveParam("ageMax", e.target.value, setAgeMax)} className={`w-full p-3 rounded-xl border text-center font-bold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
+                    <input type="number" value={ageMax} onChange={(e) => saveParam("ageMax", e.target.value, setAgeMax)} className={`w-full p-3 rounded-xl border text-center font-bold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`} />
                   </div>
                 </div>
 
@@ -11231,7 +11231,7 @@ const handleOpenDuplicateModal = () => {
                         localStorage.setItem("interestQuery", e.target.value);
                       }}
                       placeholder="Search interests (e.g. Shoes, Footwear)..."
-                      className={`w-full p-2.5 rounded-xl border text-xs outline-none focus:border-blue-500 font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white placeholder-slate-400' : 'bg-white border-slate-300 text-slate-900'}`}
+                      className={`w-full p-2.5 rounded-xl border text-xs outline-none focus:border-blue-500 font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white placeholder-slate-400' : 'bg-white border-slate-300 text-slate-900'}`}
                     />
                     <button 
                       type="button" 
@@ -11266,13 +11266,13 @@ const handleOpenDuplicateModal = () => {
                     rows={3}
                     value={targeting}
                     onChange={(e) => { setTargeting(e.target.value); localStorage.setItem("targeting", e.target.value); }}
-                    className={`w-full p-3 rounded-xl border outline-none font-medium text-xs resize-y shadow-inner focus:border-blue-500 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-200 placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-700'}`}
+                    className={`w-full p-3 rounded-xl border outline-none font-medium text-xs resize-y shadow-inner focus:border-blue-500 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-200 placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-700'}`}
                   />
                 </div>
 
                 {/* 🌟 ផ្នែក Placements និងប្រអប់តូចៗទាំងអស់ 100% */}
                 <div className={`border rounded-xl overflow-visible mt-2 flex-1 ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
-                  <div className={`p-3.5 border-b flex flex-wrap justify-between items-center select-none transition-colors gap-3 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-700 text-white' : 'bg-slate-100 border-slate-200 text-slate-800'}`}>
+                  <div className={`p-3.5 border-b flex flex-wrap justify-between items-center select-none transition-colors gap-3 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-700 text-white' : 'bg-slate-100 border-slate-200 text-slate-800'}`}>
                     <div onClick={() => setShowPlacementsSection(!showPlacementsSection)} className="flex items-center gap-2 cursor-pointer">
                       <label className="block text-[14px] font-extrabold cursor-pointer tracking-wide">
                         📍 Placements
@@ -11308,11 +11308,11 @@ const handleOpenDuplicateModal = () => {
                   </div>
 
                   {showPlacementsSection && (
-                    <div className={`p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200 ${theme === 'dark' ? 'bg-[#242526]' : 'bg-white'}`}>
+                    <div className={`p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200 ${theme === 'dark' ? 'bg-[#0D1117]' : 'bg-white'}`}>
                       <select 
                         value={placementType} 
                         onChange={(e) => setPlacementType(e.target.value)} 
-                        className={`w-full border rounded-xl p-3 outline-none font-semibold text-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                        className={`w-full border rounded-xl p-3 outline-none font-semibold text-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                       >
                         <option value="ADVANTAGE">✨ Advantage+ placements</option>
                         <option value="MANUAL">⚙️ Manual placements</option>
@@ -11322,19 +11322,19 @@ const handleOpenDuplicateModal = () => {
                         <div className={`flex flex-col gap-4 pt-4 border-t animate-in fade-in text-sm ${theme === 'dark' ? 'border-slate-700' : 'border-slate-100'}`}>
                           
                           {/* Devices and OS */}
-                          <div className={`rounded-xl border shadow-sm transition-all ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                          <div className={`rounded-xl border shadow-sm transition-all ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                             <div className="flex justify-between items-center p-3.5 cursor-pointer select-none" onClick={() => setShowDevices(!showDevices)}>
                               <h4 className={`font-bold ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>Devices and operating systems</h4>
                               <span className="text-slate-500 font-black text-xs">{showDevices ? '▲' : '▼'}</span>
                             </div>
                             {showDevices && (
                               <div className="flex flex-col gap-3 px-3.5 pb-4 animate-in fade-in slide-in-from-top-2">
-                                <select value={deviceType} onChange={(e) => setDeviceType(e.target.value)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
+                                <select value={deviceType} onChange={(e) => setDeviceType(e.target.value)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
                                   <option value="ALL">All devices (recommended)</option>
                                   <option value="MOBILE">Mobile</option>
                                   <option value="DESKTOP">Desktop</option>
                                 </select>
-                                <select value={osType} onChange={(e) => setOsType(e.target.value)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
+                                <select value={osType} onChange={(e) => setOsType(e.target.value)} className={`w-full border rounded-xl p-2.5 outline-none cursor-pointer shadow-sm ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}>
                                   <option value="ALL">All mobile devices</option>
                                   <option value="ANDROID">Android devices only</option>
                                   <option value="IOS">iOS devices only</option>
@@ -11345,7 +11345,7 @@ const handleOpenDuplicateModal = () => {
                                     type="checkbox" 
                                     checked={wifiOnly} 
                                     onChange={(e) => { setWifiOnly(e.target.checked); localStorage.setItem("wifiOnly", String(e.target.checked)); }} 
-                                    className={`w-4 h-4 rounded text-blue-600 focus:ring-blue-500 cursor-pointer ${theme === 'dark' ? 'border-slate-600 bg-[#3A3B3C]' : 'border-slate-300'}`} 
+                                    className={`w-4 h-4 rounded text-blue-600 focus:ring-blue-500 cursor-pointer ${theme === 'dark' ? 'border-slate-600 bg-[#1C2128]' : 'border-slate-300'}`} 
                                   /> 
                                   Only when connected to Wi-Fi
                                 </label>
@@ -11354,8 +11354,8 @@ const handleOpenDuplicateModal = () => {
                           </div>
 
                           {/* Platforms */}
-                          <div className={`border rounded-xl shadow-sm transition-all ${theme === 'dark' ? 'bg-[#242526] border-slate-700' : 'bg-white border-slate-200'}`}>
-                            <div className={`p-3.5 font-bold flex justify-between cursor-pointer select-none ${theme === 'dark' ? 'bg-[#3A3B3C] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlatforms(!showPlatforms)}>
+                          <div className={`border rounded-xl shadow-sm transition-all ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700' : 'bg-white border-slate-200'}`}>
+                            <div className={`p-3.5 font-bold flex justify-between cursor-pointer select-none ${theme === 'dark' ? 'bg-[#1C2128] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlatforms(!showPlatforms)}>
                               Platforms <span className="text-slate-500 font-black text-xs">{showPlatforms ? '▲' : '▼'}</span>
                             </div>
                             {showPlatforms && (
@@ -11371,8 +11371,8 @@ const handleOpenDuplicateModal = () => {
                           </div>
 
                           {/* Placement Controls (ប្រអប់តូចៗទាំងអស់) */}
-                          <div className={`border rounded-xl shadow-sm mb-2 transition-all ${theme === 'dark' ? 'bg-[#242526] border-slate-700' : 'bg-white border-slate-200'}`}>
-                            <div className={`p-3.5 font-bold flex justify-between items-center cursor-pointer select-none ${theme === 'dark' ? 'bg-[#3A3B3C] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlacementCtrls(!showPlacementCtrls)}>
+                          <div className={`border rounded-xl shadow-sm mb-2 transition-all ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700' : 'bg-white border-slate-200'}`}>
+                            <div className={`p-3.5 font-bold flex justify-between items-center cursor-pointer select-none ${theme === 'dark' ? 'bg-[#1C2128] text-slate-200' : 'bg-slate-50 text-slate-700'}`} onClick={() => setShowPlacementCtrls(!showPlacementCtrls)}>
                               <span className="flex items-center gap-1">Placement controls <span className="w-3.5 h-3.5 rounded-full bg-slate-400 text-[9px] flex items-center justify-center font-bold text-white">i</span></span>
                               <span className="text-slate-500 font-black text-xs">{showPlacementCtrls ? '▲' : '▼'}</span>
                             </div>
@@ -11381,7 +11381,7 @@ const handleOpenDuplicateModal = () => {
                                 
                                 {/* Feeds */}
                                 <div>
-                                  <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                  <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                     <div className="flex items-center gap-3">
                                       <input type="checkbox" checked={isGroupChecked('feeds')} onChange={(e) => handleGroupToggle('feeds', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                       <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('feeds')}>🪟 Feeds</span>
@@ -11391,7 +11391,7 @@ const handleOpenDuplicateModal = () => {
                                     </div>
                                   </div>
                                   {expandedPlacements.feeds && (
-                                    <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                    <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_feed} onChange={()=>handleDetailedPlacementChange('fb_feed')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook Feed</label>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_profile} onChange={()=>handleDetailedPlacementChange('fb_profile')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook profile feed</label>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.ig_feed} onChange={()=>handleDetailedPlacementChange('ig_feed')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Instagram feed</label>
@@ -11408,7 +11408,7 @@ const handleOpenDuplicateModal = () => {
 
                                 {/* Stories, Status, Reels */}
                                 <div>
-                                  <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                  <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                     <div className="flex items-center gap-3">
                                       <input type="checkbox" checked={isGroupChecked('stories')} onChange={(e) => handleGroupToggle('stories', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                       <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('stories')}>📱 Stories, Status, Reels</span>
@@ -11418,7 +11418,7 @@ const handleOpenDuplicateModal = () => {
                                     </div>
                                   </div>
                                   {expandedPlacements.stories && (
-                                    <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                    <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.ig_stories} onChange={()=>handleDetailedPlacementChange('ig_stories')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Instagram Stories</label>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_stories} onChange={()=>handleDetailedPlacementChange('fb_stories')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook Stories</label>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.msg_stories} onChange={()=>handleDetailedPlacementChange('msg_stories')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Messenger Stories</label>
@@ -11431,7 +11431,7 @@ const handleOpenDuplicateModal = () => {
 
                                 {/* In-stream ads for reels */}
                                 <div>
-                                  <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                  <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                     <div className="flex items-center gap-3">
                                       <input type="checkbox" checked={isGroupChecked('instream')} onChange={(e) => handleGroupToggle('instream', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                       <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('instream')}>▷ In-stream ads for reels</span>
@@ -11441,7 +11441,7 @@ const handleOpenDuplicateModal = () => {
                                     </div>
                                   </div>
                                   {expandedPlacements.instream && (
-                                    <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                    <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.instream_reels} onChange={()=>handleDetailedPlacementChange('instream_reels')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> In-stream for Reels</label>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_reels_ads} onChange={()=>handleDetailedPlacementChange('fb_reels_ads')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Ads on Facebook Reels</label>
                                     </div>
@@ -11450,7 +11450,7 @@ const handleOpenDuplicateModal = () => {
 
                                 {/* Search results */}
                                 <div>
-                                  <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                  <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                     <div className="flex items-center gap-3">
                                       <input type="checkbox" checked={isGroupChecked('search')} onChange={(e) => handleGroupToggle('search', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                       <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('search')}>🔍 Search results</span>
@@ -11460,7 +11460,7 @@ const handleOpenDuplicateModal = () => {
                                     </div>
                                   </div>
                                   {expandedPlacements.search && (
-                                    <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                    <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.fb_search} onChange={()=>handleDetailedPlacementChange('fb_search')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Facebook search results</label>
                                       <label className="flex items-center gap-3 cursor-pointer opacity-50"><input type="checkbox" disabled checked={detailedPlacements.ig_search} className="w-4 h-4 rounded border-slate-500 bg-slate-500/20" /> Instagram search results</label>
                                     </div>
@@ -11469,7 +11469,7 @@ const handleOpenDuplicateModal = () => {
 
                                 {/* Apps and sites */}
                                 <div>
-                                  <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                                  <div className={`p-3.5 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                                     <div className="flex items-center gap-3">
                                       <input type="checkbox" checked={isGroupChecked('apps')} onChange={(e) => handleGroupToggle('apps', e.target.checked)} className="w-4 h-4 text-blue-600 rounded border-slate-500 cursor-pointer" />
                                       <span className={`font-semibold cursor-pointer select-none ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`} onClick={() => toggleAccordion('apps')}>💻 Apps and sites</span>
@@ -11479,7 +11479,7 @@ const handleOpenDuplicateModal = () => {
                                     </div>
                                   </div>
                                   {expandedPlacements.apps && (
-                                    <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#18191A] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
+                                    <div className={`px-10 pb-4 pt-2 flex flex-col gap-3.5 text-[13px] font-medium ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-400' : 'bg-slate-50/50 text-slate-600'}`}>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.an_native} onChange={()=>handleDetailedPlacementChange('an_native')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Audience Network native, banner and interstitial</label>
                                       <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={detailedPlacements.an_rewarded} onChange={()=>handleDetailedPlacementChange('an_rewarded')} className="w-4 h-4 rounded border-slate-500 text-blue-600 cursor-pointer" /> Audience Network rewarded videos</label>
                                     </div>
@@ -11499,9 +11499,9 @@ const handleOpenDuplicateModal = () => {
               </div>
 
               {/* --- ៣. Ad Setup & Conversations Card --- */}
-              <div className={`p-6 rounded-2xl shadow-sm border flex flex-col gap-5 w-full min-w-0 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
+              <div className={`p-6 rounded-2xl shadow-sm border flex flex-col gap-5 w-full min-w-0 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
                 <h3 className={`font-bold border-b pb-3 flex items-center gap-2 text-[15px] ${theme === 'dark' ? 'border-slate-700 text-white' : 'border-slate-200 text-slate-800'}`}>
-                  <span className={`p-1.5 rounded-xl ${theme === 'dark' ? 'bg-[#3A3B3C]' : 'bg-slate-100'}`}>🖼️</span> ៣. Ad Setup & Conversations
+                  <span className={`p-1.5 rounded-xl ${theme === 'dark' ? 'bg-[#1C2128]' : 'bg-slate-100'}`}>🖼️</span> ៣. Ad Setup & Conversations
                 </h3>
 
                 <div>
@@ -11510,7 +11510,7 @@ const handleOpenDuplicateModal = () => {
                     type="text" 
                     value={adName} 
                     onChange={(e) => saveParam("adName", e.target.value, setAdName)} 
-                    className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'}`} 
+                    className={`w-full border rounded-xl p-3 outline-none focus:border-blue-500 font-semibold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'}`} 
                     placeholder="New Engagement Ad" 
                   />
                 </div>
@@ -11519,7 +11519,7 @@ const handleOpenDuplicateModal = () => {
                 <div className="relative">
                   <div 
                     onClick={() => setIsPageMenuOpen(!isPageMenuOpen)}
-                    className={`p-3 flex justify-between items-center cursor-pointer border rounded-xl transition ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                    className={`p-3 flex justify-between items-center cursor-pointer border rounded-xl transition ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                   >
                     <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
                       {(() => {
@@ -11540,7 +11540,7 @@ const handleOpenDuplicateModal = () => {
                   {isPageMenuOpen && (
                     <>
                       <div className="fixed inset-0 z-40" onClick={() => setIsPageMenuOpen(false)}></div>
-                      <div className={`absolute top-[110%] left-0 w-full border rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto p-1.5 flex flex-col gap-1 ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-300'}`}>
+                      <div className={`absolute top-[110%] left-0 w-full border rounded-xl shadow-2xl z-50 max-h-60 overflow-y-auto p-1.5 flex flex-col gap-1 ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-300'}`}>
                         {(pages.length > 0 ? pages : facebookPages).map((page: any) => (
                           <div 
                             key={page.id} 
@@ -11551,7 +11551,7 @@ const handleOpenDuplicateModal = () => {
                               localStorage.setItem("fbPageName", page.name);
                               setIsPageMenuOpen(false);
                             }}
-                            className={`p-2.5 rounded-lg flex items-center gap-3 cursor-pointer transition ${selectedPage === page.id ? 'bg-blue-600 text-white font-bold' : (theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-100')}`}
+                            className={`p-2.5 rounded-lg flex items-center gap-3 cursor-pointer transition ${selectedPage === page.id ? 'bg-blue-600 text-white font-bold' : (theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-100')}`}
                           >
                             {page.picture?.data?.url ? (
                               <img src={page.picture.data.url} className="w-7 h-7 rounded-full object-cover shrink-0 border border-slate-200" alt="Page Logo" />
@@ -11569,9 +11569,9 @@ const handleOpenDuplicateModal = () => {
                 {/* Ad creative */}
                 <div>
                   <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Ad creative</label>
-                  <div className={`border rounded-xl overflow-visible shadow-sm relative ${theme === 'dark' ? 'border-slate-700 bg-[#18191A]' : 'border-slate-200 bg-white'}`}>
+                  <div className={`border rounded-xl overflow-visible shadow-sm relative ${theme === 'dark' ? 'border-slate-700 bg-[#0B0F17]' : 'border-slate-200 bg-white'}`}>
                     <div className="p-4">
-                      <div className={`w-full border rounded-xl p-3 flex items-center justify-between mb-4 shadow-sm relative overflow-hidden group ${theme === 'dark' ? 'bg-[#242526] border-slate-600' : 'bg-white border-slate-300'}`}>
+                      <div className={`w-full border rounded-xl p-3 flex items-center justify-between mb-4 shadow-sm relative overflow-hidden group ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600' : 'bg-white border-slate-300'}`}>
                         <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
                           {fetchingPosts ? (
                             <span className="text-slate-500 font-medium text-sm">⏳ កំពុងទាញយក...</span>
@@ -11593,10 +11593,10 @@ const handleOpenDuplicateModal = () => {
                       </div>
 
                       <div className="flex flex-wrap items-center gap-3 mb-2">
-                        <button type="button" onClick={() => { setPostSelectionContext('create'); setIsPostMenuOpen(true); }} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                        <button type="button" onClick={() => { setPostSelectionContext('create'); setIsPostMenuOpen(true); }} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                           <span className="text-lg leading-none mb-0.5">📄</span> Select post
                         </button>
-                        <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                        <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                           + Create post
                         </button>
                       </div>
@@ -11608,7 +11608,7 @@ const handleOpenDuplicateModal = () => {
                 {/* Call to Action */}
                 <div>
                   <label className={`block text-[13px] font-bold mb-1.5 flex items-center gap-1 ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>Call to action</label>
-                  <select value={callToAction} onChange={(e) => saveParam("callToAction", e.target.value, setCallToAction)} className={`w-full border rounded-xl p-3 text-[14px] font-medium outline-none focus:border-[#1877F2] focus:ring-1 focus:ring-[#1877F2] shadow-sm cursor-pointer ${theme === 'dark' ? 'bg-[#242526] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-800'}`}>
+                  <select value={callToAction} onChange={(e) => saveParam("callToAction", e.target.value, setCallToAction)} className={`w-full border rounded-xl p-3 text-[14px] font-medium outline-none focus:border-[#1877F2] focus:ring-1 focus:ring-[#1877F2] shadow-sm cursor-pointer ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-800'}`}>
                     <option value="SEND_MESSAGE">Send message</option>
                     <option value="LEARN_MORE">Learn more</option>
                     <option value="SHOP_NOW">Shop now</option>
@@ -11626,7 +11626,7 @@ const handleOpenDuplicateModal = () => {
                 type="button" 
                 onClick={() => setIsFullEditModalOpen(false)} 
                 className={`px-5 py-2.5 rounded-xl text-xs font-bold border transition cursor-pointer ${
-                  theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
+                  theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 បោះបង់ (Cancel)

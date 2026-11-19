@@ -122,7 +122,7 @@ export default function SettingsTab({ theme }: SettingsTabProps) {
   };
 
   return (
-    <div className={`p-6 rounded-2xl shadow-sm border w-full max-w-2xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
+    <div className={`p-6 rounded-2xl shadow-sm border w-full max-w-2xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
       
       {/* ========================================================= */}
       {/* 🌟 ផ្នែកទី ១៖ ភ្ជាប់ Telegram Notification ផ្ទាល់ខ្លួនសម្រាប់អតិថិជន */}
@@ -156,7 +156,7 @@ export default function SettingsTab({ theme }: SettingsTabProps) {
         </div>
 
         {/* ការណែនាំរបៀបយក Chat ID (How-to Guide) */}
-        <div className={`p-4 rounded-xl border text-xs space-y-2 mb-4 leading-relaxed ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-300' : 'bg-sky-50/60 border-sky-200 text-slate-700'}`}>
+        <div className={`p-4 rounded-xl border text-xs space-y-2 mb-4 leading-relaxed ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-300' : 'bg-sky-50/60 border-sky-200 text-slate-700'}`}>
           <h4 className="font-bold text-sky-700 dark:text-sky-400 flex items-center gap-1.5">
             <span>💡</span> <span>របៀបយក Telegram Chat ID របស់អ្នក ងាយៗ ៣ ជំហាន៖</span>
           </h4>
@@ -189,7 +189,7 @@ export default function SettingsTab({ theme }: SettingsTabProps) {
                 value={telegramChatId}
                 onChange={(e) => setTelegramChatId(e.target.value)}
                 placeholder="ឧ. 123456789"
-                className={`flex-1 px-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-sky-500 font-mono font-bold ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                className={`flex-1 px-3.5 py-2.5 border rounded-xl text-sm outline-none focus:border-sky-500 font-mono font-bold ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
               />
               <button
                 type="button"
@@ -203,7 +203,7 @@ export default function SettingsTab({ theme }: SettingsTabProps) {
           </div>
 
           {/* Alert Options Checkboxes */}
-          <div className={`p-3.5 rounded-xl border text-xs space-y-2.5 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+          <div className={`p-3.5 rounded-xl border text-xs space-y-2.5 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
             <span className="font-bold block text-slate-500 uppercase text-[10px]">ជ្រើសរើសប្រភេទសារដែលចង់ទទួលបាន៖</span>
             
             <label className="flex items-center gap-2 cursor-pointer select-none">
@@ -330,7 +330,7 @@ export default function SettingsTab({ theme }: SettingsTabProps) {
                 name="newPass"
                 required
                 placeholder="••••••••"
-                className={`w-full px-3.5 py-2.5 pr-10 border rounded-xl text-sm outline-none focus:border-blue-500 font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                className={`w-full px-3.5 py-2.5 pr-10 border rounded-xl text-sm outline-none focus:border-blue-500 font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
               />
               <button
                 type="button"
@@ -351,7 +351,7 @@ export default function SettingsTab({ theme }: SettingsTabProps) {
                 name="confirmPass"
                 required
                 placeholder="••••••••"
-                className={`w-full px-3.5 py-2.5 pr-10 border rounded-xl text-sm outline-none focus:border-blue-500 font-medium ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                className={`w-full px-3.5 py-2.5 pr-10 border rounded-xl text-sm outline-none focus:border-blue-500 font-medium ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
               />
               <button
                 type="button"

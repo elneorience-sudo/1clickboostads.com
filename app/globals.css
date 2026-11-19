@@ -191,3 +191,19 @@
   border-color: rgba(99, 102, 241, 0.6);
   box-shadow: 0 6px 20px 0 rgba(99, 102, 241, 0.25);
 }
+
+/* 🌌 Deep Cyber OLED Minimal Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.22);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.55);
+}

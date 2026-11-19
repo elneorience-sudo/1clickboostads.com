@@ -93,7 +93,7 @@ export default function PaymentsTab({
   };
 
   return (
-    <div className={`p-6 rounded-2xl shadow-sm border w-full max-w-4xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
+    <div className={`p-6 rounded-2xl shadow-sm border w-full max-w-4xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
 
       {/* Header */}
       <div className="text-center max-w-xl mx-auto mb-8">
@@ -154,7 +154,7 @@ export default function PaymentsTab({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           
           {/* KHQR Card View */}
-          <div className={`md:col-span-6 p-6 rounded-2xl border text-center flex flex-col items-center justify-center shadow-md relative ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-white border-slate-200'}`}>
+          <div className={`md:col-span-6 p-6 rounded-2xl border text-center flex flex-col items-center justify-center shadow-md relative ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-white border-slate-200'}`}>
             
             {/* National Bank of Cambodia KHQR Header */}
             <div className="w-full bg-[#E1251B] text-white py-2 px-4 rounded-xl flex items-center justify-between font-black tracking-wider text-xs shadow-sm mb-4">
@@ -240,7 +240,7 @@ export default function PaymentsTab({
                   className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${
                     selectedPlan.name === plan.name
                       ? 'border-red-500 bg-red-50/50 dark:bg-red-950/20 shadow-xs'
-                      : (theme === 'dark' ? 'border-slate-700 hover:border-slate-600 bg-[#18191A]' : 'border-slate-200 hover:border-slate-300 bg-slate-50')
+                      : (theme === 'dark' ? 'border-slate-700 hover:border-slate-600 bg-[#0B0F17]' : 'border-slate-200 hover:border-slate-300 bg-slate-50')
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -258,7 +258,7 @@ export default function PaymentsTab({
             </div>
 
             {/* Instructions */}
-            <div className={`p-4 rounded-xl border text-xs space-y-2 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-300' : 'bg-amber-50/60 border-amber-200 text-slate-700'}`}>
+            <div className={`p-4 rounded-xl border text-xs space-y-2 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-300' : 'bg-amber-50/60 border-amber-200 text-slate-700'}`}>
               <h5 className="font-bold text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
                 <span>💡</span> <span>របៀបទូទាត់ប្រាក់រហ័ស 3 ជំហាន៖</span>
               </h5>
@@ -277,7 +277,7 @@ export default function PaymentsTab({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           
           {/* ផ្នែកខាងឆ្វេង៖ QR Code */}
-          <div className={`md:col-span-5 p-6 rounded-2xl border text-center flex flex-col items-center justify-center shadow-sm ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+          <div className={`md:col-span-5 p-6 rounded-2xl border text-center flex flex-col items-center justify-center shadow-sm ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
             <h3 className="font-bold text-sm mb-4 text-blue-600 dark:text-blue-400">Scan to Pay (ABA / Bakong)</h3>
             <div className="w-48 h-48 bg-white p-3 rounded-2xl shadow-md border border-slate-200 flex items-center justify-center mb-4">
               {adminQrUrl ? (
@@ -293,7 +293,7 @@ export default function PaymentsTab({
           </div>
 
           {/* ផ្នែកខាងស្តាំ៖ Form Upload Slip */}
-          <div className={`md:col-span-7 p-6 rounded-2xl border shadow-sm ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+          <div className={`md:col-span-7 p-6 rounded-2xl border shadow-sm ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
             <h3 className="font-bold text-sm mb-4">បញ្ជូនព័ត៌មាន និង Slip ផ្ទេរប្រាក់</h3>
 
             <form onSubmit={async (e) => {
@@ -388,7 +388,7 @@ export default function PaymentsTab({
                   step="0.01"
                   required
                   placeholder="5.00"
-                  className={`w-full p-3 rounded-xl border text-sm outline-none font-bold text-emerald-500 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                  className={`w-full p-3 rounded-xl border text-sm outline-none font-bold text-emerald-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
                 />
               </div>
 
@@ -399,7 +399,7 @@ export default function PaymentsTab({
                   name="slipFile"
                   accept="image/*"
                   required
-                  className={`w-full p-2.5 rounded-xl border text-xs file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}
+                  className={`w-full p-2.5 rounded-xl border text-xs file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-700'}`}
                 />
               </div>
 
@@ -421,7 +421,7 @@ export default function PaymentsTab({
       {isAdmin && (
         <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Admin Upload QR */}
-          <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-amber-50/50 border-amber-200'}`}>
+          <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-amber-50/50 border-amber-200'}`}>
             <span className="text-xs font-bold text-amber-600 block mb-2">⚙️ Admin: ផ្លាស់ប្ដូររូបភាព QR Code</span>
             <label className="cursor-pointer bg-amber-100 hover:bg-amber-200 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-300 dark:border-amber-800 px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs inline-flex items-center gap-2">
               <span>📁</span>
@@ -431,7 +431,7 @@ export default function PaymentsTab({
           </div>
 
           {/* Admin Telegram Bot Connection Test */}
-          <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-sky-50/50 border-sky-200'}`}>
+          <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-sky-50/50 border-sky-200'}`}>
             <span className="text-xs font-bold text-sky-600 block mb-2">🤖 Admin: ពិនិត្យ Telegram Bot Notification</span>
             <button
               type="button"
@@ -455,11 +455,11 @@ export default function PaymentsTab({
           <span>📜</span> ប្រវត្តិការទូទាត់ប្រាក់របស់អ្នក (Payment History)
         </h3>
 
-        <div className={`rounded-xl border overflow-hidden ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-white border-slate-200'}`}>
+        <div className={`rounded-xl border overflow-hidden ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-white border-slate-200'}`}>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className={`border-b uppercase tracking-wider ${theme === 'dark' ? 'bg-[#3A3B3C] text-slate-300 border-slate-700' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                <tr className={`border-b uppercase tracking-wider ${theme === 'dark' ? 'bg-[#1C2128] text-slate-300 border-slate-700' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
                   <th className="py-3 px-4 font-bold">កាលបរិច្ឆេទ (Date)</th>
                   <th className="py-3 px-4 font-bold">ទឹកប្រាក់ (Amount)</th>
                   <th className="py-3 px-4 font-bold">វិធីទូទាត់ (Method)</th>
@@ -485,7 +485,7 @@ export default function PaymentsTab({
                     </tr>
                   ) : (
                     historyRecords.map((record: any, idx: number) => (
-                      <tr key={idx} className={`transition ${theme === 'dark' ? 'hover:bg-[#3A3B3C]' : 'hover:bg-slate-50'}`}>
+                      <tr key={idx} className={`transition ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
                         <td className="py-3 px-4 font-medium">
                           {new Date(record.date).toLocaleString('km-KH')}
                         </td>

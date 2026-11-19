@@ -6,8 +6,8 @@ export default function PrivacyPolicy() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   return (
-    <div className={`min-h-screen font-sans p-6 sm:p-12 transition-colors ${theme === 'dark' ? 'bg-[#18191A] text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
-      <div className="max-w-4xl mx-auto bg-white dark:bg-[#242526] p-8 sm:p-12 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+    <div className={`min-h-screen font-sans p-6 sm:p-12 transition-colors ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+      <div className="max-w-4xl mx-auto bg-white dark:bg-[#0D1117] p-8 sm:p-12 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
         
         <div className="flex justify-between items-center mb-8 border-b pb-4 border-slate-100 dark:border-slate-700">
           <h1 className="text-2xl sm:text-3xl font-black text-blue-600">Privacy Policy</h1>

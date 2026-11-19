@@ -150,7 +150,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
   };
 
   return (
-    <div className={`p-6 sm:p-8 rounded-2xl shadow-sm border w-full max-w-3xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
+    <div className={`p-6 sm:p-8 rounded-2xl shadow-sm border w-full max-w-3xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
       
       {/* Header Banner */}
       <div className="flex items-center justify-between mb-8 pb-6 border-b border-slate-200 dark:border-slate-700 flex-wrap gap-4">
@@ -181,14 +181,14 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
       </div>
 
       {/* Guide Box (ជំហានងាយៗ ២ ជំហាន) */}
-      <div className={`p-5 rounded-2xl border mb-6 text-xs leading-relaxed space-y-3 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-300' : 'bg-gradient-to-r from-sky-50 to-blue-50 border-sky-200 text-slate-800'}`}>
+      <div className={`p-5 rounded-2xl border mb-6 text-xs leading-relaxed space-y-3 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-300' : 'bg-gradient-to-r from-sky-50 to-blue-50 border-sky-200 text-slate-800'}`}>
         <h3 className="font-bold text-sm text-sky-800 dark:text-sky-400 flex items-center gap-2">
           <span>💡</span> <span>ជំហានងាយៗ ២ ជំហាន ដើម្បីទទួលបានសារ Alert លើទូរស័ព្ទ៖</span>
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
           {/* ជំហានទី ១: ចុច Start លើ Bot */}
-          <div className="p-4 bg-white/90 dark:bg-[#242526] rounded-xl border border-sky-300 dark:border-slate-700 space-y-2">
+          <div className="p-4 bg-white/90 dark:bg-[#0D1117] rounded-xl border border-sky-300 dark:border-slate-700 space-y-2">
             <div className="flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-xs">1</span>
               <h4 className="font-bold text-sky-600 dark:text-sky-400">បើក Bot & ចុច Start (សំខាន់):</h4>
@@ -207,7 +207,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
           </div>
 
           {/* ជំហានទី ២: យក Chat ID ផ្ទាល់ខ្លួន */}
-          <div className="p-4 bg-white/90 dark:bg-[#242526] rounded-xl border border-sky-300 dark:border-slate-700 space-y-2">
+          <div className="p-4 bg-white/90 dark:bg-[#0D1117] rounded-xl border border-sky-300 dark:border-slate-700 space-y-2">
             <div className="flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs">2</span>
               <h4 className="font-bold text-blue-600 dark:text-blue-400">យក Chat ID ផ្ទាល់ខ្លួនរបស់បង:</h4>
@@ -244,7 +244,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
               onChange={(e) => setTelegramChatId(e.target.value)}
               placeholder="ឧ. 748123456 (លេខសម្គាល់ផ្ទាល់ខ្លួន)"
               className={`flex-1 px-4 py-3 border-2 rounded-xl text-sm outline-none focus:border-sky-500 font-mono font-bold transition-all ${
-                theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-white placeholder-slate-500' : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
+                theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-white placeholder-slate-500' : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
               }`}
             />
             <button
@@ -261,7 +261,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
         </div>
 
         {/* Alert Preferences */}
-        <div className={`p-5 rounded-2xl border space-y-3 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+        <div className={`p-5 rounded-2xl border space-y-3 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
           <span className="font-bold block text-slate-500 uppercase text-[11px] tracking-wider mb-1">
             ប្រភេទសារដែលអ្នកចង់ឱ្យប្រព័ន្ធជូនដំណឹង (Notification Preferences)៖
           </span>
@@ -351,7 +351,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
               value={customBotToken}
               onChange={(e) => setCustomBotToken(e.target.value)}
               placeholder="9236028615:AAFdHtVck66228YhbaCHtFVR7ZAqh2wG4Ts"
-              className={`w-full px-3 py-2 border rounded-lg text-xs outline-none font-mono ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+              className={`w-full px-3 py-2 border rounded-lg text-xs outline-none font-mono ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
             />
             <p className="text-[10px] text-slate-400">
               * ប្រព័ន្ធបានភ្ជាប់ Bot ផ្លូវការ @oneclickboostads_bot មកស្រាប់ហើយ មិនចាំបាច់កែប្រែក៏បាន។
