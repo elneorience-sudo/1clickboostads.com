@@ -8,6 +8,7 @@ import SettingsTab from "@/components/SettingsTab";
 import PaymentsTab from "@/components/PaymentsTab";
 import HelpCenterTab from "@/components/HelpCenterTab";
 import TelegramTab from "@/components/TelegramTab";
+import SmartRulesModal from "@/components/SmartRulesModal";
 
 
 const translations = {
@@ -507,6 +508,9 @@ export default function Home() {
   const [isCustomDeleteModalOpen, setIsCustomDeleteModalOpen] = useState(false);
   const [itemToDeleteData, setItemToDeleteData] = useState<{ id: string; name: string; type: 'ADSET' | 'AD' } | null>(null);
   const [isExecutingDelete, setIsExecutingDelete] = useState(false);
+
+  // 🎯 State សម្រាប់គ្រប់គ្រង Smart Ad Rules Modal (ច្បាប់បិទ Ad ស្វ័យប្រវត្តិកុំឱ្យខាតលុយ)
+  const [isSmartRulesModalOpen, setIsSmartRulesModalOpen] = useState(false);
 
   const handleConfirmCustomDelete = async () => {
   if (!itemToDeleteData) return;
@@ -2484,6 +2488,61 @@ export default function Home() {
 
     syncCurrentClientFbToSupabase();
   }, [isFbConnected, fbPageName, selectedPage, selectedAdAccount]);
+
+  // 🎯 Smart Ad Rules: Auto-Guard Background Runner (ដំណើរការតាមដាន 24/7 ការពារខាតលុយ)
+  useEffect(() => {
+    if (!isFbConnected || !selectedAdAccount) return;
+
+    const checkSmartRulesAuto = async () => {
+      try {
+        const savedConfig = localStorage.getItem('smart_ad_rules_config');
+        const config = savedConfig ? JSON.parse(savedConfig) : { enabled: true, pauseZeroMessage: true, zeroMessageSpendThreshold: 5, highCpaAction: 'pause', cpaThreshold: 1.20 };
+        if (!config || !config.enabled) return;
+
+        const token = localStorage.getItem('fb_user_token');
+        if (!token) return;
+
+        const chatId = localStorage.getItem('client_telegram_chat_id') || undefined;
+
+        const res = await fetch('/api/smart-rules', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            access_token: token,
+            ad_account_id: selectedAdAccount,
+            config: {
+              ...config,
+              chatId
+            }
+          })
+        });
+
+        const data = await res.json();
+        if (data.success && data.triggeredCount > 0) {
+          const existingLogs = JSON.parse(localStorage.getItem('smart_ad_rules_logs') || '[]');
+          const updatedLogs = [...data.actions, ...existingLogs].slice(0, 25);
+          localStorage.setItem('smart_ad_rules_logs', JSON.stringify(updatedLogs));
+
+          showToast(`🎯 Smart Rules: បានផ្អាក ${data.triggeredCount} Ad(s) ដែលស៊ីលុយអត់សារ ឬ CPA ឡើងខ្ពស់!`, "info");
+          if (typeof fetchAds === 'function') fetchAds();
+          if (typeof fetchCampaigns === 'function') fetchCampaigns();
+        }
+      } catch (err) {
+        console.error("Smart rules background runner error:", err);
+      }
+    };
+
+    // ដំណើរការត្រួតពិនិត្យលើកទី ១ ក្រោយពេល Login ចូលបាន ១០ វិនាទី
+    const initialTimer = setTimeout(checkSmartRulesAuto, 10000);
+
+    // បន្ទាប់មកដំណើរការរៀងរាល់ ១៥ នាទី
+    const intervalTimer = setInterval(checkSmartRulesAuto, 15 * 60 * 1000);
+
+    return () => {
+      clearTimeout(initialTimer);
+      clearInterval(intervalTimer);
+    };
+  }, [isFbConnected, selectedAdAccount]);
 
   const pendingSlipsCount = clients.filter(c => c.slip_status === 'pending').length;
   // 🌟 States បន្ថែមសម្រាប់កែប្រែ (Edit Client)
@@ -4694,6 +4753,34 @@ const handleOpenDuplicateModal = () => {
 
               <span className={`text-[13.5px] truncate ${activeTab === "TELEGRAM" ? "font-black" : "font-semibold"}`}>
                 ភ្ជាប់ Telegram Bot
+              </span>
+            </button>
+
+            {/* 7. Smart Ad Rules (ច្បាប់បិទ Ad ស្វ័យប្រវត្តិកុំឱ្យខាតលុយ) */}
+            <button 
+              onClick={() => setIsSmartRulesModalOpen(true)}
+              className={`w-full text-left px-3.5 py-3 rounded-2xl transition-all flex items-center justify-between cursor-pointer group relative overflow-hidden border border-indigo-500/30 ${
+                theme === 'dark' 
+                  ? "bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-pink-950/20 text-indigo-300 hover:border-indigo-400 hover:text-white" 
+                  : "bg-gradient-to-r from-indigo-50/80 via-purple-50/60 to-pink-50/50 text-indigo-950 hover:bg-indigo-100/80"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white shadow-md shadow-indigo-500/25 group-hover:scale-110 transition-transform">
+                  🎯
+                </div>
+                <div className="flex flex-col truncate">
+                  <span className="text-[13.5px] font-black truncate">
+                    Smart Ad Rules
+                  </span>
+                  <span className="text-[9.5px] text-emerald-500 font-bold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    ការពារខាតលុយ 24/7
+                  </span>
+                </div>
+              </div>
+              <span className="px-1.5 py-0.5 rounded-full font-black text-[9px] uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                ACTIVE
               </span>
             </button>
 
@@ -6955,6 +7042,20 @@ const handleOpenDuplicateModal = () => {
                       className="btn-futuristic-rose py-2.5 px-4 rounded-xl text-[13px] flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
                     >
                       <span className="text-sm">🗑️</span> Delete
+                    </button>
+
+                    {/* 🎯 Smart Ad Rules (ច្បាប់បិទ Ad ស្វ័យប្រវត្តិកុំឱ្យខាតលុយ) */}
+                    <button 
+                      type="button"
+                      onClick={() => setIsSmartRulesModalOpen(true)}
+                      className="btn-futuristic-glass sm:ml-auto col-span-2 sm:col-span-1 py-2.5 px-4 rounded-xl text-[13px] flex items-center justify-center gap-2 cursor-pointer shadow-md border border-indigo-500/40 text-indigo-300 hover:text-white"
+                      title="Smart Ad Rules (ច្បាប់បិទ Ad ស្វ័យប្រវត្តិការពារកុំឱ្យខាតលុយ)"
+                    >
+                      <span className="radar-pulse-ring w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10B981]"></span>
+                      <span className="font-black">🎯 Smart Rules</span>
+                      <span className="hidden lg:inline text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase tracking-wider font-extrabold">
+                        Auto Guard ON
+                      </span>
                     </button>
                   </div>
                   
@@ -11649,6 +11750,19 @@ const handleOpenDuplicateModal = () => {
           </div>
         </div>
       )}
+
+      {/* 🎯 Smart Ad Rules Modal (ច្បាប់បិទ Ad ស្វ័យប្រវត្តិកុំឱ្យខាតលុយ) */}
+      <SmartRulesModal
+        isOpen={isSmartRulesModalOpen}
+        onClose={() => setIsSmartRulesModalOpen(false)}
+        theme={theme}
+        selectedAdAccount={selectedAdAccount}
+        showToast={showToast}
+        onRulesTriggered={() => {
+          if (typeof fetchAds === 'function') fetchAds();
+          if (typeof fetchCampaigns === 'function') fetchCampaigns();
+        }}
+      />
 
     </div>
   );

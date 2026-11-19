@@ -213,6 +213,79 @@ export async function notifyNewUserRegistered(params: {
   return sendTelegramMessage(text.trim(), { chatId: params.chatId });
 }
 
+/**
+ * 🎯 ផ្ញើសារ Alert ពេល Ad ត្រូវបាន Auto-Pause ដោយ Smart Rules (ស៊ីលុយអត់សារ Zero Messages)
+ */
+export async function notifySmartRuleZeroMsgPaused(params: {
+  adName: string;
+  adId: string;
+  accountName?: string;
+  accountId?: string;
+  spend: number | string;
+  threshold: number | string;
+  chatId?: string;
+}) {
+  const time = new Date().toLocaleString('km-KH', { timeZone: 'Asia/Phnom_Penh' });
+  const text = `
+🎯 <b>[SMART RULES] បានផ្អាក (PAUSED) AD ការពារកុំឱ្យខាតលុយ!</b>
+━━━━━━━━━━━━━━━━━━━━━
+📢 <b>ឈ្មោះ Ad:</b> <code>${escapeHtml(params.adName)}</code>
+🆔 <b>Ad ID:</b> <code>${params.adId}</code>
+🏢 <b>Account:</b> ${escapeHtml(params.accountName || 'N/A')}
+💰 <b>បានចំណាយ (Spend):</b> <b>$${Number(params.spend).toFixed(2)}</b>
+💬 <b>ចំនួនសារឆាត:</b> <b>0 សារ (គ្មានអ្នកឆាតទាល់តែសោះ)</b>
+⚠️ <b>មូលហេតុ:</b> ចំណាយអស់លើសកំណត់ ($${params.threshold}) តែគ្មានសារឆាតចូល
+🛡️ <b>សកម្មភាព:</b> <b>ប្រព័ន្ធបាន Auto-Pause ផ្អាក Ad នេះភ្លាមៗ!</b>
+⏰ <b>ពេលវេលា:</b> ${time}
+━━━━━━━━━━━━━━━━━━━━━
+💡 <i>ការផ្អាកនេះជួយសន្សំប្រាក់អ្នកកុំឱ្យខាតបង់ពេលគេងយប់!</i>
+👉 <i>ចូលពិនិត្យ:</i> <a href="https://www.1clickboostads.com">1clickboostads.com</a>
+`;
+  return sendTelegramMessage(text.trim(), { chatId: params.chatId });
+}
+
+/**
+ * ⚠️ ផ្ញើសារ Alert ពេល Ad ឡើងថ្លៃសារខ្ពស់ (High CPA Triggered)
+ */
+export async function notifySmartRuleHighCpaTriggered(params: {
+  adName: string;
+  adId: string;
+  accountName?: string;
+  accountId?: string;
+  spend: number | string;
+  messages: number | string;
+  cpa: number | string;
+  threshold: number | string;
+  actionTaken: 'PAUSED' | 'REDUCED_BUDGET' | 'ALERT_ONLY';
+  newBudget?: number | string;
+  chatId?: string;
+}) {
+  const time = new Date().toLocaleString('km-KH', { timeZone: 'Asia/Phnom_Penh' });
+  const actionLabel = 
+    params.actionTaken === 'PAUSED' 
+      ? '🛑 ប្រព័ន្ធបានផ្អាក (PAUSED) Ad នេះស្វ័យប្រវត្តិ' 
+      : params.actionTaken === 'REDUCED_BUDGET' 
+      ? `📉 ប្រព័ន្ធបានបន្ថយ Budget ៣០% (នៅសល់ $${Number(params.newBudget || 0).toFixed(2)})` 
+      : '🔔 ផ្ញើសារដាស់តឿន Alert តាមដាន';
+
+  const text = `
+⚠️ <b>[SMART RULES] ថ្លៃដើមសារ (CPA) ឡើងខ្ពស់ខុសប្រក្រតី!</b>
+━━━━━━━━━━━━━━━━━━━━━
+📢 <b>ឈ្មោះ Ad:</b> <code>${escapeHtml(params.adName)}</code>
+🆔 <b>Ad ID:</b> <code>${params.adId}</code>
+🏢 <b>Account:</b> ${escapeHtml(params.accountName || 'N/A')}
+📈 <b>CPA បច្ចុប្បន្ន:</b> <b>$${Number(params.cpa).toFixed(2)} / មួយសារ</b>
+🎯 <b>កម្រិតកំណត់ (Max CPA):</b> $${Number(params.threshold).toFixed(2)} / មួយសារ
+💰 <b>ចំណាយសរុប:</b> $${Number(params.spend).toFixed(2)}
+💬 <b>ចំនួនសារ:</b> ${params.messages} សារ
+🛡️ <b>សកម្មភាព:</b> <b>${actionLabel}</b>
+⏰ <b>ពេលវេលា:</b> ${time}
+━━━━━━━━━━━━━━━━━━━━━
+👉 <i>ចូលពិនិត្យ និងកែសម្រួលនៅ:</i> <a href="https://www.1clickboostads.com">1clickboostads.com</a>
+`;
+  return sendTelegramMessage(text.trim(), { chatId: params.chatId });
+}
+
 function escapeHtml(text: string): string {
   if (!text) return '';
   return text

@@ -5,7 +5,9 @@ import {
   notifyPaymentFailed, 
   notifyNewSlipUploaded, 
   notifyKHQRInstantPaid,
-  notifyExpiryWarning
+  notifyExpiryWarning,
+  notifySmartRuleZeroMsgPaused,
+  notifySmartRuleHighCpaTriggered
 } from '@/lib/telegram';
 
 export async function POST(req: Request) {
@@ -53,6 +55,18 @@ export async function POST(req: Request) {
     // 6. ជូនដំណឹងពេលស្កេន KHQR បង់ប្រាក់ជោគជ័យ
     if (action === 'khqr_paid') {
       const result = await notifyKHQRInstantPaid({ ...payload, chatId: targetChatId });
+      return NextResponse.json(result);
+    }
+
+    // 7. 🎯 Smart Rules: Alert ពេល Auto-Pause Ad ព្រោះស៊ីលុយអត់សារ (Zero Messages)
+    if (action === 'smart_rule_zero_msg') {
+      const result = await notifySmartRuleZeroMsgPaused({ ...payload, chatId: targetChatId });
+      return NextResponse.json(result);
+    }
+
+    // 8. ⚠️ Smart Rules: Alert ពេល CPA ឡើងខ្ពស់
+    if (action === 'smart_rule_high_cpa') {
+      const result = await notifySmartRuleHighCpaTriggered({ ...payload, chatId: targetChatId });
       return NextResponse.json(result);
     }
 
