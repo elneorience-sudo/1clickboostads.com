@@ -8,7 +8,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: "Missing product description" }, { status: 400 });
     }
 
-    // 🔑 ប្រមូលបញ្ជី API Keys ទាំងអស់
     const apiKeys = [
       process.env.GEMINI_API_KEY,
       process.env.GEMINI_API_KEY_1,
@@ -19,66 +18,81 @@ export async function POST(req: Request) {
       process.env.GEMINI_API_KEY_6,
     ].filter(key => typeof key === 'string' && key.length > 20);
 
-    if (apiKeys.length === 0) {
-      return NextResponse.json({ success: false, error: "រកមិនឃើញ API Keys ក្នុង .env.local ទេ" }, { status: 500 });
-    }
-
     const prompt = `
-    You are an expert Facebook Ads Manager in Cambodia. 
-    Based on the product/service description provided by the user, generate optimized Facebook Ad targeting, naming parameters, and placement type in strict JSON format.
+You are an expert Facebook Ads Manager in Cambodia.
+Based on the following product or service description, generate an optimal Facebook Ads setup in strict JSON format.
 
-    Product Description: "${product}"
+Product Description: "${product}"
 
-    Return ONLY a valid JSON object with the following keys and NO markdown formatting (no backticks):
-    {
-      "campaignName": "A catchy campaign name in English or Khmer",
-      "adsetName": "An optimized ad set name",
-      "ageMin": 18,
-      "ageMax": 50,
-      "gender": "ALL",
-      "targeting": "Comma-separated list of relevant Facebook detailed targeting interests in English",
-      "placementType": "photo"
-    }
-    `;
+Provide:
+1. campaignName: Catchy name (e.g. "[Product] Boost Campaign")
+2. adsetName: Target audience summary (e.g. "Target 18-45 - Phnom Penh & Provinces")
+3. ageMin: Realistic minimum age (between 18 and 30)
+4. ageMax: Realistic maximum age (between 35 and 65)
+5. gender: "ALL", "MEN", or "WOMEN"
+6. targeting: 3 to 6 high-volume, relevant English Facebook detailed targeting keywords comma-separated (e.g. "Online shopping, Clothing, Shoes, Retail")
+7. placementType: "photo" or "video"
+
+Return ONLY a JSON object:
+{
+  "campaignName": "string",
+  "adsetName": "string",
+  "ageMin": 18,
+  "ageMax": 45,
+  "gender": "ALL",
+  "targeting": "string",
+  "placementType": "photo"
+}
+`;
 
     let jsonResult = null;
+    const models = ['gemini-1.5-flash', 'gemini-2.0-flash'];
 
-    // 🔄 បង្វិលហៅ API Key តាមរយៈ REST API ផ្ទាល់
-    for (let i = 0; i < apiKeys.length; i++) {
-      try {
-        const apiKey = apiKeys[i];
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
-        
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }]
-          })
-        });
+    if (apiKeys.length > 0) {
+      apiKeyLoop: for (let i = 0; i < apiKeys.length; i++) {
+        for (const model of models) {
+          try {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKeys[i]}`;
+            const res = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
 
-        if (!res.ok) continue;
+            if (!res.ok) continue;
 
-        const data = await res.json();
-        let textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-        
-        // សម្អាត JSON
-        textResponse = textResponse.replace(/```json/gi, '').replace(/```/g, '').trim();
-        const firstBrace = textResponse.indexOf('{');
-        const lastBrace = textResponse.lastIndexOf('}');
-        if (firstBrace !== -1 && lastBrace !== -1) {
-          textResponse = textResponse.substring(firstBrace, lastBrace + 1);
+            const data = await res.json();
+            let textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+            textResponse = textResponse.replace(/```json/gi, '').replace(/```/g, '').trim();
+            const firstBrace = textResponse.indexOf('{');
+            const lastBrace = textResponse.lastIndexOf('}');
+            if (firstBrace !== -1 && lastBrace !== -1) {
+              textResponse = textResponse.substring(firstBrace, lastBrace + 1);
+            }
+
+            jsonResult = JSON.parse(textResponse);
+            if (jsonResult && jsonResult.campaignName) {
+              break apiKeyLoop;
+            }
+          } catch (err) {
+            continue;
+          }
         }
-
-        jsonResult = JSON.parse(textResponse);
-        break; // ជោគជ័យ បញ្ឈប់ការ Loop
-      } catch (err) {
-        continue;
       }
     }
 
+    // Smart Fallback ប្រសិនបើ API Key ជាប់ Limit
     if (!jsonResult) {
-      return NextResponse.json({ success: false, error: "API Keys ទាំងអស់កំពុងជាប់ Limit ឬមិនអាចប្រើបាន។" }, { status: 500 });
+      const trimmedProduct = product.slice(0, 30);
+      jsonResult = {
+        campaignName: `Auto Boost - ${trimmedProduct}`,
+        adsetName: `Targeting - ${trimmedProduct}`,
+        ageMin: 18,
+        ageMax: 45,
+        gender: "ALL",
+        targeting: "Online shopping, Consumer goods, Retail marketing",
+        placementType: "photo"
+      };
     }
 
     return NextResponse.json({ success: true, result: jsonResult });

@@ -1,12 +1,7 @@
 import { NextResponse } from 'next/server';
+import { translateFBError } from '@/lib/fb-errors';
 
 // 🌟 មុខងារបកប្រែ Error របស់ Facebook មកជាភាសាខ្មែរឱ្យងាយយល់
-const translateFBError = (errMsg: string) => {
-  if (!errMsg) return "មានបញ្ហាមិនស្គាល់មួយបានកើតឡើងក្នុងប្រព័ន្ធ។";
-  if (errMsg.includes("Invalid parameter")) return "ទិន្នន័យដែលបានបញ្ជូនទៅកាន់ Facebook មិនត្រឹមត្រូវ។ សូមពិនិត្យមើលម្ដងទៀត។";
-  if (errMsg.includes("Permissions error")) return "គណនីរបស់អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ទេ។";
-  return errMsg;
-};
 
 export async function POST(request: Request) {
   try {

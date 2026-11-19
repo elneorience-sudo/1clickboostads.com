@@ -1,15 +1,6 @@
 import { NextResponse } from 'next/server';
+import { translateFBError } from '@/lib/fb-errors';
 
-// 🌟 មុខងារបកប្រែ Error របស់ Facebook មកជាភាសាខ្មែរឱ្យអតិថិជនងាយយល់
-const translateFBError = (errMsg: string) => {
-  if (!errMsg) return "មានបញ្ហាមិនស្គាល់មួយបានកើតឡើងក្នុងប្រព័ន្ធ។";
-  if (errMsg.includes("selected performance goal with your campaign objective")) return "គោលដៅនៃការផ្សាយ (Performance Goal) មិនស៊ីគ្នាជាមួយប្រភេទ Campaign នេះទេ។ សូមជ្រើសរើស Goal ផ្សេង។";
-  if (errMsg.includes("Bid amount") || errMsg.includes("bid constraints")) return "ប្រព័ន្ធទាមទារឱ្យកំណត់ចំនួនទឹកប្រាក់ដេញថ្លៃ (Bid Amount) ឱ្យបានត្រឹមត្រូវ។";
-  if (errMsg.includes("Invalid parameter")) return "ទិន្នន័យដែលបានបញ្ជូនទៅកាន់ Facebook មិនត្រឹមត្រូវ (Invalid parameter)។ សូមពិនិត្យមើលការកំណត់ម្ដងទៀត។";
-  if (errMsg.includes("Invalid Creative")) return "ផុសនេះមិនអាចយកមកផ្សាយបានទេ (អាចដោយសារអត់មានប៊ូតុង Send Message ឬជារូបច្រើនសន្លឹកខុសខ្នាត)។";
-  if (errMsg.includes("Permissions error")) return "គណនីរបស់អ្នកមិនមានសិទ្ធិ (Permission) គ្រប់គ្រាន់ក្នុងការបង្កើតការផ្សាយនេះទេ។";
-  return errMsg;
-};
 
 export async function POST(request: Request) {
   try {

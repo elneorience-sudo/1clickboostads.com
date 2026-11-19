@@ -2327,6 +2327,35 @@ export default function Home() {
 
   const clientRowRefs = useRef<{ [key: string]: HTMLTableRowElement | null }>({});
   const [highlightedClientId, setHighlightedClientId] = useState<string | null>(null);
+  // 🌟 Filter & Search States សម្រាប់ Subscriptions
+  const [clientSearchQuery, setClientSearchQuery] = useState("");
+  const [clientStatusFilter, setClientStatusFilter] = useState<'all' | 'active' | 'expiring' | 'expired' | 'pending_slip'>('all');
+
+  const handleQuickExtendClient = async (item: any, additionalDays: number = 30) => {
+    if (!confirm(`តើបងពិតជាចង់បន្តសុពលភាព +${additionalDays} ថ្ងៃជូន "${item.client_name}" មែនទេ?`)) return;
+    try {
+      const currentExpiry = new Date(item.expiry_date);
+      const baseDate = currentExpiry > new Date() ? currentExpiry : new Date();
+      const newExpiry = new Date(baseDate);
+      newExpiry.setDate(baseDate.getDate() + additionalDays);
+
+      const { error } = await supabase
+        .from('customer_subscriptions')
+        .update({
+          expiry_date: newExpiry.toISOString(),
+          status: 'active',
+          slip_status: 'approved'
+        })
+        .eq('id', item.id);
+
+      if (error) throw error;
+      showToast(`✅ បានបន្តសុពលភាព +${additionalDays} ថ្ងៃជូន ${item.client_name}!`, "success");
+      fetchClients(false);
+    } catch (err: any) {
+      alert("❌ បរាជ័យ: " + err.message);
+    }
+  };
+
 
   const fetchClients = async (isInitialLoad = true) => {
     if (isInitialLoad) setLoadingClients(true); // លោត Loading តែពេលបើកដំបូងប៉ុណ្ណោះ
@@ -4627,6 +4656,51 @@ const handleOpenDuplicateModal = () => {
                 })()}
 
                 {/* Table CRM */}
+                                {/* 🌟 ផ្ទាំង Search & Filters ស្វែងរកអតិថិជនកម្រិតខ្ពស់ */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
+                  {/* ប្រអប់ Search */}
+                  <div className="relative flex-1 max-w-md">
+                    <input
+                      type="text"
+                      value={clientSearchQuery}
+                      onChange={(e) => setClientSearchQuery(e.target.value)}
+                      placeholder="🔍 ស្វែងរកតាមឈ្មោះ, អ៊ីមែល, លេខទូរស័ព្ទ..."
+                      className={`w-full pl-9 pr-8 py-2.5 rounded-xl border text-xs outline-none transition-all ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-white placeholder-slate-500 focus:border-blue-500' : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:border-blue-500'}`}
+                    />
+                    {clientSearchQuery && (
+                      <button
+                        onClick={() => setClientSearchQuery("")}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Filter Badges */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1 sm:pb-0 flex-nowrap text-xs">
+                    {[
+                      { key: 'all', label: 'ទាំងអស់' },
+                      { key: 'active', label: '🟢 កំពុងដំណើរការ' },
+                      { key: 'expiring', label: '⏳ ជិតផុតកំណត់ (≤ ៧ថ្ងៃ)' },
+                      { key: 'expired', label: '🔴 ផុតកំណត់' },
+                      { key: 'pending_slip', label: '🔔 រង់ចាំ Slip' }
+                    ].map((f) => (
+                      <button
+                        key={f.key}
+                        onClick={() => setClientStatusFilter(f.key as any)}
+                        className={`px-3 py-1.5 rounded-lg font-bold transition-all text-xs whitespace-nowrap cursor-pointer ${
+                          clientStatusFilter === f.key
+                            ? 'bg-blue-600 text-white shadow-xs'
+                            : (theme === 'dark' ? 'bg-[#18191A] text-slate-400 hover:text-white border border-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
+                        }`}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className={`rounded-2xl shadow-sm border overflow-hidden ${theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-white border-gray-100'}`}>
                   <div className="overflow-x-auto custom-scrollbar">
                     <table className="w-full text-left border-collapse min-w-[1000px]">
@@ -4641,12 +4715,37 @@ const handleOpenDuplicateModal = () => {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-200 dark:divide-slate-700 text-sm">
-                        {loadingClients ? (
-                            <tr><td colSpan={6} className="text-center py-10 text-gray-400">កំពុងទាញយកទិន្នន័យអតិថិជន...</td></tr>
-                          ) : clients.length === 0 ? (
-                            <tr><td colSpan={6} className="text-center py-10 text-gray-400">មិនទាន់មានទិន្នន័យអតិថិជននៅឡើយទេ។</td></tr>
-                          ) : (
-                            clients.map((item) => {
+                        {(() => {
+                          const displayedClients = clients.filter((c) => {
+                            if (clientSearchQuery.trim()) {
+                              const q = clientSearchQuery.toLowerCase();
+                              const nameMatch = (c.client_name || '').toLowerCase().includes(q);
+                              const emailMatch = (c.email || '').toLowerCase().includes(q);
+                              const phoneMatch = (c.phone || '').toLowerCase().includes(q);
+                              const pageMatch = (c.linked_fb_page || '').toLowerCase().includes(q);
+                              if (!nameMatch && !emailMatch && !phoneMatch && !pageMatch) return false;
+                            }
+                            const isExpired = new Date(c.expiry_date) < new Date();
+                            const today = new Date();
+                            const expiry = new Date(c.expiry_date);
+                            const diffDays = Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                            const isExpiringSoon = diffDays >= 0 && diffDays <= 7;
+
+                            if (clientStatusFilter === 'active') return !isExpired;
+                            if (clientStatusFilter === 'expiring') return isExpiringSoon;
+                            if (clientStatusFilter === 'expired') return isExpired;
+                            if (clientStatusFilter === 'pending_slip') return c.slip_status === 'pending';
+                            return true;
+                          });
+
+                          if (loadingClients) {
+                            return <tr><td colSpan={6} className="text-center py-10 text-gray-400">កំពុងទាញយកទិន្នន័យអតិថិជន...</td></tr>;
+                          }
+                          if (displayedClients.length === 0) {
+                            return <tr><td colSpan={6} className="text-center py-10 text-gray-400 italic">មិនមានទិន្នន័យអតិថិជនត្រូវនឹងការស្វែងរកនេះទេ។</td></tr>;
+                          }
+
+                          return displayedClients.map((item) => {
                               const isExpired = new Date(item.expiry_date) < new Date();
                               const isPendingSlip = item.slip_status === 'pending';
                               const isHighlighted = highlightedClientId === item.id;
@@ -4780,6 +4879,16 @@ const handleOpenDuplicateModal = () => {
                                   {/* 6. Actions */}
                                   <td className="py-4 px-4 text-center align-middle">
                                     <div className="flex items-center justify-center gap-1.5 flex-nowrap">
+                                      {isAdmin && (
+                                        <button
+                                          type="button"
+                                          onClick={() => handleQuickExtendClient(item, 30)}
+                                          title="បន្តសុពលភាព +៣០ ថ្ងៃភ្លាមៗ"
+                                          className="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer border border-emerald-200/50"
+                                        >
+                                          <span>⚡</span> <span>+30 ថ្ងៃ</span>
+                                        </button>
+                                      )}
                                       {item.slip_url && (
                                         <button type="button" onClick={() => handleOpenSlipModal(item)} className="px-2.5 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer border border-purple-200/50">
                                           <span>🧾</span> <span>Slip</span>
@@ -4795,8 +4904,8 @@ const handleOpenDuplicateModal = () => {
                                   </td>
                                 </tr>
                               );
-                            })
-                          )}
+                            });
+                          })()}
                       </tbody>
                     </table>
                   </div>
