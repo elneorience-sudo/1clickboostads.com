@@ -4136,21 +4136,32 @@ const handleOpenDuplicateModal = () => {
       )}
 
       {/* ========================================================= */}
-      {/* 🌟 Global Header (រចនាថ្មីសម្រាប់ Mobile App កុំឱ្យជាន់គ្នា) */}
+      {/* 🌟 Global Header (Glassmorphism & Live Radar Status) */}
       {/* ========================================================= */}
-      <header className={`${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'} shadow-sm p-3 flex flex-col md:flex-row md:items-center justify-between sticky top-0 z-50 border-b transition-colors duration-300 gap-3`}>
+      <header className={`sticky top-0 z-50 border-b px-4 py-3 flex flex-col md:flex-row md:items-center justify-between gap-3 transition-all duration-300 backdrop-blur-xl ${
+        theme === 'dark' 
+          ? 'bg-[#0D1117]/85 border-slate-800/80 text-white shadow-[0_4px_25px_rgba(0,0,0,0.45)]' 
+          : 'bg-white/80 border-slate-200/80 text-slate-900 shadow-[0_4px_20px_rgba(0,0,0,0.03)]'
+      }`}>
         
         {/* ជួរទី១ សម្រាប់ Mobile (Logo និងប៊ូតុង Connect Facebook) */}
         <div className="flex items-center justify-between w-full md:w-auto gap-3">
           {/* Logo និង ទឹកប្រាក់ជំពាក់សម្រាប់ Mobile */}
-          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-            <div className="w-10 h-10 bg-white rounded-[22.5%] overflow-hidden shadow-sm border border-slate-200 flex items-center justify-center shrink-0">
-              <img src="/logo.png" alt="1 Click Boost Logo" className="w-[85%] h-[85%] object-contain pointer-events-none" />
+          <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+            <div className="w-10 h-10 rounded-2xl p-1 bg-gradient-to-br from-blue-500/15 via-indigo-500/15 to-purple-500/15 border border-indigo-500/25 shadow-sm flex items-center justify-center shrink-0 overflow-hidden backdrop-blur-md">
+              <img src="/logo.png" alt="1 Click Boost Logo" className="w-[85%] h-[85%] object-contain pointer-events-none drop-shadow-xs" />
             </div>
-            <h1 className="text-sm sm:text-lg font-black text-blue-600 truncate">Ads Manager Pro</h1>
+            <div className="flex flex-col min-w-0">
+              <h1 className="text-sm sm:text-lg font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 truncate drop-shadow-xs">
+                Ads Manager Pro
+              </h1>
+              <span className="text-[9px] font-black uppercase tracking-widest text-indigo-500 dark:text-indigo-400 -mt-0.5 hidden sm:inline-block">
+                1Click Boost AI
+              </span>
+            </div>
 
             {/* ទឹកប្រាក់ជំពាក់សម្រាប់ Mobile App */}
-            <div className="flex lg:hidden items-center gap-1.5 px-2.5 py-1 rounded-xl border bg-white border-slate-200 text-slate-800 dark:bg-[#242526] dark:border-slate-700 dark:text-slate-200 shadow-xs shrink-0">
+            <div className="flex lg:hidden items-center gap-1.5 px-2.5 py-1 rounded-xl border backdrop-blur-md bg-white/70 dark:bg-[#161B22]/70 border-slate-200/80 dark:border-slate-800/80 text-slate-800 dark:text-slate-200 shadow-xs shrink-0">
               <span className="text-xs">💳</span>
               <div className="flex flex-col leading-none">
                 <span className="text-[11px] font-black text-red-500">${billingInfo.balance.toFixed(2)}</span>
@@ -4163,8 +4174,8 @@ const handleOpenDuplicateModal = () => {
           <div className="flex items-center gap-2">
             {isFbConnected ? (
               <div className="flex items-center gap-2">
-                {/* 🌟 ផ្នែកបង្ហាញរូប Profile ផ្ទាល់ខ្លួន និង Logo Page ធំច្បាស់ល្អ */}
-                <div className="px-3.5 py-2 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 font-bold rounded-2xl flex items-center gap-2.5 text-xs shadow-xs shrink-0">
+                {/* 🌟 ផ្នែកបង្ហាញរូប Profile ផ្ទាល់ខ្លួន និង Logo Page + Live Radar Neon Ring */}
+                <div className="px-3.5 py-1.5 backdrop-blur-md bg-emerald-500/10 dark:bg-emerald-950/40 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-bold rounded-2xl flex items-center gap-2.5 text-xs shadow-xs shrink-0 transition-all duration-300">
                   
                   <div className="flex items-center -space-x-3 overflow-hidden py-0.5">
                     {/* ១. រូប Profile ផ្ទាល់ខ្លួនរបស់ User */}
@@ -4172,7 +4183,7 @@ const handleOpenDuplicateModal = () => {
                       <img 
                         src={userProfilePic || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80"} 
                         alt="User Profile" 
-                        className="w-7 h-7 rounded-full object-cover border-2 border-white dark:border-[#242526] shadow-xs" 
+                        className="w-7 h-7 rounded-full object-cover border-2 border-white dark:border-[#0D1117] shadow-xs" 
                       />
                     </div>
 
@@ -4182,19 +4193,25 @@ const handleOpenDuplicateModal = () => {
                         <img 
                           src={selectedPageData.picture.data.url} 
                           alt="Facebook Page Profile" 
-                          className="w-8 h-8 rounded-full object-cover border-2 border-white dark:border-[#242526] shadow-sm" 
+                          className="w-8 h-8 rounded-full object-cover border-2 border-white dark:border-[#0D1117] shadow-sm" 
                         />
                       ) : (
-                        <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-[10px] border-2 border-white dark:border-[#242526]">f</div>
+                        <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-[10px] border-2 border-white dark:border-[#0D1117]">f</div>
                       )}
-                      <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white"></span>
+                      <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white dark:border-[#0D1117]"></span>
                     </div>
                   </div>
 
-                  {/* ឈ្មោះ Page */}
-                  <span className="hidden sm:inline font-bold text-[13px] truncate max-w-[150px] pl-1">
-                    {fbPageName || selectedPageData?.name || "Connected"}
-                  </span>
+                  {/* 🌟 Live Neon Radar Pulse Indicator & ឈ្មោះ Page */}
+                  <div className="flex items-center gap-2 pl-0.5">
+                    <span className="radar-pulse-ring w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10B981]"></span>
+                    <span className="hidden sm:inline font-bold text-[13px] truncate max-w-[150px]">
+                      {fbPageName || selectedPageData?.name || "Connected"}
+                    </span>
+                    <span className="hidden xl:inline-block px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                      LIVE
+                    </span>
+                  </div>
                 </div>
                 
                 {/* ប៊ូតុង Disconnect */}
@@ -4221,10 +4238,10 @@ const handleOpenDuplicateModal = () => {
                       window.location.reload();
                     }
                   }}
-                  className={`px-3 py-2 font-bold rounded-xl border text-xs transition shadow-sm shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3 py-2 font-bold rounded-xl border text-xs transition-all shadow-xs shrink-0 cursor-pointer flex items-center gap-1.5 backdrop-blur-md hover:-translate-y-0.5 active:translate-y-0 ${
                     theme === 'dark' 
-                      ? 'bg-red-950/40 border-red-900/50 text-red-400 hover:bg-red-900/40' 
-                      : 'bg-white border-red-200 text-red-600 hover:bg-red-50'
+                      ? 'bg-rose-950/40 border-rose-900/50 text-rose-400 hover:bg-rose-900/40' 
+                      : 'bg-white/80 border-rose-200 text-rose-600 hover:bg-rose-50'
                   }`}
                   title="ចាកចេញពីការតភ្ជាប់ Facebook"
                 >
@@ -4250,8 +4267,8 @@ const handleOpenDuplicateModal = () => {
         <div className="flex items-center w-full md:w-auto gap-2.5">
           
           {/* 🌟 ផ្នែកបង្ហាញទឹកប្រាក់ជំពាក់ Facebook សម្រាប់ Website / Desktop */}
-          <div className={`hidden lg:flex px-3.5 h-[44px] items-center gap-2.5 rounded-xl text-[12px] font-bold border shadow-sm transition-colors ${
-            theme === 'dark' ? 'bg-[#242526] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-800'
+          <div className={`hidden lg:flex px-3.5 h-[44px] items-center gap-2.5 rounded-xl text-[12px] font-bold border shadow-xs transition-all backdrop-blur-md ${
+            theme === 'dark' ? 'bg-[#161B22]/75 border-slate-800 text-slate-200 hover:border-slate-700' : 'bg-white/75 border-slate-200 text-slate-800 hover:border-slate-300'
           }`}>
             <span className="text-base">💳</span>
             <div className="flex flex-col leading-tight">
@@ -4271,12 +4288,12 @@ const handleOpenDuplicateModal = () => {
 
           {/* 🌟 ផ្នែក Badge ថ្ងៃផុតកំណត់ */}
           {clientExpiryDaysLeft !== null && (
-            <div className={`hidden lg:flex px-3.5 h-[44px] items-center gap-1.5 rounded-xl text-[12px] font-bold border shadow-sm transition-colors ${
+            <div className={`hidden lg:flex px-3.5 h-[44px] items-center gap-1.5 rounded-xl text-[12px] font-bold border shadow-xs transition-colors backdrop-blur-md ${
               clientExpiryDaysLeft < 0 
                 ? 'bg-red-500/10 border-red-500/30 text-red-500' 
                 : clientExpiryDaysLeft <= 3 
                 ? 'bg-amber-500/10 border-amber-500/30 text-amber-600 animate-pulse' 
-                : (theme === 'dark' ? 'bg-emerald-900/20 border-emerald-800 text-emerald-400' : 'bg-emerald-50 border-emerald-200 text-emerald-600')
+                : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400'
             }`}>
               <span className="text-sm">⏳</span>
               <span className="whitespace-nowrap">
@@ -4293,7 +4310,11 @@ const handleOpenDuplicateModal = () => {
           <div className="relative flex-1 md:flex-none">
             <div 
               onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-              className={`${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white hover:bg-[#3A3B3C]' : 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50'} border rounded-xl px-2.5 py-1.5 flex items-center justify-between cursor-pointer shadow-sm transition h-[44px] w-full md:w-[180px] lg:w-[220px]`}
+              className={`border rounded-xl px-3 py-1.5 flex items-center justify-between cursor-pointer shadow-xs transition-all h-[44px] w-full md:w-[180px] lg:w-[220px] backdrop-blur-md ${
+                theme === 'dark' 
+                  ? 'bg-[#161B22]/75 border-slate-800 text-white hover:border-indigo-500/50 hover:bg-[#1C2128]' 
+                  : 'bg-white/75 border-slate-200 text-slate-800 hover:border-indigo-400/50 hover:bg-slate-50'
+              }`}
             >
               <div className="flex flex-col truncate min-w-0">
                 <span className={`text-[12px] font-bold truncate leading-tight ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
@@ -4341,10 +4362,10 @@ const handleOpenDuplicateModal = () => {
           <div className="relative flex-1 md:flex-none">
             <div 
               onClick={() => setIsDateMenuOpen(!isDateMenuOpen)}
-              className={`border rounded-xl px-2.5 py-1.5 flex items-center justify-between cursor-pointer shadow-sm transition h-[44px] w-full md:w-[140px] select-none ${
+              className={`border rounded-xl px-3 py-1.5 flex items-center justify-between cursor-pointer shadow-xs transition-all h-[44px] w-full md:w-[140px] select-none backdrop-blur-md ${
                 theme === 'dark' 
-                  ? 'bg-[#242526] border-slate-700 text-white hover:bg-[#3A3B3C]' 
-                  : 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50'
+                  ? 'bg-[#161B22]/75 border-slate-800 text-white hover:border-indigo-500/50 hover:bg-[#1C2128]' 
+                  : 'bg-white/75 border-slate-200 text-slate-800 hover:border-indigo-400/50 hover:bg-slate-50'
               }`}
             >
               <div className="flex flex-col truncate min-w-0">
@@ -4394,7 +4415,11 @@ const handleOpenDuplicateModal = () => {
              <button 
                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} 
                title="ប្តូរទម្រង់ យប់/ថ្ងៃ"
-               className={`w-[44px] h-[44px] flex items-center justify-center rounded-xl text-lg shadow-sm transition border ${theme === 'dark' ? 'bg-[#242526] border-slate-700 hover:bg-[#3A3B3C]' : 'bg-white border-slate-300 hover:bg-slate-50'}`}
+               className={`w-[44px] h-[44px] flex items-center justify-center rounded-xl text-lg shadow-xs transition-all border backdrop-blur-md cursor-pointer hover:scale-105 active:scale-95 ${
+                 theme === 'dark' 
+                   ? 'bg-[#161B22]/75 border-slate-800 text-white hover:border-slate-700 hover:bg-[#1C2128]' 
+                   : 'bg-white/75 border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-50'
+               }`}
              >
                {theme === 'light' ? '🌙' : '☀️'}
              </button>
@@ -4403,7 +4428,11 @@ const handleOpenDuplicateModal = () => {
                 <button 
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} 
                   title="ប្តូរភាសា / Change Language"
-                  className={`w-[44px] h-[44px] flex items-center justify-center rounded-xl text-lg shadow-sm transition border ${theme === 'dark' ? 'bg-[#242526] border-slate-700 hover:bg-[#3A3B3C]' : 'bg-white border-slate-300 hover:bg-slate-50'}`}
+                  className={`w-[44px] h-[44px] flex items-center justify-center rounded-xl text-lg shadow-xs transition-all border backdrop-blur-md cursor-pointer hover:scale-105 active:scale-95 ${
+                    theme === 'dark' 
+                      ? 'bg-[#161B22]/75 border-slate-800 text-white hover:border-slate-700 hover:bg-[#1C2128]' 
+                      : 'bg-white/75 border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
                 >
                   🌐
                 </button>
