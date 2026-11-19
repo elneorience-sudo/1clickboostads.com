@@ -1,20 +1,12 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 // 🌟 បន្ទាត់នេះសំខាន់បំផុត៖ បិទការចងចាំ (Cache) របស់ Vercel ដាច់ខាត!
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ktffbvofphhstlnjgjjo.supabase.co';
-    const supabaseKey = 
-      process.env.SUPABASE_SERVICE_ROLE_KEY || 
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0ZmZidm9mcGhoc3RsbmpnampvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4ODk2NDY1MiwiZXhwIjoyMTA0NTQwNjUyfQ.Ju_mWgk_HfVvSchY0kbjE5yDyny5RcnBzNVZMbfFUNY';
-    
-    const supabaseAdmin = createClient(supabaseUrl, supabaseKey, {
-      auth: { persistSession: false }
-    });
+    // ប្រើប្រាស់ supabaseAdmin client ពី lib/supabase-admin
 
     // 🌟 ទាញយកទិន្នន័យថ្មីៗបំផុតពី Table facebook_accounts
     const { data, error } = await supabaseAdmin

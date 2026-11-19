@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: "1 Click Boost - Ads Manager Pro",
-  description: "Manage your Facebook ads easily with 1 Click Boost",
+  title: "1Click Boost Ads - Ads Manager Pro",
+  description: "Manage and optimize your advertising campaigns easily with 1Click Boost Ads",
   icons: {
     icon: "/logo.png",
   },
