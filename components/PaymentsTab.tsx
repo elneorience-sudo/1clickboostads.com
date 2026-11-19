@@ -208,15 +208,15 @@ export default function PaymentsTab({
                 type="button"
                 disabled={isVerifyingKHQR}
                 onClick={handleVerifyKHQRPayment}
-                className="w-full py-3.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-black rounded-xl text-xs transition shadow-lg shadow-red-500/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                className="btn-futuristic-rose btn-shimmer w-full py-3.5 rounded-xl text-xs font-black cursor-pointer shadow-lg disabled:opacity-60 flex items-center justify-center gap-2"
               >
-                {isVerifyingKHQR ? (
-                  <span>⏳ កំពុងផ្ទៀងផ្ទាត់ប្រព័ន្ធ...</span>
-                ) : (
-                  <>
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {isVerifyingKHQR ? (
+                    <span>⏳ កំពុងផ្ទៀងផ្ទាត់ប្រព័ន្ធ...</span>
+                  ) : (
                     <span>⚡ ខ្ញុំបានស្កេនរួចរាល់ (បញ្ជាក់ & Active ភ្លាមៗ)</span>
-                  </>
-                )}
+                  )}
+                </span>
               </button>
             </div>
           </div>
@@ -405,9 +405,12 @@ export default function PaymentsTab({
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition shadow-md cursor-pointer mt-2"
+                className="btn-futuristic btn-shimmer w-full py-3.5 rounded-xl font-black text-sm cursor-pointer shadow-md mt-2 flex items-center justify-center gap-2"
               >
-                📤 បញ្ជូន Slip ជូន Admin ពិនិត្យ
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  <span>📤</span>
+                  <span>បញ្ជូន Slip ជូន Admin ពិនិត្យ</span>
+                </span>
               </button>
             </form>
           </div>

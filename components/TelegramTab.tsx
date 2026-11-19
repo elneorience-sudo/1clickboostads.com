@@ -251,9 +251,11 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
               type="button"
               disabled={isSaving}
               onClick={handleSave}
-              className="px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer disabled:opacity-60 whitespace-nowrap"
+              className="btn-futuristic btn-shimmer px-6 py-3 text-white font-bold text-xs rounded-xl shadow-md cursor-pointer disabled:opacity-60 whitespace-nowrap"
             >
-              {isSaving ? "កំពុងរក្សាទុក..." : "💾 រក្សាទុក Chat ID"}
+              <span className="relative z-10">
+                {isSaving ? "កំពុងរក្សាទុក..." : "💾 រក្សាទុក Chat ID"}
+              </span>
             </button>
           </div>
         </div>
@@ -310,19 +312,22 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
             type="button"
             disabled={isTesting || !telegramChatId.trim()}
             onClick={handleTest}
-            className="px-6 py-3.5 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2 cursor-pointer disabled:opacity-50"
+            className="btn-futuristic btn-shimmer px-7 py-3.5 rounded-xl font-black text-xs cursor-pointer shadow-lg disabled:opacity-50 flex items-center gap-2"
           >
-            <span>📲</span>
-            <span>{isTesting ? "កំពុងផ្ញើសារតេស្ត..." : "សាកល្បងតេស្តផ្ញើសារ (Test Alert)"}</span>
+            <span className="relative z-10 flex items-center gap-2">
+              <span className="text-sm">📲</span>
+              <span>{isTesting ? "កំពុងផ្ញើសារតេស្ត..." : "សាកល្បងតេស្តផ្ញើសារ (Test Alert)"}</span>
+            </span>
           </button>
 
           {savedChatId && (
             <button
               type="button"
               onClick={handleDisconnect}
-              className="px-4 py-3 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/40 font-bold text-xs rounded-xl transition cursor-pointer"
+              className="btn-futuristic-rose px-5 py-3.5 rounded-xl font-bold text-xs cursor-pointer shadow-md flex items-center gap-1.5"
             >
-              ✕ ផ្ដាច់ការតភ្ជាប់
+              <span>❌</span>
+              <span>ផ្ដាច់ Telegram (Disconnect)</span>
             </button>
           )}
 

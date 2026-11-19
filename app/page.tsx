@@ -4235,9 +4235,12 @@ const handleOpenDuplicateModal = () => {
               <button 
                 type="button"
                 onClick={handleFacebookConnect}
-                className="px-3.5 py-2 bg-[#1877F2] text-white font-bold rounded-xl hover:bg-blue-600 transition flex items-center gap-1.5 text-xs shadow-sm shrink-0 cursor-pointer"
+                className="px-4 py-2.5 btn-futuristic btn-shimmer font-bold rounded-xl flex items-center gap-2 text-xs shrink-0 cursor-pointer"
               >
-                <span>🔄</span> <span className="hidden sm:inline">Connect Facebook</span>
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <span className="text-sm">🔄</span>
+                  <span className="hidden sm:inline">Connect Facebook</span>
+                </span>
               </button>
             )}
           </div>
@@ -4452,14 +4455,22 @@ const handleOpenDuplicateModal = () => {
             
             <button 
               onClick={() => handleTabChange("CREATE")}
-              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer ${activeTab === "CREATE" ? "bg-blue-600 text-white shadow-md" : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')}`}
+              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
+                activeTab === "CREATE" 
+                  ? "btn-futuristic shadow-lg shadow-indigo-500/30 scale-[1.02]" 
+                  : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+              }`}
             >
               <span className="text-lg leading-none">✍️</span> <span className="text-[13.5px]">{t.createCampaign}</span>
             </button>
 
             <button 
               onClick={() => handleTabChange("MANAGE")}
-              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer ${activeTab === "MANAGE" ? "bg-blue-600 text-white shadow-md" : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')}`}
+              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
+                activeTab === "MANAGE" 
+                  ? "btn-futuristic shadow-lg shadow-indigo-500/30 scale-[1.02]" 
+                  : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+              }`}
             >
               <span className="text-lg leading-none">📊</span> <span className="text-[13.5px]">{t.manageCampaign}</span>
             </button>
@@ -4470,7 +4481,11 @@ const handleOpenDuplicateModal = () => {
             
             <button 
               onClick={() => handleTabChange("AI")}
-              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer ${activeTab === "AI" ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md" : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')}`}
+              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
+                activeTab === "AI" 
+                  ? "bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 scale-[1.02]" 
+                  : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+              }`}
             >
               <span className="text-lg leading-none">✨</span> <span className="text-[13.5px]">{t.aiCopywriter}</span>
             </button>
@@ -4478,9 +4493,9 @@ const handleOpenDuplicateModal = () => {
             {isAdmin && (
               <button 
                 onClick={() => handleTabChange("SUBSCRIPTIONS")}
-                className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center justify-between cursor-pointer relative ${
+                className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center justify-between cursor-pointer hover:-translate-y-0.5 active:translate-y-0 relative ${
                   activeTab === "SUBSCRIPTIONS" 
-                    ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-md" 
+                    ? "bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-600 text-white shadow-lg shadow-emerald-500/30 scale-[1.02]" 
                     : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
                 }`}
               >
@@ -4510,9 +4525,9 @@ const handleOpenDuplicateModal = () => {
             {/* 🌟 Tab មជ្ឈមណ្ឌលជំនួយ & វីដេអូបង្រៀន (Help Center) */}
             <button 
               onClick={() => handleTabChange("HELP")}
-              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer ${
+              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
                 activeTab === "HELP" 
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md" 
+                  ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30 scale-[1.02]" 
                   : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
               }`}
             >
@@ -4522,9 +4537,9 @@ const handleOpenDuplicateModal = () => {
             {/* 🌟 Tab ភ្ជាប់ Telegram Bot */}
             <button 
               onClick={() => handleTabChange("TELEGRAM")}
-              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer ${
+              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
                 activeTab === "TELEGRAM" 
-                  ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md" 
+                  ? "bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white shadow-lg shadow-sky-500/30 scale-[1.02]" 
                   : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
               }`}
             >
@@ -4542,9 +4557,9 @@ const handleOpenDuplicateModal = () => {
             <div>
               <button
                 onClick={() => setShowSettingSubTabs(!showSettingSubTabs)}
-                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl font-bold transition-colors cursor-pointer ${
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl font-bold transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
                   activeTab === "PAYMENTS" || activeTab === "SETTINGS"
-                    ? 'bg-blue-600 text-white shadow-md' 
+                    ? 'btn-futuristic shadow-lg shadow-indigo-500/30' 
                     : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-700 hover:bg-slate-100')
                 }`}
               >
@@ -5036,20 +5051,22 @@ const handleOpenDuplicateModal = () => {
                                           type="button"
                                           onClick={() => handleQuickExtendClient(item, 30)}
                                           title="បន្តសុពលភាព +៣០ ថ្ងៃភ្លាមៗ"
-                                          className="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer border border-emerald-200/50"
+                                          className="btn-futuristic-emerald btn-shimmer px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md"
                                         >
-                                          <span>⚡</span> <span>+30 ថ្ងៃ</span>
+                                          <span className="relative z-10 flex items-center gap-1">
+                                            <span>⚡</span> <span>+30 ថ្ងៃ</span>
+                                          </span>
                                         </button>
                                       )}
                                       {item.slip_url && (
-                                        <button type="button" onClick={() => handleOpenSlipModal(item)} className="px-2.5 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer border border-purple-200/50">
+                                        <button type="button" onClick={() => handleOpenSlipModal(item)} className="btn-futuristic-indigo px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md">
                                           <span>🧾</span> <span>Slip</span>
                                         </button>
                                       )}
-                                      <button type="button" onClick={() => handleOpenEditClient(item)} className="px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer border border-blue-200/50">
+                                      <button type="button" onClick={() => handleOpenEditClient(item)} className="btn-futuristic px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md">
                                         <span>✏️</span> <span>កែប្រែ</span>
                                       </button>
-                                      <button type="button" onClick={() => handleDeleteClient(item.id)} className="px-2.5 py-1.5 bg-red-50 hover:bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer border border-red-200/50">
+                                      <button type="button" onClick={() => handleDeleteClient(item.id)} className="btn-futuristic-rose px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md">
                                         <span>🗑️</span> <span>លុប</span>
                                       </button>
                                     </div>
@@ -5661,20 +5678,24 @@ const handleOpenDuplicateModal = () => {
                           <button 
                             type="button"
                             onClick={(e) => { e.stopPropagation(); setPresetModalOpen('photo'); }}
-                            className="px-5 py-2 min-w-[120px] justify-center rounded-xl text-[13px] font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 transition-all shadow-md shadow-emerald-500/20 flex items-center gap-2 cursor-pointer transform hover:scale-[1.03] active:scale-95"
+                            className="px-5 py-2.5 min-w-[125px] justify-center rounded-xl text-[13px] font-bold btn-futuristic-emerald btn-shimmer flex items-center gap-2 cursor-pointer shadow-md"
                           >
-                            <span className="text-[15px] leading-none drop-shadow-sm">🖼️</span> 
-                            <span className="tracking-wide">រូបភាព</span>
+                            <span className="relative z-10 flex items-center gap-1.5">
+                              <span className="text-[15px] leading-none">🖼️</span> 
+                              <span className="tracking-wide">រូបភាព</span>
+                            </span>
                           </button>
 
                           {/* 🌟 ប៊ូតុង Boost វីដេអូ (ទំហំធំ) */}
                           <button 
                             type="button"
                             onClick={(e) => { e.stopPropagation(); setPresetModalOpen('video'); }}
-                            className="px-5 py-2 min-w-[120px] justify-center rounded-xl text-[13px] font-bold text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 transition-all shadow-md shadow-purple-500/20 flex items-center gap-2 cursor-pointer transform hover:scale-[1.03] active:scale-95"
+                            className="px-5 py-2.5 min-w-[125px] justify-center rounded-xl text-[13px] font-bold btn-futuristic-indigo btn-shimmer flex items-center gap-2 cursor-pointer shadow-md"
                           >
-                            <span className="text-[15px] leading-none drop-shadow-sm">🎬</span> 
-                            <span className="tracking-wide">វីដេអូ</span>
+                            <span className="relative z-10 flex items-center gap-1.5">
+                              <span className="text-[15px] leading-none">🎬</span> 
+                              <span className="tracking-wide">វីដេអូ</span>
+                            </span>
                           </button>
 
                           <button 
@@ -5999,10 +6020,12 @@ const handleOpenDuplicateModal = () => {
                           </div>
 
                           <div className="flex flex-wrap items-center gap-3 mb-2">
-                            <button type="button" onClick={() => { setPostSelectionContext('create'); setIsPostMenuOpen(true); }} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
-                              <span className="text-lg leading-none mb-0.5">📄</span> Select post
+                            <button type="button" onClick={() => { setPostSelectionContext('create'); setIsPostMenuOpen(true); }} className="flex-1 btn-futuristic btn-shimmer rounded-xl py-3 text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md">
+                              <span className="relative z-10 flex items-center gap-2">
+                                <span className="text-lg leading-none mb-0.5">📄</span> <span>ជ្រើសរើស Post (Select post)</span>
+                              </span>
                             </button>
-                            <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                            <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-3 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                               + Create post
                             </button>
                           </div>
@@ -6303,13 +6326,23 @@ const handleOpenDuplicateModal = () => {
                       <button 
                         type="submit" 
                         disabled={loading || !selectedPost || isBudgetError} 
-                        className={`px-10 py-3 rounded-xl font-bold text-[14px] transition shadow-md cursor-pointer ${
+                        className={`px-8 py-3.5 rounded-xl font-black text-[14px] transition-all cursor-pointer relative ${
                           loading || !selectedPost || isBudgetError 
-                            ? (theme === 'dark' ? 'bg-[#3A3B3C] text-slate-500 cursor-not-allowed' : 'bg-[#E4E6EB] text-[#BCC0C4] cursor-not-allowed') 
-                            : 'bg-[#1877F2] hover:bg-[#166FE5] text-white'
+                            ? (theme === 'dark' ? 'bg-[#3A3B3C] text-slate-500 cursor-not-allowed border border-slate-700' : 'bg-[#E4E6EB] text-[#BCC0C4] cursor-not-allowed border border-slate-300') 
+                            : 'btn-futuristic btn-shimmer active:scale-[0.98]'
                         }`}
                       >
-                        {loading ? "Publishing..." : "Publish"}
+                        {loading ? (
+                          <span className="relative z-10 flex items-center justify-center gap-2">
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            <span>កំពុងបោះពុម្ព...</span>
+                          </span>
+                        ) : (
+                          <span className="relative z-10 flex items-center justify-center gap-2">
+                            <span className="text-base">🚀</span>
+                            <span>Boost ឥឡូវនេះ (Publish)</span>
+                          </span>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -6668,18 +6701,20 @@ const handleOpenDuplicateModal = () => {
                 <div className={`flex flex-col gap-3 p-3 border-b sticky top-[64px] z-10 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'}`}>
                   
                   {/* ជួរទី១៖ ប៊ូតុងបញ្ជាសកម្មភាព (Create, Duplicate, Edit, Delete) */}
-                  <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full">
+                  <div className="grid grid-cols-2 sm:flex sm:items-center gap-2.5 w-full">
                     <button 
                       onClick={() => setActiveTab("CREATE")}
-                      className="bg-[#008060] hover:bg-[#006e52] text-white font-bold py-2 px-3 rounded-lg text-[13px] flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm border border-transparent"
+                      className="btn-futuristic-emerald btn-shimmer py-2.5 px-4 rounded-xl text-[13px] flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
                     >
-                      <span>+</span> Create
+                      <span className="relative z-10 flex items-center gap-1.5">
+                        <span className="text-base font-black">+</span> <span>Create</span>
+                      </span>
                     </button>
                     {/* 🌟 ប៊ូតុង Edit ធំខាងលើ (Smart Full Edit ៣ ក្នុង ១) */}
                     <button 
                       type="button"
                       onClick={() => handleOpenFullEditModal()}
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded-lg text-[13px] flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm border border-transparent"
+                      className="btn-futuristic py-2.5 px-4 rounded-xl text-[13px] flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
                     >
                       <span className="text-sm">✎</span> Edit
                     </button>
@@ -6687,7 +6722,7 @@ const handleOpenDuplicateModal = () => {
                     <button 
                       type="button"
                       onClick={() => handleDuplicate()}
-                      className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3.5 rounded-lg text-[13px] flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm border border-transparent"
+                      className="btn-futuristic-indigo py-2.5 px-4 rounded-xl text-[13px] flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
                     >
                       <span className="text-sm">📋</span> Duplicate
                     </button>
@@ -6695,7 +6730,7 @@ const handleOpenDuplicateModal = () => {
                     <button 
                       type="button"
                       onClick={() => handleDeleteSelectedAds()}
-                      className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3.5 rounded-lg text-[13px] flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm border border-transparent"
+                      className="btn-futuristic-rose py-2.5 px-4 rounded-xl text-[13px] flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
                     >
                       <span className="text-sm">🗑️</span> Delete
                     </button>
@@ -6712,7 +6747,7 @@ const handleOpenDuplicateModal = () => {
                         type="button"
                         onClick={handleManualRefresh} 
                         disabled={isRefreshing}
-                        className={`transition text-base p-1.5 rounded-lg cursor-pointer border shadow-xs flex items-center justify-center ${
+                        className={`transition-all text-base p-1.5 rounded-xl cursor-pointer border shadow-xs flex items-center justify-center hover:-translate-y-0.5 active:translate-y-0 ${
                           theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-white hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
                         }`} 
                         title="Refresh data"
@@ -6724,8 +6759,10 @@ const handleOpenDuplicateModal = () => {
                     {/* អា ៣ ហ្នឹងតម្រៀបជាជួរតែមួយ (រត់លើ Desktop ប៉ុណ្ណោះ លាក់លើ Mobile) */}
                     <div className="flex items-center gap-2">
                       <span className={`text-[12px] font-medium hidden md:inline ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>Updated just now</span>
-                      <button className={`font-semibold py-1.5 px-3 rounded-lg border text-xs transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] hover:bg-[#4E4F50] text-slate-200 border-slate-600' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'}`}>Discard drafts</button>
-                      <button className="bg-[#1877F2] hover:bg-[#0054BD] text-white font-bold py-1.5 px-3.5 rounded-lg text-xs transition cursor-pointer shadow-sm border border-transparent">Review & publish</button>
+                      <button className={`font-semibold py-2 px-3.5 rounded-xl border text-xs transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${theme === 'dark' ? 'bg-[#3A3B3C] hover:bg-[#4E4F50] text-slate-200 border-slate-600' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'}`}>Discard drafts</button>
+                      <button className="btn-futuristic btn-shimmer py-2 px-4 rounded-xl text-xs cursor-pointer shadow-md">
+                        <span className="relative z-10">Review & publish</span>
+                      </button>
                     </div>
                   </div>
 
@@ -6816,9 +6853,11 @@ const handleOpenDuplicateModal = () => {
                           setActiveManageTab('ADS'); 
                           localStorage.setItem('activeManageTab', 'ADS'); 
                         }}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold rounded-md text-[11px] shadow-sm animate-pulse cursor-pointer transition"
+                        className="btn-futuristic-indigo btn-shimmer inline-flex items-center gap-1 px-3 py-1 text-white font-bold rounded-lg text-[11px] shadow-sm cursor-pointer"
                       >
-                        <span>✨</span> <span>AI Audit</span>
+                        <span className="relative z-10 flex items-center gap-1">
+                          <span>✨</span> <span>AI Audit</span>
+                        </span>
                       </button>
                     </div>
 
@@ -8121,14 +8160,16 @@ const handleOpenDuplicateModal = () => {
                                           type="button"
                                           disabled={auditLoading || !canUseAiAudit}
                                           onClick={(e) => { e.stopPropagation(); handleAiAudit(ad); }}
-                                          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition flex items-center gap-1.5 shadow-sm shrink-0 ${
+                                          className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all flex items-center gap-1.5 shadow-sm shrink-0 ${
                                             !canUseAiAudit 
                                               ? 'bg-gray-300 text-gray-500 cursor-not-allowed dark:bg-slate-700 dark:text-slate-400' 
-                                              : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 cursor-pointer'
+                                              : 'btn-futuristic-indigo btn-shimmer cursor-pointer shadow-indigo-500/25'
                                           }`}
                                           title={!canUseAiAudit ? "អាចប្រើបានម្ដងទៀតនៅថ្ងៃស្អែក" : "វិភាគជាមួយ AI"}
                                         >
-                                          <span>✨</span> <span>{!canUseAiAudit ? "AI Audit (រួចរាល់)" : "AI Audit"}</span>
+                                          <span className="relative z-10 flex items-center gap-1">
+                                            <span>✨</span> <span>{!canUseAiAudit ? "AI Audit (រួចរាល់)" : "AI Audit"}</span>
+                                          </span>
                                         </button>
                                       </div>
                                     )}
@@ -8858,9 +8899,11 @@ const handleOpenDuplicateModal = () => {
                    setPreviewUrl("");
                    alert("✅ បានរក្សាទុក (Save) Post ជា Draft ក្នុងតារាងរួចរាល់! សូមបន្តរៀបចំការ Boost រួចចុច Publish នៅខាងក្រោមបង្អស់។");
                 }}
-                className="w-full py-2.5 rounded-lg bg-[#1877F2] text-white text-[15px] font-bold hover:bg-blue-600 transition shadow-sm disabled:opacity-50 disabled:bg-[#E4E6EB] disabled:text-[#BCC0C4]"
+                className="btn-futuristic btn-shimmer w-full py-3 rounded-xl text-[15px] font-bold cursor-pointer shadow-md disabled:opacity-50 disabled:bg-[#E4E6EB] disabled:text-[#BCC0C4]"
               >
-                Save Post
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  <span>💾</span> <span>Save Post</span>
+                </span>
               </button>
             </div>
 
@@ -8925,9 +8968,11 @@ const handleOpenDuplicateModal = () => {
                       }
                     }, 300);
                   }}
-                  className="w-full py-3 rounded-xl bg-[#1877F2] hover:bg-blue-600 text-white font-bold text-[15px] transition shadow-md cursor-pointer"
+                  className="btn-futuristic btn-shimmer w-full py-3.5 rounded-xl font-black text-[15px] cursor-pointer shadow-lg shadow-indigo-500/30"
                 >
-                  OK
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <span>🚀</span> <span>យល់ព្រម (OK)</span>
+                  </span>
                 </button>
               </>
             )}
@@ -9283,9 +9328,9 @@ const handleOpenDuplicateModal = () => {
                 </button>
                 <button 
                   type="submit" 
-                  className="flex-1 py-3 rounded-xl font-bold text-xs text-white bg-blue-600 hover:bg-blue-700 shadow-md transition cursor-pointer"
+                  className="flex-1 py-3 rounded-xl font-bold text-xs btn-futuristic btn-shimmer shadow-md cursor-pointer"
                 >
-                  ✓ រក្សាទុកការកែប្រែ
+                  <span className="relative z-10">✓ រក្សាទុកការកែប្រែ</span>
                 </button>
               </div>
             </form>
@@ -9309,12 +9354,12 @@ const handleOpenDuplicateModal = () => {
          >
             <div className={`px-4 py-1 rounded-[20px] flex items-center justify-center transition-all duration-300 ${
                activeTab === "CREATE" 
-                  ? 'bg-blue-600 text-white shadow-[0_4px_12px_rgba(37,99,235,0.4)] scale-105' 
+                  ? 'btn-futuristic shadow-[0_4px_16px_rgba(79,70,229,0.5)] scale-105' 
                   : 'hover:bg-slate-500/10'
             }`}>
                <span className="text-[18px] leading-none">📝</span>
             </div>
-            <span className={`text-[10px] tracking-tight font-bold ${activeTab === "CREATE" ? (theme === 'dark' ? 'text-white' : 'text-blue-600') : 'opacity-70'}`}>បង្កើត</span>
+            <span className={`text-[10px] tracking-tight font-bold ${activeTab === "CREATE" ? (theme === 'dark' ? 'text-white' : 'text-indigo-600') : 'opacity-70'}`}>បង្កើត</span>
          </button>
 
          {/* Tab 2: Manage */}
@@ -9325,12 +9370,12 @@ const handleOpenDuplicateModal = () => {
          >
             <div className={`px-4 py-1 rounded-[20px] flex items-center justify-center transition-all duration-300 ${
                activeTab === "MANAGE" 
-                  ? 'bg-blue-600 text-white shadow-[0_4px_12px_rgba(37,99,235,0.4)] scale-105' 
+                  ? 'btn-futuristic shadow-[0_4px_16px_rgba(79,70,229,0.5)] scale-105' 
                   : 'hover:bg-slate-500/10'
             }`}>
                <span className="text-[18px] leading-none">📊</span>
             </div>
-            <span className={`text-[10px] tracking-tight font-bold ${activeTab === "MANAGE" ? (theme === 'dark' ? 'text-white' : 'text-blue-600') : 'opacity-70'}`}>គ្រប់គ្រង</span>
+            <span className={`text-[10px] tracking-tight font-bold ${activeTab === "MANAGE" ? (theme === 'dark' ? 'text-white' : 'text-indigo-600') : 'opacity-70'}`}>គ្រប់គ្រង</span>
          </button>
 
          {/* Tab 3: AI Copy */}
@@ -10597,12 +10642,17 @@ const handleOpenDuplicateModal = () => {
                 type="button" 
                 disabled={isExecutingAdDuplicate}
                 onClick={executeAdvancedCampaignDuplicate} 
-                className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md transition cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                className="btn-futuristic btn-shimmer px-6 py-2.5 rounded-xl text-xs font-bold shadow-md cursor-pointer flex items-center gap-2 disabled:opacity-50"
               >
                 {isExecutingAdDuplicate ? (
-                  <><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div><span>កំពុងដំណើរការ...</span></>
+                  <span className="relative z-10 flex items-center gap-2">
+                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>កំពុងដំណើរការ...</span>
+                  </span>
                 ) : (
-                  <span>✓ យល់ព្រម Duplicate (OK)</span>
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    <span>✓</span> <span>យល់ព្រម Duplicate (OK)</span>
+                  </span>
                 )}
               </button>
             </div>
@@ -10700,9 +10750,11 @@ const handleOpenDuplicateModal = () => {
                         setPostSelectionContext('duplicate');
                         setIsPostMenuOpen(true);
                       }}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition cursor-pointer shadow-sm flex items-center gap-1.5"
+                      className="btn-futuristic btn-shimmer px-4 py-2 font-bold rounded-xl text-xs cursor-pointer shadow-md flex items-center gap-1.5"
                     >
-                      <span>📄</span> ជ្រើសរើស Post ថ្មី
+                      <span className="relative z-10 flex items-center gap-1.5">
+                        <span>📄</span> <span>ជ្រើសរើស Post ថ្មី</span>
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -10719,7 +10771,7 @@ const handleOpenDuplicateModal = () => {
               <button 
                 type="button" 
                 onClick={() => setIsSingleAdDuplicateModalOpen(false)} 
-                className={`px-5 py-2.5 rounded-xl font-bold text-xs border transition cursor-pointer ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}
+                className={`px-5 py-2.5 rounded-xl font-bold text-xs border transition cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${theme === 'dark' ? 'bg-[#3A3B3C] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}
               >
                 បោះបង់
               </button>
@@ -10727,12 +10779,17 @@ const handleOpenDuplicateModal = () => {
                 type="button" 
                 disabled={isExecutingAdDuplicate}
                 onClick={executeAdDuplicateWithPost} 
-                className="px-7 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition shadow-md cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                className="btn-futuristic btn-shimmer px-7 py-2.5 font-bold rounded-xl text-xs cursor-pointer shadow-md flex items-center gap-2 disabled:opacity-50"
               >
                 {isExecutingAdDuplicate ? (
-                  <><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div><span>កំពុង Duplicate...</span></>
+                  <span className="relative z-10 flex items-center gap-2">
+                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>កំពុង Duplicate...</span>
+                  </span>
                 ) : (
-                  <span>✓ បញ្ជាក់ការ Duplicate Ads</span>
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    <span>✓</span> <span>បញ្ជាក់ការ Duplicate Ads</span>
+                  </span>
                 )}
               </button>
             </div>
