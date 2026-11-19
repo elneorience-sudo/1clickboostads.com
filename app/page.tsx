@@ -1673,6 +1673,7 @@ export default function Home() {
       // 🤖 ឆែករក Ad Account ដែលជាប់បញ្ហាហិរញ្ញវត្ថុ/គាំងលុយ និងផ្ញើ Alert តាម Telegram (ជូន Client & Admin)
       const clientChatId = typeof window !== 'undefined' ? localStorage.getItem('client_telegram_chat_id') : null;
       const allowBilling = typeof window !== 'undefined' ? (localStorage.getItem('client_alert_billing') !== 'false') : true;
+      const activeBotToken = typeof window !== 'undefined' ? (localStorage.getItem('system_telegram_bot_token') || undefined) : undefined;
 
       data.accounts.forEach((acc: any) => {
         if ((acc.account_status === 2 || acc.account_status === 3) && !alertedAccountsRef.current.has(acc.account_id)) {
@@ -1688,7 +1689,7 @@ export default function Home() {
             fetch('/api/telegram', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ action: 'payment_failed', chatId: clientChatId, payload: alertPayload })
+              body: JSON.stringify({ action: 'payment_failed', chatId: clientChatId, botToken: activeBotToken, payload: alertPayload })
             }).catch(() => {});
           }
 
@@ -1696,7 +1697,7 @@ export default function Home() {
           fetch('/api/telegram', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'payment_failed', payload: alertPayload })
+            body: JSON.stringify({ action: 'payment_failed', botToken: activeBotToken, payload: alertPayload })
           }).catch(() => {});
         }
       });
@@ -1956,6 +1957,7 @@ export default function Home() {
         // 🤖 បើនៅសល់ត្រឹមតែ ៣ ថ្ងៃ ឬតិចជាង ផ្ញើសាររំលឹកតាម Telegram ផ្ទាល់ខ្លួនរបស់ Client
         const clientChatId = localStorage.getItem('client_telegram_chat_id');
         const allowExpiry = localStorage.getItem('client_alert_expiry') !== 'false';
+        const activeBotToken = localStorage.getItem('system_telegram_bot_token') || undefined;
         const todayDateStr = new Date().toISOString().slice(0, 10);
         const lastAlertedDate = localStorage.getItem('last_expiry_telegram_alert');
 
@@ -1967,6 +1969,7 @@ export default function Home() {
             body: JSON.stringify({
               action: 'expiry_warning',
               chatId: clientChatId,
+              botToken: activeBotToken,
               payload: {
                 clientName: user.email?.split('@')[0] || 'អតិថិជន',
                 daysLeft: diffDays,
@@ -3718,6 +3721,7 @@ const fetchAds = async () => {
       // 🤖 ឆែករក Ad ដែលត្រូវ Facebook បដិសេធ (Disapproved) និងផ្ញើ Alert តាម Telegram (ជូន Client & Admin)
       const clientChatId = typeof window !== 'undefined' ? localStorage.getItem('client_telegram_chat_id') : null;
       const allowDisapproved = typeof window !== 'undefined' ? (localStorage.getItem('client_alert_disapproved') !== 'false') : true;
+      const activeBotToken = typeof window !== 'undefined' ? (localStorage.getItem('system_telegram_bot_token') || undefined) : undefined;
 
       fetchedAds.forEach((ad: any) => {
         const isDisapproved = ad.effective_status === 'DISAPPROVED' || ad.status === 'DISAPPROVED' || (ad.issues_info && ad.issues_info.length > 0);
@@ -3735,7 +3739,7 @@ const fetchAds = async () => {
             fetch('/api/telegram', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ action: 'ad_disapproved', chatId: clientChatId, payload: alertPayload })
+              body: JSON.stringify({ action: 'ad_disapproved', chatId: clientChatId, botToken: activeBotToken, payload: alertPayload })
             }).catch(() => {});
           }
 
@@ -3743,7 +3747,7 @@ const fetchAds = async () => {
           fetch('/api/telegram', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'ad_disapproved', payload: alertPayload })
+            body: JSON.stringify({ action: 'ad_disapproved', botToken: activeBotToken, payload: alertPayload })
           }).catch(() => {});
         }
       });
