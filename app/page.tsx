@@ -7,6 +7,7 @@ import AICopywriterTab from "@/components/AICopywriterTab";
 import SettingsTab from "@/components/SettingsTab";
 import PaymentsTab from "@/components/PaymentsTab";
 import HelpCenterTab from "@/components/HelpCenterTab";
+import TelegramTab from "@/components/TelegramTab";
 
 
 const translations = {
@@ -4514,6 +4515,18 @@ const handleOpenDuplicateModal = () => {
               <span className="text-lg leading-none">🎓</span> <span className="text-[13.5px]">ជំនួយ & វីដេអូបង្រៀន</span>
             </button>
 
+            {/* 🌟 Tab ភ្ជាប់ Telegram Bot */}
+            <button 
+              onClick={() => handleTabChange("TELEGRAM")}
+              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer ${
+                activeTab === "TELEGRAM" 
+                  ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md" 
+                  : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+              }`}
+            >
+              <span className="text-lg leading-none">🤖</span> <span className="text-[13.5px]">ភ្ជាប់ Telegram Bot</span>
+            </button>
+
             {/* លុប Tab Payment ចាស់ពីទីនេះរួចរាល់ហើយ */}
 
          </div>
@@ -4556,7 +4569,19 @@ const handleOpenDuplicateModal = () => {
                     <span className="text-base leading-none">💳</span> ការទូទាត់ payment
                   </button>
 
-                  {/* ទី២៖ Change Password */}
+                  {/* ទី២៖ ភ្ជាប់ Telegram */}
+                  <button
+                    onClick={() => handleTabChange("TELEGRAM")}
+                    className={`w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-bold transition-colors cursor-pointer flex items-center gap-2 ${
+                      activeTab === "TELEGRAM"
+                        ? 'bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-400'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#3A3B3C]'
+                    }`}
+                  >
+                    <span className="text-base leading-none">🤖</span> ភ្ជាប់ Telegram Bot
+                  </button>
+
+                  {/* ទី៣៖ Change Password */}
                   <button
                     onClick={() => handleTabChange("SETTINGS")}
                     className={`w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-bold transition-colors cursor-pointer flex items-center gap-2 ${
@@ -4619,6 +4644,13 @@ const handleOpenDuplicateModal = () => {
             {/* ========================================================= */}
             {activeTab === "HELP" && (
               <HelpCenterTab theme={theme} />
+            )}
+
+            {/* ========================================================= */}
+            {/* 🌟 ផ្ទាំងភ្ជាប់ Telegram Bot ទទួលការជូនដំណឹង (Telegram Tab) */}
+            {/* ========================================================= */}
+            {activeTab === "TELEGRAM" && (
+              <TelegramTab theme={theme} showToast={showToast} />
             )}
 
             {/* ពេលចុចលើ tab ការទូទាត់ payment */}
@@ -9394,6 +9426,19 @@ const handleOpenDuplicateModal = () => {
                         }`}
                      >
                         <span className="text-lg leading-none">🎓</span> <span className="flex-1">ជំនួយ & វីដេអូបង្រៀន</span>
+                     </button>
+
+                     {/* 🌟 ៥. ភ្ជាប់ Telegram Bot */}
+                     <button
+                        type="button"
+                        onClick={() => { handleTabChange("TELEGRAM"); setIsMobileSettingsOpen(false); }}
+                        className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-[13.5px] font-bold transition-all text-left ${
+                           activeTab === 'TELEGRAM' 
+                              ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md' 
+                              : (theme === 'dark' ? 'bg-[#242526] text-slate-200 hover:bg-[#3A3B3C] border border-slate-700' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200')
+                        }`}
+                     >
+                        <span className="text-lg leading-none">🤖</span> <span className="flex-1">ភ្ជាប់ Telegram Bot</span>
                      </button>
 
                      <div className={`my-0.5 border-t ${theme === 'dark' ? 'border-slate-800' : 'border-slate-100'}`}></div>
