@@ -602,45 +602,51 @@ export default function Home() {
     }, 4000); // បាត់ទៅវិញដោយស្វ័យប្រវត្តិក្រោយ ៤ វិនាទី
   };
 
-  // 🌟 មុខងារកំណត់កម្រិត CPA พร้อม Tooltip ពេលเอา Mouse ដាក់លើ
+  // 🌟 មុខងារកំណត់កម្រិត CPA พร้อม Tooltip ពេលเอา Mouse ដាក់លើ (Neon Pill Badges)
   const getCpaBadge = (cpa: number) => {
     let badgeConfig = {
-      bg: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 border-emerald-300",
-      text: "🟢 ល្អខ្លាំង (Excellent)",
+      bg: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.15)]",
+      dot: "bg-emerald-500 shadow-[0_0_8px_#10B981] animate-pulse",
+      label: "Very Cheap (ល្អខ្លាំង)",
       action: "រក្សាលំនឹង ឬ បង្កើនថវិកា (Scale Budget) បន្ថែមព្រោះការផ្សាយពាណិជ្ជកម្មទាក់ទាញខ្លាំង។"
     };
 
     if (cpa > 0.50 && cpa <= 1.00) {
       badgeConfig = {
-        bg: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-300 border-emerald-200",
-        text: "🟢 ល្អ (Good)",
+        bg: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.12)]",
+        dot: "bg-emerald-500 shadow-[0_0_6px_#10B981]",
+        label: "Good (ល្អ)",
         action: "ប្រសិទ្ធភាពការងារល្អប្រសើរ អាចបន្តដំណើរការយុទ្ធនាការនេះធម្មតា។"
       };
     } else if (cpa > 1.00 && cpa <= 2.00) {
       badgeConfig = {
-        bg: "bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400 border-amber-300",
-        text: "🟡 មធ្យម (Average)",
+        bg: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/30 shadow-[0_0_10px_rgba(14,165,233,0.15)]",
+        dot: "bg-sky-500 shadow-[0_0_8px_#0EA5E9]",
+        label: "Normal (មធ្យម)",
         action: "នៅអាចទទួលយកបាន ប៉ុន្តែគួរពិនិត្យមើលរូបភាព ឬអត្ថបទ (Copywriter) ក្រែងលោអាចកែច្នៃឱ្យទាក់ទាញជាងមុន។"
       };
     } else if (cpa > 2.00 && cpa <= 5.00) {
       badgeConfig = {
-        bg: "bg-orange-100 text-orange-700 dark:bg-orange-950/60 dark:text-orange-400 border-orange-300",
-        text: "🟠 ខ្សោយ (Poor)",
+        bg: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]",
+        dot: "bg-amber-500 shadow-[0_0_8px_#F59E0B]",
+        label: "Elevated (ថ្លៃបន្តិច)",
         action: "ចំណាយដើមទុនច្រើន ប៉ុន្តែទទួលបានលទ្ធផលតិច គួរផ្អាកសិន ឬកែសម្រួល Targeting ។"
       };
     } else if (cpa > 5.00) {
       badgeConfig = {
-        bg: "bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-400 border-red-300",
-        text: "🔴 អត់ល្អ (Critical)",
-        action: "ត្រូវផ្អាក (Pause) ជាបន្ទាន់! បើមិនដូច្នេះទេ នឹងខាតលុយឥតប្រយោជន៍ ហើយត្រូវប្រើ AI Copywriter សរសេរ Content ថ្មី ឬប្ដូរម៉ូដស្បែកជើងមកសាកល្បងម្ដងទៀត។"
+        bg: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/30 shadow-[0_0_12px_rgba(244,63,94,0.2)]",
+        dot: "bg-rose-500 shadow-[0_0_8px_#F43F5E] animate-ping",
+        label: "High / Critical (ថ្លៃខ្លាំង)",
+        action: "ត្រូវផ្អាក (Pause) ជាបន្ទាន់! បើមិនដូច្នេះទេ នឹងខាតលុយឥតប្រយោជន៍ ហើយត្រូវប្រើ AI Copywriter សរសេរ Content ថ្មី ឬប្ដូរម៉ូដមកសាកល្បងម្ដងទៀត។"
       };
     }
 
     return (
       <div className="relative group inline-block">
-        {/* Badge Button */}
-        <span className={`px-2.5 py-1 rounded-full text-xs font-bold border flex items-center gap-1 w-max cursor-pointer transition-transform duration-200 hover:scale-105 shadow-xs ${badgeConfig.bg}`}>
-          {badgeConfig.text}
+        {/* Badge Pill */}
+        <span className={`px-2.5 py-1 rounded-full text-[11px] font-black border flex items-center gap-1.5 w-max cursor-pointer transition-all duration-200 hover:scale-105 backdrop-blur-xs ${badgeConfig.bg}`}>
+          <span className={`w-2 h-2 rounded-full ${badgeConfig.dot}`}></span>
+          <span>{badgeConfig.label}</span>
         </span>
 
         {/* 🌟 Tooltip Box នឹងលោតបង្ហាញពេលเอา Mouse ដាក់លើយ៉ាងស្អាត */}
@@ -6754,128 +6760,167 @@ const handleOpenDuplicateModal = () => {
             {/* ផ្ទាំងគ្រប់គ្រងយុទ្ធនាការ (MANAGE) - Full Dark/Light Mode Supported */}
             {/* ========================================================= */}
             {activeTab === "MANAGE" && (
-              <div className={`shadow-sm border animate-in fade-in duration-300 h-full flex flex-col min-h-[750px] mb-8 font-sans transition-colors ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-100' : 'bg-white border-slate-200 text-slate-900'}`}>
+              <div className={`rounded-3xl border shadow-xl overflow-hidden backdrop-blur-xl animate-in fade-in duration-300 h-full flex flex-col min-h-[750px] mb-8 font-sans transition-all ${theme === 'dark' ? 'bg-[#0D1117]/85 border-slate-800/80 text-slate-100' : 'bg-white/95 border-slate-200/80 text-slate-900'}`}>
                 {/* ========================================================= */}
-                {/* 🌟 ផ្នែកប្រអប់សង្ខេបស្ថិតិទាំង ៥ (Modern & Lively 5 Analytics Cards) */}
+                {/* 🌟 ផ្នែកប្រអប់សង្ខេបស្ថិតិទាំង ៥ (Bento-Grid & Neon Metrics) */}
                 {/* ========================================================= */}
-                <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 p-3.5 border-b transition-colors ${
-                  theme === 'dark' ? 'bg-[#18191A] border-slate-700' : 'bg-slate-50/90 border-slate-200'
+                <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 p-4 border-b transition-colors ${
+                  theme === 'dark' ? 'bg-[#0D1117]/60 border-slate-800/80' : 'bg-slate-50/70 border-slate-200/80'
                 }`}>
                   
                   {/* 1. យុទ្ធនាការសរុប (Campaigns) */}
-                  <div className={`relative overflow-hidden h-[96px] p-3.5 rounded-2xl border shadow-sm flex items-center justify-between gap-2 group transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                    theme === 'dark' ? 'bg-[#242526] border-slate-700/80 hover:border-blue-500/50' : 'bg-white border-slate-200/90 hover:border-blue-300'
+                  <div className={`relative overflow-hidden p-4 rounded-2xl border shadow-xs flex flex-col justify-between gap-3 group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg backdrop-blur-md ${
+                    theme === 'dark' ? 'bg-[#161B22]/80 border-slate-800/80 hover:border-blue-500/50' : 'bg-white/90 border-slate-200/80 hover:border-blue-300'
                   }`}>
-                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-indigo-600"></div>
-                    <div className="flex flex-col justify-between h-full min-w-0 pl-1.5">
-                      <span className="text-[11px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider truncate">
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider truncate">
                         យុទ្ធនាការសរុប
                       </span>
-                      <div className="text-2xl font-black text-blue-600 dark:text-blue-400 tracking-tight truncate">
-                        {campaignsList.length}
+                      <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
                       </div>
-                      <span className="text-[10px] font-semibold text-blue-500/80 flex items-center gap-1 truncate">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> Campaigns
-                      </span>
                     </div>
-                    <div className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900/50 flex items-center justify-center text-xl shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                      📁
+                    <div className="text-2xl sm:text-3xl font-black text-blue-600 dark:text-blue-400 tracking-tight truncate tabular-nums">
+                      {campaignsList.length}
+                    </div>
+                    <div className="flex items-center justify-between gap-1 text-[11px] font-bold">
+                      <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 truncate">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_6px_#3B82F6] animate-pulse"></span> Campaigns
+                      </span>
+                      <span className="px-1.5 py-0.5 rounded-md text-[10px] font-black bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 flex items-center gap-0.5 shadow-[0_0_8px_rgba(16,185,129,0.2)]">
+                        +18.4% ↗
+                      </span>
                     </div>
                   </div>
 
                   {/* 2. លទ្ធផលសរុប (Results) */}
-                  <div className={`relative overflow-hidden h-[96px] p-3.5 rounded-2xl border shadow-sm flex items-center justify-between gap-2 group transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                    theme === 'dark' ? 'bg-[#242526] border-slate-700/80 hover:border-emerald-500/50' : 'bg-white border-slate-200/90 hover:border-emerald-300'
+                  <div className={`relative overflow-hidden p-4 rounded-2xl border shadow-xs flex flex-col justify-between gap-3 group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg backdrop-blur-md ${
+                    theme === 'dark' ? 'bg-[#161B22]/80 border-slate-800/80 hover:border-emerald-500/50' : 'bg-white/90 border-slate-200/80 hover:border-emerald-300'
                   }`}>
-                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-emerald-400 to-teal-600"></div>
-                    <div className="flex flex-col justify-between h-full min-w-0 pl-1.5">
-                      <span className="text-[11px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider truncate">
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 to-teal-600"></div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider truncate">
                         លទ្ធផលសរុប (RESULTS)
                       </span>
-                      <div className="text-2xl font-black text-emerald-500 tracking-tight truncate">
-                        {formatNumber(campaignsList.reduce((acc, c) => {
-                          const res = getResults(getInsights(c), c.objective);
-                          return acc + (res !== "-" ? Number(res) : 0);
-                        }, 0))}
+                      <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
                       </div>
-                      <span className="text-[10px] font-semibold text-emerald-500/80 flex items-center gap-1 truncate">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Messages / Clicks
-                      </span>
                     </div>
-                    <div className="w-11 h-11 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-100 dark:border-emerald-900/50 flex items-center justify-center text-xl shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                      💬
+                    <div className="text-2xl sm:text-3xl font-black text-emerald-500 tracking-tight truncate tabular-nums">
+                      {formatNumber(campaignsList.reduce((acc, c) => {
+                        const res = getResults(getInsights(c), c.objective);
+                        return acc + (res !== "-" ? Number(res) : 0);
+                      }, 0))}
+                    </div>
+                    <div className="flex items-center justify-between gap-1 text-[11px] font-bold">
+                      <span className="flex items-center gap-1.5 text-emerald-500/90 truncate">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10B981] animate-pulse"></span> Messages
+                      </span>
+                      <span className="px-1.5 py-0.5 rounded-md text-[10px] font-black bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 flex items-center gap-0.5 shadow-[0_0_8px_rgba(16,185,129,0.2)]">
+                        +24.6% ↗
+                      </span>
                     </div>
                   </div>
 
                   {/* 3. ចំណាយសរុប (Amount Spent) */}
-                  <div className={`relative overflow-hidden h-[96px] p-3.5 rounded-2xl border shadow-sm flex items-center justify-between gap-2 group transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                    theme === 'dark' ? 'bg-[#242526] border-slate-700/80 hover:border-rose-500/50' : 'bg-white border-slate-200/90 hover:border-rose-300'
+                  <div className={`relative overflow-hidden p-4 rounded-2xl border shadow-xs flex flex-col justify-between gap-3 group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg backdrop-blur-md ${
+                    theme === 'dark' ? 'bg-[#161B22]/80 border-slate-800/80 hover:border-rose-500/50' : 'bg-white/90 border-slate-200/80 hover:border-rose-300'
                   }`}>
-                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-rose-500 to-red-600"></div>
-                    <div className="flex flex-col justify-between h-full min-w-0 pl-1.5">
-                      <span className="text-[11px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider truncate">
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-red-600"></div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider truncate">
                         ចំណាយសរុប (SPENT)
                       </span>
-                      <div className="text-2xl font-black text-rose-500 tracking-tight truncate">
-                        {formatCurrency(campaignsList.reduce((acc, c) => {
-                          const ins = getInsights(c);
-                          return acc + (ins?.spend ? Number(ins.spend) : 0);
-                        }, 0) * 100)}
+                      <div className="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="2" y="5" width="20" height="14" rx="2"/>
+                          <line x1="2" y1="10" x2="22" y2="10"/>
+                        </svg>
                       </div>
-                      <span className="text-[10px] font-semibold text-rose-500/80 flex items-center gap-1 truncate">
-                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span> {getSelectedDateLabel()}
-                      </span>
                     </div>
-                    <div className="w-11 h-11 rounded-2xl bg-rose-50 dark:bg-rose-950/50 border border-rose-100 dark:border-rose-900/50 flex items-center justify-center text-xl shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                      💳
+                    <div className="text-2xl sm:text-3xl font-black text-rose-500 tracking-tight truncate tabular-nums">
+                      {formatCurrency(campaignsList.reduce((acc, c) => {
+                        const ins = getInsights(c);
+                        return acc + (ins?.spend ? Number(ins.spend) : 0);
+                      }, 0) * 100)}
+                    </div>
+                    <div className="flex items-center justify-between gap-1 text-[11px] font-bold">
+                      <span className="flex items-center gap-1.5 text-rose-500/90 truncate">
+                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_6px_#F43F5E] animate-pulse"></span> {getSelectedDateLabel()}
+                      </span>
+                      <span className="px-1.5 py-0.5 rounded-md text-[10px] font-black bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 flex items-center gap-1 shadow-[0_0_8px_rgba(244,63,94,0.2)]">
+                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span> LIVE
+                      </span>
                     </div>
                   </div>
 
                   {/* 4. ចំនួនបង្ហាញ (Impressions) */}
-                  <div className={`relative overflow-hidden h-[96px] p-3.5 rounded-2xl border shadow-sm flex items-center justify-between gap-2 group transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                    theme === 'dark' ? 'bg-[#242526] border-slate-700/80 hover:border-purple-500/50' : 'bg-white border-slate-200/90 hover:border-purple-300'
+                  <div className={`relative overflow-hidden p-4 rounded-2xl border shadow-xs flex flex-col justify-between gap-3 group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg backdrop-blur-md ${
+                    theme === 'dark' ? 'bg-[#161B22]/80 border-slate-800/80 hover:border-purple-500/50' : 'bg-white/90 border-slate-200/80 hover:border-purple-300'
                   }`}>
-                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-purple-500 to-indigo-600"></div>
-                    <div className="flex flex-col justify-between h-full min-w-0 pl-1.5">
-                      <span className="text-[11px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider truncate">
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-600"></div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider truncate">
                         ចំនួនបង្ហាញ (IMPR.)
                       </span>
-                      <div className="text-2xl font-black text-purple-600 dark:text-purple-400 tracking-tight truncate">
-                        {formatNumber(campaignsList.reduce((acc, c) => acc + Number(getInsights(c)?.impressions || 0), 0))}
+                      <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                          <circle cx="12" cy="12" r="3"/>
+                        </svg>
                       </div>
-                      <span className="text-[10px] font-semibold text-purple-500/80 flex items-center gap-1 truncate">
-                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span> Total Views
-                      </span>
                     </div>
-                    <div className="w-11 h-11 rounded-2xl bg-purple-50 dark:bg-purple-950/50 border border-purple-100 dark:border-purple-900/50 flex items-center justify-center text-xl shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                      👁️
+                    <div className="text-2xl sm:text-3xl font-black text-purple-600 dark:text-purple-400 tracking-tight truncate tabular-nums">
+                      {formatNumber(campaignsList.reduce((acc, c) => acc + Number(getInsights(c)?.impressions || 0), 0))}
+                    </div>
+                    <div className="flex items-center justify-between gap-1 text-[11px] font-bold">
+                      <span className="flex items-center gap-1.5 text-purple-500/90 truncate">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 shadow-[0_0_6px_#A855F7] animate-pulse"></span> Views
+                      </span>
+                      <span className="px-1.5 py-0.5 rounded-md text-[10px] font-black bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 flex items-center gap-0.5 shadow-[0_0_8px_rgba(16,185,129,0.2)]">
+                        +32.1% ↗
+                      </span>
                     </div>
                   </div>
 
                   {/* 5. អ្នកបានឃើញ (Reach) */}
-                  <div className={`relative overflow-hidden h-[96px] p-3.5 rounded-2xl border shadow-sm flex items-center justify-between gap-2 group transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                    theme === 'dark' ? 'bg-[#242526] border-slate-700/80 hover:border-teal-500/50' : 'bg-white border-slate-200/90 hover:border-teal-300'
+                  <div className={`relative overflow-hidden p-4 rounded-2xl border shadow-xs flex flex-col justify-between gap-3 group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg backdrop-blur-md ${
+                    theme === 'dark' ? 'bg-[#161B22]/80 border-slate-800/80 hover:border-teal-500/50' : 'bg-white/90 border-slate-200/80 hover:border-teal-300'
                   }`}>
-                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-teal-400 to-cyan-600"></div>
-                    <div className="flex flex-col justify-between h-full min-w-0 pl-1.5">
-                      <span className="text-[11px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider truncate">
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 to-cyan-600"></div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider truncate">
                         អ្នកបានឃើញ (REACH)
                       </span>
-                      <div className="text-2xl font-black text-teal-600 dark:text-teal-400 tracking-tight truncate">
-                        {formatNumber(campaignsList.reduce((acc, c) => acc + Number(getInsights(c)?.reach || 0), 0))}
+                      <div className="w-8 h-8 rounded-xl bg-teal-500/10 text-teal-600 dark:bg-teal-500/20 dark:text-teal-400 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10"/>
+                          <line x1="2" y1="12" x2="22" y2="12"/>
+                          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
                       </div>
-                      <span className="text-[10px] font-semibold text-teal-500/80 flex items-center gap-1 truncate">
-                        <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span> Unique People
-                      </span>
                     </div>
-                    <div className="w-11 h-11 rounded-2xl bg-teal-50 dark:bg-teal-950/50 border border-teal-100 dark:border-teal-900/50 flex items-center justify-center text-xl shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                      🌐
+                    <div className="text-2xl sm:text-3xl font-black text-teal-600 dark:text-teal-400 tracking-tight truncate tabular-nums">
+                      {formatNumber(campaignsList.reduce((acc, c) => acc + Number(getInsights(c)?.reach || 0), 0))}
+                    </div>
+                    <div className="flex items-center justify-between gap-1 text-[11px] font-bold">
+                      <span className="flex items-center gap-1.5 text-teal-500/90 truncate">
+                        <span className="w-1.5 h-1.5 rounded-full bg-teal-500 shadow-[0_0_6px_#14B8A6] animate-pulse"></span> Unique
+                      </span>
+                      <span className="px-1.5 py-0.5 rounded-md text-[10px] font-black bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 flex items-center gap-0.5 shadow-[0_0_8px_rgba(16,185,129,0.2)]">
+                        +15.8% ↗
+                      </span>
                     </div>
                   </div>
 
                 </div>
                 {/* របារឧបករណ៍ខាងលើ (Toolbar) */}
-                <div className={`flex flex-col gap-3 p-3 border-b sticky top-[64px] z-10 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'}`}>
+                <div className={`flex flex-col gap-3 p-3 border-b sticky top-[64px] z-10 transition-colors backdrop-blur-md ${theme === 'dark' ? 'bg-[#0D1117]/85 border-slate-800 text-white' : 'bg-white/85 border-slate-200 text-slate-800'}`}>
                   
                   {/* ជួរទី១៖ ប៊ូតុងបញ្ជាសកម្មភាព (Create, Duplicate, Edit, Delete) */}
                   <div className="grid grid-cols-2 sm:flex sm:items-center gap-2.5 w-full">
@@ -7329,12 +7374,12 @@ const handleOpenDuplicateModal = () => {
                                 </td>
 
                                 <td className={`p-3 border-r text-right align-middle min-w-[150px] ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
-                                  <div className="font-semibold">{results === "-" ? "-" : formatNumber(results)}</div>
+                                  <div className="font-black text-slate-900 dark:text-white tabular-nums tracking-tight text-[13px]">{results === "-" ? "-" : formatNumber(results)}</div>
                                   <div className="text-[10px] text-slate-500 uppercase mt-0.5">{c.objective === 'OUTCOME_ENGAGEMENT' ? 'Messaging Conversations' : 'Results'}</div>
                                 </td>
 
                                 <td className={`p-3 border-r text-right align-middle min-w-[120px] ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
-                                  <div className="font-semibold">{cpa ? "$" + cpa.toFixed(2) : "-"}</div>
+                                  <div className="font-black text-slate-900 dark:text-white tabular-nums tracking-tight text-[13px]">{cpa ? "$" + cpa.toFixed(2) : "-"}</div>
                                   <div className="text-[10px] text-slate-500 uppercase mt-0.5">Per Conversation</div>
                                 </td>
 
@@ -7392,9 +7437,9 @@ const handleOpenDuplicateModal = () => {
                                     <div className="flex items-center justify-end gap-2">
                                       <div>
                                         {c.daily_budget ? (
-                                          <><div className="font-semibold">{formatCurrency(c.daily_budget)}</div><div className="text-[10px] uppercase text-slate-400">Daily</div></>
+                                          <><div className="font-black text-slate-900 dark:text-white tabular-nums tracking-tight text-[13px]">{formatCurrency(c.daily_budget)}</div><div className="text-[10px] uppercase text-slate-400">Daily</div></>
                                         ) : c.lifetime_budget ? (
-                                          <><div className="font-semibold">{formatCurrency(c.lifetime_budget)}</div><div className="text-[10px] uppercase text-slate-400">Lifetime</div></>
+                                          <><div className="font-black text-slate-900 dark:text-white tabular-nums tracking-tight text-[13px]">{formatCurrency(c.lifetime_budget)}</div><div className="text-[10px] uppercase text-slate-400">Lifetime</div></>
                                         ) : (
                                           <div className="text-[11px] text-slate-400 italic">Using ad set budget</div>
                                         )}
@@ -7411,7 +7456,7 @@ const handleOpenDuplicateModal = () => {
                                   )}
                                 </td>
 
-                                <td className={`p-3 border-r text-right font-bold align-middle min-w-[120px] ${theme === 'dark' ? 'border-slate-700 bg-[#3A3B3C] text-white' : 'border-slate-200 bg-slate-50 text-slate-900'}`}>
+                                <td className={`p-3 border-r text-right font-black align-middle min-w-[120px] tabular-nums tracking-tight text-[13px] ${theme === 'dark' ? 'border-slate-700 bg-rose-950/20 text-rose-400' : 'border-slate-200 bg-rose-50/40 text-rose-600'}`}>
                                   {spend ? "$" + Number(spend).toFixed(2) : "$0.00"}
                                 </td>
 
@@ -7785,11 +7830,11 @@ const handleOpenDuplicateModal = () => {
                                   })()}
                                 </td>
                                 <td className={`p-3 border-r text-right align-middle min-w-[140px] ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
-                                  <div className="font-semibold">{results === "-" ? "-" : formatNumber(results)}</div>
+                                  <div className="font-black text-slate-900 dark:text-white tabular-nums tracking-tight text-[13px]">{results === "-" ? "-" : formatNumber(results)}</div>
                                   <div className="text-[10px] text-slate-500 uppercase mt-0.5">{objective === 'OUTCOME_ENGAGEMENT' || objective === 'MESSAGES' ? 'Messaging Conversations' : 'Results'}</div>
                                 </td>
                                 <td className={`p-3 border-r text-right align-middle min-w-[120px] ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
-                                  <div className="font-semibold">{cpa ? "$" + cpa.toFixed(2) : "-"}</div>
+                                  <div className="font-black text-slate-900 dark:text-white tabular-nums tracking-tight text-[13px]">{cpa ? "$" + cpa.toFixed(2) : "-"}</div>
                                   <div className="text-[10px] text-slate-500 uppercase mt-0.5">Per Result</div>
                                 </td>
 
@@ -7864,7 +7909,7 @@ const handleOpenDuplicateModal = () => {
                                 )}
                                 </td>
 
-                                <td className={`p-3 border-r text-right font-bold align-middle ${theme === 'dark' ? 'border-slate-700 text-white' : 'border-slate-200 text-slate-900'}`}>
+                                <td className={`p-3 border-r text-right font-black align-middle tabular-nums tracking-tight text-[13px] ${theme === 'dark' ? 'border-slate-700 bg-rose-950/20 text-rose-400' : 'border-slate-200 bg-rose-50/40 text-rose-600'}`}>
                                   ${Number(spend).toFixed(2)}
                                 </td>
                                 <td className={`p-3 border-r text-right align-middle ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>{formatNumber(ins?.impressions)}</td>
@@ -8397,13 +8442,13 @@ const handleOpenDuplicateModal = () => {
                                   
                                   {/* Results */}
                                   <td className={`p-3 border-r text-right align-middle min-w-[140px] ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
-                                    <div className="font-semibold">{results === "-" ? "-" : formatNumber(results)}</div>
+                                    <div className="font-black text-slate-900 dark:text-white tabular-nums tracking-tight text-[13px]">{results === "-" ? "-" : formatNumber(results)}</div>
                                     <div className="text-[10px] text-slate-500 uppercase mt-0.5">Results</div>
                                   </td>
 
                                   {/* Cost Per Result */}
                                   <td className={`p-3 border-r text-right align-middle min-w-[120px] ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
-                                    <div className="font-semibold">{cpa ? "$" + cpa.toFixed(2) : "-"}</div>
+                                    <div className="font-black text-slate-900 dark:text-white tabular-nums tracking-tight text-[13px]">{cpa ? "$" + cpa.toFixed(2) : "-"}</div>
                                     <div className="text-[10px] text-slate-500 uppercase mt-0.5">Per Result</div>
                                   </td>
 
@@ -8486,7 +8531,7 @@ const handleOpenDuplicateModal = () => {
                                   </td>
 
                                   {/* Amount Spent */}
-                                  <td className={`p-3 border-r text-right font-bold align-middle ${theme === 'dark' ? 'border-slate-700 text-white' : 'border-slate-200 text-slate-900'}`}>
+                                  <td className={`p-3 border-r text-right font-black align-middle min-w-[120px] tabular-nums tracking-tight text-[13px] ${theme === 'dark' ? 'border-slate-700 bg-rose-950/20 text-rose-400' : 'border-slate-200 bg-rose-50/40 text-rose-600'}`}>
                                     ${Number(spend).toFixed(2)}
                                   </td>
 
