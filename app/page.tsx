@@ -2281,6 +2281,13 @@ export default function Home() {
     setAiMediaPreview("");
   };
 
+  const resetAiChat = () => {
+    setAiResults([]);
+    setAiInput("");
+    setAiMedia(null);
+    setAiMediaPreview("");
+  };
+
   // 🌟 មុខងារ Submit Enter Post ID ថ្មី (ទាញយកទិន្នន័យមកបង្ហាញ Preview ភ្លាមៗ)
   const handleEnterPostIdSubmit = async () => {
     if (!manualPostId.trim()) return;
