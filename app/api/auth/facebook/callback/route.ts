@@ -61,8 +61,8 @@ export async function GET(request: Request) {
 
     // 5. តភ្ជាប់ Supabase Admin Client
     const supabaseAdmin = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ktffbvofphhstlnjgjjo.supabase.co',
+      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0ZmZidm9mcGhoc3RsbmpnampvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4ODk2NDY1MiwiZXhwIjoyMTA0NTQwNjUyfQ.Ju_mWgk_HfVvSchY0kbjE5yDyny5RcnBzNVZMbfFUNY',
       { auth: { persistSession: false } }
     );
 

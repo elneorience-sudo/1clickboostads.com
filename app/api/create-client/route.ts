@@ -10,8 +10,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: "សូមបញ្ចូល Email និង Password ឱ្យបានត្រឹមត្រូវ!" }, { status: 400 });
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ktffbvofphhstlnjgjjo.supabase.co';
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0ZmZidm9mcGhoc3RsbmpnampvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4ODk2NDY1MiwiZXhwIjoyMTA0NTQwNjUyfQ.Ju_mWgk_HfVvSchY0kbjE5yDyny5RcnBzNVZMbfFUNY';
     
     if (!supabaseServiceKey) {
       return NextResponse.json({ success: false, error: "Missing SUPABASE_SERVICE_ROLE_KEY in environment variables!" }, { status: 500 });
