@@ -13,12 +13,14 @@ interface TelegramOptions {
   chatId?: string;
 }
 
+const DEFAULT_BOT_TOKEN = "9236028615:AAFdHtVck66228YhbaCHtFVR7ZAqh2wG4Ts";
+
 export async function sendTelegramMessage(
   text: string, 
   options?: TelegramOptions & { parseMode?: 'HTML' | 'Markdown' }
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const token = options?.botToken || process.env.TELEGRAM_BOT_TOKEN;
+    const token = options?.botToken || process.env.TELEGRAM_BOT_TOKEN || DEFAULT_BOT_TOKEN;
     const chatId = options?.chatId || process.env.TELEGRAM_CHAT_ID;
 
     if (!token || !chatId) {

@@ -10,14 +10,16 @@ interface TelegramTabProps {
 export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
   const [telegramChatId, setTelegramChatId] = useState("");
   const [savedChatId, setSavedChatId] = useState<string | null>(null);
-  const [botToken, setBotToken] = useState("");
-  const [savedBotToken, setSavedBotToken] = useState<string | null>(null);
   const [alertDisapproved, setAlertDisapproved] = useState(true);
   const [alertBilling, setAlertBilling] = useState(true);
   const [alertExpiry, setAlertExpiry] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
   const [statusMsg, setStatusMsg] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+
+  // Advanced: Custom bot token
+  const [showAdvancedBot, setShowAdvancedBot] = useState(false);
+  const [customBotToken, setCustomBotToken] = useState("");
 
   useEffect(() => {
     const localId = localStorage.getItem('client_telegram_chat_id');
@@ -28,8 +30,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
 
     const localToken = localStorage.getItem('system_telegram_bot_token');
     if (localToken) {
-      setBotToken(localToken);
-      setSavedBotToken(localToken);
+      setCustomBotToken(localToken);
     }
 
     const prefDis = localStorage.getItem('client_alert_disapproved');
@@ -42,22 +43,38 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
     if (prefExp !== null) setAlertExpiry(prefExp === 'true');
   }, []);
 
+  const validateChatId = (id: string) => {
+    const clean = id.trim();
+    if (clean === "9236028615" || clean.startsWith("9236028615")) {
+      return "⚠️ លេខ 9236028615 គឺជាលេខរបស់ Bot (@oneclickboostads_bot) មិនមែនជា Chat ID ផ្ទាល់ខ្លួនរបស់បងទេ។ សូមចុចបើក @userinfobot ដើម្បីយក Chat ID ផ្ទាល់ខ្លួនរបស់បង!";
+    }
+    if (clean.includes(":")) {
+      return "⚠️ លេខដែលបងបានដាក់គឺជា Bot Token (មានសញ្ញា :) មិនមែនជា Chat ID ទេ។ សូមចុចបើក @userinfobot ដើម្បីយក Chat ID ផ្ទាល់ខ្លួនរបស់បង!";
+    }
+    return null;
+  };
+
   const handleSave = () => {
     if (!telegramChatId.trim()) {
-      alert("⚠️ សូមបញ្ចូលលេខ Telegram Chat ID របស់អ្នក!");
+      alert("⚠️ សូមបញ្ចូលលេខ Telegram Chat ID ផ្ទាល់ខ្លួនរបស់អ្នក!");
+      return;
+    }
+
+    const valError = validateChatId(telegramChatId);
+    if (valError) {
+      setStatusMsg({ text: valError, type: 'error' });
+      alert(valError);
       return;
     }
 
     const cleanId = telegramChatId.trim();
-    const cleanToken = botToken.trim();
     setIsSaving(true);
     setStatusMsg(null);
 
     try {
       localStorage.setItem('client_telegram_chat_id', cleanId);
-      if (cleanToken) {
-        localStorage.setItem('system_telegram_bot_token', cleanToken);
-        setSavedBotToken(cleanToken);
+      if (customBotToken.trim()) {
+        localStorage.setItem('system_telegram_bot_token', customBotToken.trim());
       }
       localStorage.setItem('client_alert_disapproved', String(alertDisapproved));
       localStorage.setItem('client_alert_billing', String(alertBilling));
@@ -65,7 +82,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
 
       setSavedChatId(cleanId);
       setStatusMsg({
-        text: "✅ បានរក្សាទុកការកំណត់ Telegram ដោយជោគជ័យ! សូមចុចប៊ូតុង 'តេស្តផ្ញើសារ' ខាងក្រោមដើម្បីបញ្ជាក់ការតភ្ជាប់។",
+        text: "✅ បានរក្សាទុក Chat ID ជោគជ័យ! សូមចុចប៊ូតុង 'តេស្តផ្ញើសារ' ខាងក្រោមដើម្បីបញ្ជាក់ការតភ្ជាប់។",
         type: 'success'
       });
       if (showToast) showToast("✅ បានរក្សាទុក Telegram Chat ID!", "success");
@@ -83,12 +100,10 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
       return;
     }
 
-    const activeToken = botToken.trim() || savedBotToken;
-    if (!activeToken) {
-      setStatusMsg({
-        text: "⚠️ ខ្វះ Telegram Bot Token! សូមបង្កើត Bot មួយតាមរយៈ @BotFather រួច Copy លេខ Token មកបិទភ្ជាប់ (Paste) ក្នុងប្រអប់ 'Bot Token' ខាងក្រោម។",
-        type: 'error'
-      });
+    const valError = validateChatId(targetId);
+    if (valError) {
+      setStatusMsg({ text: valError, type: 'error' });
+      alert(valError);
       return;
     }
 
@@ -102,7 +117,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
         body: JSON.stringify({
           action: 'test',
           chatId: targetId,
-          botToken: activeToken
+          botToken: customBotToken.trim() || undefined
         })
       });
       const data = await res.json();
@@ -114,7 +129,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
         if (showToast) showToast("🎉 បានផ្ញើសារតេស្តទៅ Telegram!", "success");
       } else {
         setStatusMsg({
-          text: `⚠️ មិនអាចផ្ញើសារបាន: ${data.error || "សូមប្រាកដថាអ្នកបានចុច Start លើ Bot របស់អ្នកក្នុង Telegram ជាមុនសិន"}`,
+          text: `⚠️ មិនអាចផ្ញើសារបាន: ${data.error || "សូមប្រាកដថាអ្នកបានចុច Start លើ Bot @oneclickboostads_bot ក្នុង Telegram ជាមុនសិន"}`,
           type: 'error'
         });
       }
@@ -148,7 +163,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
               ភ្ជាប់ Telegram Bot ទទួលការជូនដំណឹងផ្ទាល់ខ្លួន
             </h1>
             <p className={`text-xs sm:text-sm mt-1 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
-              ប្រព័ន្ធនឹងផ្ញើសារ Alert ស្វ័យប្រវត្តិចូល Telegram របស់អ្នកភ្លាមៗ ពេល Facebook Ad ត្រូវបដិសេធ ឬគាំងលុយ
+              Bot ផ្លូវការ: <strong className="text-sky-600 dark:text-sky-400">@oneclickboostads_bot</strong> (1Click Boost Ads Bot)
             </p>
           </div>
         </div>
@@ -165,48 +180,51 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
         )}
       </div>
 
-      {/* Guide Box (របៀបយក Chat ID & Bot Token) */}
+      {/* Guide Box (ជំហានងាយៗ ២ ជំហាន) */}
       <div className={`p-5 rounded-2xl border mb-6 text-xs leading-relaxed space-y-3 ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-slate-300' : 'bg-gradient-to-r from-sky-50 to-blue-50 border-sky-200 text-slate-800'}`}>
         <h3 className="font-bold text-sm text-sky-800 dark:text-sky-400 flex items-center gap-2">
-          <span>💡</span> <span>របៀបភ្ជាប់ Telegram ងាយៗ ២ ជំហាន៖</span>
+          <span>💡</span> <span>ជំហានងាយៗ ២ ជំហាន ដើម្បីទទួលបានសារ Alert លើទូរស័ព្ទ៖</span>
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-          {/* ជំហានទី ១: យក Chat ID */}
-          <div className="p-3 bg-white/80 dark:bg-[#242526] rounded-xl border border-sky-200 dark:border-slate-700 space-y-1.5">
-            <h4 className="font-bold text-sky-600 dark:text-sky-400">១. យក Telegram Chat ID:</h4>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300">
-              ចុចចូលទៅកាន់ Bot នេះ រួចចុច <strong>Start</strong>៖
+          {/* ជំហានទី ១: ចុច Start លើ Bot */}
+          <div className="p-4 bg-white/90 dark:bg-[#242526] rounded-xl border border-sky-300 dark:border-slate-700 space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-xs">1</span>
+              <h4 className="font-bold text-sky-600 dark:text-sky-400">បើក Bot & ចុច Start (សំខាន់):</h4>
+            </div>
+            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+              Telegram តម្រូវឱ្យបងចុច <strong>Start</strong> លើ Bot ជាមុនសិន ទើប Bot អាចផ្ញើសារមករកបងបាន៖
+            </p>
+            <a
+              href="https://t.me/oneclickboostads_bot"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-xl font-bold text-xs hover:from-sky-600 hover:to-blue-700 shadow-sm transition"
+            >
+              <span>👉 បើក @oneclickboostads_bot រួចចុច Start ↗</span>
+            </a>
+          </div>
+
+          {/* ជំហានទី ២: យក Chat ID ផ្ទាល់ខ្លួន */}
+          <div className="p-4 bg-white/90 dark:bg-[#242526] rounded-xl border border-sky-300 dark:border-slate-700 space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs">2</span>
+              <h4 className="font-bold text-blue-600 dark:text-blue-400">យក Chat ID ផ្ទាល់ខ្លួនរបស់បង:</h4>
+            </div>
+            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+              ចុចបើក Bot នេះ រួចចុច Start វានឹងប្រាប់លេខសម្គាល់គណនី Telegram ផ្ទាល់ខ្លួនរបស់បង៖
             </p>
             <a
               href="https://t.me/userinfobot"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-2.5 py-1 bg-sky-600 text-white rounded-lg font-bold text-[11px] hover:bg-sky-700 transition"
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-slate-800 text-white rounded-xl font-bold text-xs hover:bg-slate-900 shadow-sm transition"
             >
-              <span>👉 បើក @userinfobot ↗</span>
+              <span>👉 បើក @userinfobot រកមើល Chat ID ↗</span>
             </a>
-            <p className="text-[11px] text-slate-500">
-              ចម្លងលេខត្រង់ពាក្យ <code>Id: 123456789</code> មកដាក់ក្នុងប្រអប់ Chat ID។
-            </p>
-          </div>
-
-          {/* ជំហានទី ២: យក Bot Token */}
-          <div className="p-3 bg-white/80 dark:bg-[#242526] rounded-xl border border-sky-200 dark:border-slate-700 space-y-1.5">
-            <h4 className="font-bold text-amber-600 dark:text-amber-400">២. បង្កើត Bot Token (១ នាទី):</h4>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300">
-              ចូលទៅកាន់ BotFather ផ្លូវការរបស់ Telegram៖
-            </p>
-            <a
-              href="https://t.me/BotFather"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-600 text-white rounded-lg font-bold text-[11px] hover:bg-amber-700 transition"
-            >
-              <span>👉 បើក @BotFather ↗</span>
-            </a>
-            <p className="text-[11px] text-slate-500">
-              ផ្ញើពាក្យ <code>/newbot</code> រួចចម្លង <strong>HTTP API Token</strong> មក Paste ក្នុងប្រអប់ខាងក្រោម។ <strong>បន្ទាប់មកចុច Start លើ Bot នោះក្នុង Telegram!</strong>
+            <p className="text-[10px] text-slate-500">
+              * ចម្លងលេខត្រង់ពាក្យ <code>Id: XXXXXXXXX</code> (លេខសុទ្ធ) មកដាក់ក្នុងប្រអប់ខាងក្រោម។
             </p>
           </div>
         </div>
@@ -217,48 +235,27 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
         {/* Chat ID Input */}
         <div>
           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">
-            ១. Telegram Chat ID របស់អ្នក (លេខសម្គាល់គណនី)
+            Telegram Chat ID ផ្ទាល់ខ្លួនរបស់អ្នក (លេខដែលបានពី @userinfobot)
           </label>
-          <input
-            type="text"
-            value={telegramChatId}
-            onChange={(e) => setTelegramChatId(e.target.value)}
-            placeholder="ឧ. 9236028615 (លេខសុទ្ធ)"
-            className={`w-full px-4 py-3 border-2 rounded-xl text-sm outline-none focus:border-sky-500 font-mono font-bold transition-all ${
-              theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-white placeholder-slate-500' : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
-            }`}
-          />
-        </div>
-
-        {/* Bot Token Input */}
-        <div>
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">
-            ២. Telegram Bot Token (API Token ពី @BotFather)
-          </label>
-          <input
-            type="text"
-            value={botToken}
-            onChange={(e) => setBotToken(e.target.value)}
-            placeholder="ឧ. 7123456789:AAHxxxxxxxxxxxxxxxxxxxxxxx"
-            className={`w-full px-4 py-3 border-2 rounded-xl text-sm outline-none focus:border-sky-500 font-mono font-bold transition-all ${
-              theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-white placeholder-slate-500' : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
-            }`}
-          />
-          <p className="text-[11px] text-slate-400 mt-1">
-            * ដាក់ Token តែម្ដងប៉ុណ្ណោះ ប្រព័ន្ធនឹងចងចាំជានិច្ចសម្រាប់ផ្ញើសារ Alert ជូនអ្នក។
-          </p>
-        </div>
-
-        {/* Save Button */}
-        <div>
-          <button
-            type="button"
-            disabled={isSaving}
-            onClick={handleSave}
-            className="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer disabled:opacity-60"
-          >
-            {isSaving ? "កំពុងរក្សាទុក..." : "💾 រក្សាទុកព័ត៌មាន Telegram"}
-          </button>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              value={telegramChatId}
+              onChange={(e) => setTelegramChatId(e.target.value)}
+              placeholder="ឧ. 748123456 (លេខសម្គាល់ផ្ទាល់ខ្លួន)"
+              className={`flex-1 px-4 py-3 border-2 rounded-xl text-sm outline-none focus:border-sky-500 font-mono font-bold transition-all ${
+                theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-white placeholder-slate-500' : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'
+              }`}
+            />
+            <button
+              type="button"
+              disabled={isSaving}
+              onClick={handleSave}
+              className="px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer disabled:opacity-60 whitespace-nowrap"
+            >
+              {isSaving ? "កំពុងរក្សាទុក..." : "💾 រក្សាទុក Chat ID"}
+            </button>
+          </div>
         </div>
 
         {/* Alert Preferences */}
@@ -313,7 +310,7 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
             type="button"
             disabled={isTesting || !telegramChatId.trim()}
             onClick={handleTest}
-            className="px-5 py-3 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2 cursor-pointer disabled:opacity-50"
+            className="px-6 py-3.5 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2 cursor-pointer disabled:opacity-50"
           >
             <span>📲</span>
             <span>{isTesting ? "កំពុងផ្ញើសារតេស្ត..." : "សាកល្បងតេស្តផ្ញើសារ (Test Alert)"}</span>
@@ -328,7 +325,34 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
               ✕ ផ្ដាច់ការតភ្ជាប់
             </button>
           )}
+
+          <button
+            type="button"
+            onClick={() => setShowAdvancedBot(!showAdvancedBot)}
+            className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 ml-auto cursor-pointer"
+          >
+            ⚙️ {showAdvancedBot ? "លាក់ Bot Token" : "ប្រើ Bot Token ផ្ទាល់ខ្លួន (ជម្រើស)"}
+          </button>
         </div>
+
+        {/* Advanced Bot Token Input (Optional) */}
+        {showAdvancedBot && (
+          <div className="p-4 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 space-y-2 animate-in fade-in duration-200">
+            <label className="block text-[11px] font-bold text-slate-500 uppercase">
+              Custom Telegram Bot Token (បើចង់ប្រើ Bot ផ្ទាល់ខ្លួន):
+            </label>
+            <input
+              type="text"
+              value={customBotToken}
+              onChange={(e) => setCustomBotToken(e.target.value)}
+              placeholder="9236028615:AAFdHtVck66228YhbaCHtFVR7ZAqh2wG4Ts"
+              className={`w-full px-3 py-2 border rounded-lg text-xs outline-none font-mono ${theme === 'dark' ? 'bg-[#18191A] border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-800'}`}
+            />
+            <p className="text-[10px] text-slate-400">
+              * ប្រព័ន្ធបានភ្ជាប់ Bot ផ្លូវការ @oneclickboostads_bot មកស្រាប់ហើយ មិនចាំបាច់កែប្រែក៏បាន។
+            </p>
+          </div>
+        )}
 
         {/* Status Message */}
         {statusMsg && (
