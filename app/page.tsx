@@ -4476,69 +4476,147 @@ const handleOpenDuplicateModal = () => {
         */}
 
         {/* ២. យកកូដ Sidebar នេះទៅដាក់ជំនួសកន្លែងចាស់ក្នុង Page.tsx របស់បង */}
-        <aside className={`hidden md:flex flex-col w-[260px] shrink-0 border-r h-[calc(100vh-64px)] sticky top-[64px] shadow-sm z-10 transition-colors ${theme === 'dark' ? 'bg-[#242526] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-800'}`}>
+        <aside className={`hidden md:flex flex-col w-[265px] shrink-0 border-r h-[calc(100vh-64px)] sticky top-[64px] shadow-sm z-10 transition-colors backdrop-blur-xl ${
+          theme === 'dark' ? 'bg-[#0D1117]/85 border-slate-800/80 text-white' : 'bg-white/85 border-slate-200/80 text-slate-800'
+        }`}>
           
           {/* ១. ផ្នែកមឺនុយខាងលើ (Main Menu & Tools) */}
-          <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2 pt-6 custom-scrollbar">
-            <div className="text-[11px] font-bold text-slate-400 mb-2 px-3 uppercase tracking-widest">Main Menu</div>
+          <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-1.5 pt-6 custom-scrollbar">
+            <div className="text-[10.5px] font-black text-slate-400 dark:text-slate-500 mb-2 px-3 uppercase tracking-widest flex items-center gap-1.5">
+              <span>MAIN MENU</span>
+            </div>
             
+            {/* 1. Create Campaign */}
             <button 
               onClick={() => handleTabChange("CREATE")}
-              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
+              className={`w-full text-left px-3.5 py-3 rounded-2xl transition-all flex items-center gap-3 cursor-pointer group relative overflow-hidden ${
                 activeTab === "CREATE" 
-                  ? "btn-futuristic shadow-lg shadow-indigo-500/30 scale-[1.02]" 
-                  : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+                  ? (theme === 'dark' 
+                      ? "bg-gradient-to-r from-blue-950/60 via-indigo-950/50 to-purple-950/40 border border-indigo-500/40 text-white shadow-sm" 
+                      : "bg-gradient-to-r from-blue-50/90 via-indigo-50/70 to-purple-50/60 border border-indigo-200 text-indigo-950 shadow-xs") 
+                  : (theme === 'dark' ? "border border-transparent text-slate-400 hover:bg-slate-800/50 hover:text-slate-100" : "border border-transparent text-slate-600 hover:bg-slate-100/80 hover:text-slate-900")
               }`}
             >
-              <span className="text-lg leading-none">✍️</span> <span className="text-[13.5px]">{t.createCampaign}</span>
+              {activeTab === "CREATE" && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 rounded-r-full bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-600 shadow-[0_0_10px_#6366F1]"></span>
+              )}
+              
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-200 ${
+                activeTab === "CREATE"
+                  ? "bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/25"
+                  : "bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 group-hover:scale-110"
+              }`}>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 20h9"/>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+              </div>
+
+              <span className={`text-[13.5px] truncate ${activeTab === "CREATE" ? "font-black" : "font-semibold"}`}>
+                {t.createCampaign}
+              </span>
             </button>
 
+            {/* 2. Manage Campaigns */}
             <button 
               onClick={() => handleTabChange("MANAGE")}
-              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
+              className={`w-full text-left px-3.5 py-3 rounded-2xl transition-all flex items-center gap-3 cursor-pointer group relative overflow-hidden ${
                 activeTab === "MANAGE" 
-                  ? "btn-futuristic shadow-lg shadow-indigo-500/30 scale-[1.02]" 
-                  : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+                  ? (theme === 'dark' 
+                      ? "bg-gradient-to-r from-blue-950/60 via-indigo-950/50 to-purple-950/40 border border-indigo-500/40 text-white shadow-sm" 
+                      : "bg-gradient-to-r from-blue-50/90 via-indigo-50/70 to-purple-50/60 border border-indigo-200 text-indigo-950 shadow-xs") 
+                  : (theme === 'dark' ? "border border-transparent text-slate-400 hover:bg-slate-800/50 hover:text-slate-100" : "border border-transparent text-slate-600 hover:bg-slate-100/80 hover:text-slate-900")
               }`}
             >
-              <span className="text-lg leading-none">📊</span> <span className="text-[13.5px]">{t.manageCampaign}</span>
+              {activeTab === "MANAGE" && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 rounded-r-full bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-600 shadow-[0_0_10px_#6366F1]"></span>
+              )}
+
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-200 ${
+                activeTab === "MANAGE"
+                  ? "bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/25"
+                  : "bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400 group-hover:scale-110"
+              }`}>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="20" x2="18" y2="10"/>
+                  <line x1="12" y1="20" x2="12" y2="4"/>
+                  <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+              </div>
+
+              <span className={`text-[13.5px] truncate ${activeTab === "MANAGE" ? "font-black" : "font-semibold"}`}>
+                {t.manageCampaign}
+              </span>
             </button>
             
             {/* 🌟 ផ្នែក Tools */}
-            <div className={`border-t my-2 mt-4 ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}></div>
-            <div className="text-[11px] font-bold text-slate-400 mb-2 px-3 uppercase tracking-widest">Tools</div>
+            <div className={`border-t my-2.5 mt-4 ${theme === 'dark' ? 'border-slate-800' : 'border-slate-200/80'}`}></div>
+            <div className="text-[10.5px] font-black text-slate-400 dark:text-slate-500 mb-2 px-3 uppercase tracking-widest flex items-center gap-1.5">
+              <span>TOOLS & SUITE</span>
+            </div>
             
+            {/* 3. AI Copywriter */}
             <button 
               onClick={() => handleTabChange("AI")}
-              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
+              className={`w-full text-left px-3.5 py-3 rounded-2xl transition-all flex items-center gap-3 cursor-pointer group relative overflow-hidden ${
                 activeTab === "AI" 
-                  ? "bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 scale-[1.02]" 
-                  : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+                  ? (theme === 'dark' 
+                      ? "bg-gradient-to-r from-purple-950/60 via-indigo-950/50 to-pink-950/40 border border-purple-500/40 text-white shadow-sm" 
+                      : "bg-gradient-to-r from-purple-50/90 via-indigo-50/70 to-pink-50/60 border border-purple-200 text-purple-950 shadow-xs") 
+                  : (theme === 'dark' ? "border border-transparent text-slate-400 hover:bg-slate-800/50 hover:text-slate-100" : "border border-transparent text-slate-600 hover:bg-slate-100/80 hover:text-slate-900")
               }`}
             >
-              <span className="text-lg leading-none">✨</span> <span className="text-[13.5px]">{t.aiCopywriter}</span>
+              {activeTab === "AI" && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 rounded-r-full bg-gradient-to-b from-purple-500 via-pink-500 to-indigo-600 shadow-[0_0_10px_#A855F7]"></span>
+              )}
+
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-200 ${
+                activeTab === "AI"
+                  ? "bg-gradient-to-br from-purple-600 via-pink-600 to-indigo-600 text-white shadow-md shadow-purple-500/25"
+                  : "bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400 group-hover:scale-110"
+              }`}>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/>
+                </svg>
+              </div>
+
+              <span className={`text-[13.5px] truncate ${activeTab === "AI" ? "font-black" : "font-semibold"}`}>
+                {t.aiCopywriter}
+              </span>
             </button>
 
+            {/* 4. Subscriptions / Admin */}
             {isAdmin && (
               <button 
                 onClick={() => handleTabChange("SUBSCRIPTIONS")}
-                className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center justify-between cursor-pointer hover:-translate-y-0.5 active:translate-y-0 relative ${
+                className={`w-full text-left px-3.5 py-3 rounded-2xl transition-all flex items-center justify-between cursor-pointer group relative overflow-hidden ${
                   activeTab === "SUBSCRIPTIONS" 
-                    ? "bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-600 text-white shadow-lg shadow-emerald-500/30 scale-[1.02]" 
-                    : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+                    ? (theme === 'dark' 
+                        ? "bg-gradient-to-r from-emerald-950/60 via-teal-950/50 to-cyan-950/40 border border-emerald-500/40 text-white shadow-sm" 
+                        : "bg-gradient-to-r from-emerald-50/90 via-teal-50/70 to-cyan-50/60 border border-emerald-200 text-emerald-950 shadow-xs") 
+                    : (theme === 'dark' ? "border border-transparent text-slate-400 hover:bg-slate-800/50 hover:text-slate-100" : "border border-transparent text-slate-600 hover:bg-slate-100/80 hover:text-slate-900")
                 }`}
               >
+                {activeTab === "SUBSCRIPTIONS" && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 rounded-r-full bg-gradient-to-b from-emerald-500 via-teal-500 to-cyan-600 shadow-[0_0_10px_#10B981]"></span>
+                )}
+
                 <div className="flex items-center gap-3 relative">
-                  <span className="text-lg leading-none relative">
-                    📋
-                    {pendingSlipsCount > 0 && (
-                      <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-600 border-2 border-white dark:border-[#242526] rounded-full animate-ping"></span>
-                    )}
-                    {pendingSlipsCount > 0 && (
-                      <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-600 border-2 border-white dark:border-[#242526] rounded-full"></span>
-                    )}
-                  </span> 
-                  <span className="text-[13.5px]">គ្រប់គ្រងអតិថិជន</span>
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-200 ${
+                    activeTab === "SUBSCRIPTIONS"
+                      ? "bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 text-white shadow-md shadow-emerald-500/25"
+                      : "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 group-hover:scale-110"
+                  }`}>
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                  </div>
+                  <span className={`text-[13.5px] truncate ${activeTab === "SUBSCRIPTIONS" ? "font-black" : "font-semibold"}`}>
+                    គ្រប់គ្រងអតិថិជន
+                  </span>
                 </div>
 
                 {pendingSlipsCount > 0 ? (
@@ -4551,94 +4629,159 @@ const handleOpenDuplicateModal = () => {
               </button>
             )}
 
-            {/* 🌟 Tab មជ្ឈមណ្ឌលជំនួយ & វីដេអូបង្រៀន (Help Center) */}
+            {/* 5. Help Center */}
             <button 
               onClick={() => handleTabChange("HELP")}
-              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
+              className={`w-full text-left px-3.5 py-3 rounded-2xl transition-all flex items-center gap-3 cursor-pointer group relative overflow-hidden ${
                 activeTab === "HELP" 
-                  ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30 scale-[1.02]" 
-                  : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+                  ? (theme === 'dark' 
+                      ? "bg-gradient-to-r from-blue-950/60 via-indigo-950/50 to-purple-950/40 border border-blue-500/40 text-white shadow-sm" 
+                      : "bg-gradient-to-r from-blue-50/90 via-indigo-50/70 to-purple-50/60 border border-blue-200 text-blue-950 shadow-xs") 
+                  : (theme === 'dark' ? "border border-transparent text-slate-400 hover:bg-slate-800/50 hover:text-slate-100" : "border border-transparent text-slate-600 hover:bg-slate-100/80 hover:text-slate-900")
               }`}
             >
-              <span className="text-lg leading-none">🎓</span> <span className="text-[13.5px]">ជំនួយ & វីដេអូបង្រៀន</span>
+              {activeTab === "HELP" && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 rounded-r-full bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-600 shadow-[0_0_10px_#3B82F6]"></span>
+              )}
+
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-200 ${
+                activeTab === "HELP"
+                  ? "bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white shadow-md shadow-blue-500/25"
+                  : "bg-sky-500/10 text-sky-600 dark:bg-sky-500/20 dark:text-sky-400 group-hover:scale-110"
+              }`}>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polygon points="10 8 16 12 10 16 10 8"/>
+                </svg>
+              </div>
+
+              <span className={`text-[13.5px] truncate ${activeTab === "HELP" ? "font-black" : "font-semibold"}`}>
+                ជំនួយ & វីដេអូបង្រៀន
+              </span>
             </button>
 
-            {/* 🌟 Tab ភ្ជាប់ Telegram Bot */}
+            {/* 6. Telegram Bot */}
             <button 
               onClick={() => handleTabChange("TELEGRAM")}
-              className={`w-full text-left px-4 py-3.5 rounded-xl font-bold transition-all flex items-center gap-3 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
+              className={`w-full text-left px-3.5 py-3 rounded-2xl transition-all flex items-center gap-3 cursor-pointer group relative overflow-hidden ${
                 activeTab === "TELEGRAM" 
-                  ? "bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white shadow-lg shadow-sky-500/30 scale-[1.02]" 
-                  : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900')
+                  ? (theme === 'dark' 
+                      ? "bg-gradient-to-r from-sky-950/60 via-blue-950/50 to-indigo-950/40 border border-sky-500/40 text-white shadow-sm" 
+                      : "bg-gradient-to-r from-sky-50/90 via-blue-50/70 to-indigo-50/60 border border-sky-200 text-sky-950 shadow-xs") 
+                  : (theme === 'dark' ? "border border-transparent text-slate-400 hover:bg-slate-800/50 hover:text-slate-100" : "border border-transparent text-slate-600 hover:bg-slate-100/80 hover:text-slate-900")
               }`}
             >
-              <span className="text-lg leading-none">🤖</span> <span className="text-[13.5px]">ភ្ជាប់ Telegram Bot</span>
-            </button>
+              {activeTab === "TELEGRAM" && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 rounded-r-full bg-gradient-to-b from-sky-400 via-blue-500 to-indigo-600 shadow-[0_0_10px_#0EA5E9]"></span>
+              )}
 
-            {/* លុប Tab Payment ចាស់ពីទីនេះរួចរាល់ហើយ */}
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-200 ${
+                activeTab === "TELEGRAM"
+                  ? "bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-600 text-white shadow-md shadow-sky-500/25"
+                  : "bg-cyan-500/10 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-400 group-hover:scale-110"
+              }`}>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m22 2-7 20-4-9-9-4Z"/>
+                  <path d="M22 2 11 13"/>
+                </svg>
+              </div>
+
+              <span className={`text-[13.5px] truncate ${activeTab === "TELEGRAM" ? "font-black" : "font-semibold"}`}>
+                ភ្ជាប់ Telegram Bot
+              </span>
+            </button>
 
          </div>
 
          {/* ២. ផ្នែកបាតក្រោម៖ ប៊ូតុង Setting (មាន Dropdown) និង Logout */}
-         <div className={`p-4 border-t shrink-0 flex flex-col gap-2 ${theme === 'dark' ? 'border-slate-700 bg-[#242526]' : 'border-slate-200 bg-white'}`}>
+         <div className={`p-4 border-t shrink-0 flex flex-col gap-2 ${theme === 'dark' ? 'border-slate-800 bg-[#0D1117]/60' : 'border-slate-200/80 bg-white/60'}`}>
             
-            {/* 🌟 ប៊ូតុង Settings មេ និងកូន Tab ទាំងពីរ (ការទូទាត់ payment និង Change Password) */}
+            {/* 🌟 ប៊ូតុង Settings មេ និងកូន Tab */}
             <div>
               <button
                 onClick={() => setShowSettingSubTabs(!showSettingSubTabs)}
-                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl font-bold transition-all cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${
+                className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer group relative overflow-hidden ${
                   activeTab === "PAYMENTS" || activeTab === "SETTINGS"
-                    ? 'btn-futuristic shadow-lg shadow-indigo-500/30' 
-                    : (theme === 'dark' ? 'text-slate-300 hover:bg-[#3A3B3C] hover:text-white' : 'text-slate-700 hover:bg-slate-100')
+                    ? (theme === 'dark' 
+                        ? "bg-gradient-to-r from-blue-950/60 via-indigo-950/50 to-purple-950/40 border border-indigo-500/40 text-white shadow-sm" 
+                        : "bg-gradient-to-r from-blue-50/90 via-indigo-50/70 to-purple-50/60 border border-indigo-200 text-indigo-950 shadow-xs")
+                    : (theme === 'dark' ? "border border-transparent text-slate-400 hover:bg-slate-800/50 hover:text-slate-100" : "border border-transparent text-slate-600 hover:bg-slate-100/80 hover:text-slate-900")
                 }`}
               >
+                {(activeTab === "PAYMENTS" || activeTab === "SETTINGS") && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-6 rounded-r-full bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-600 shadow-[0_0_10px_#6366F1]"></span>
+                )}
+
                 <div className="flex items-center gap-3">
-                  <span className="text-lg leading-none">⚙️</span>
-                  <span className="text-[13.5px]">កំណត់ Setting</span>
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-200 ${
+                    activeTab === "PAYMENTS" || activeTab === "SETTINGS"
+                      ? "bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/25"
+                      : "bg-slate-500/10 text-slate-600 dark:bg-slate-500/20 dark:text-slate-400 group-hover:scale-110"
+                  }`}>
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="3"/>
+                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                  </div>
+                  <span className={`text-[13.5px] truncate ${activeTab === "PAYMENTS" || activeTab === "SETTINGS" ? "font-black" : "font-semibold"}`}>
+                    កំណត់ Setting
+                  </span>
                 </div>
-                <span className={`text-xs transform transition-transform duration-200 ${showSettingSubTabs ? 'rotate-180' : ''}`}>
+                <span className={`text-xs transform transition-transform duration-200 text-slate-400 ${showSettingSubTabs ? 'rotate-180' : ''}`}>
                   ▼
                 </span>
               </button>
 
-              {/* កូន Tab ទាំងពីរដែលនឹងទម្លាក់ចុះមកក្រោម */}
+              {/* កូន Tab ទាំងបីដែលនឹងទម្លាក់ចុះមកក្រោម */}
               {showSettingSubTabs && (
-                <div className="flex flex-col gap-1 mt-2 pl-4 border-l-2 border-slate-200 dark:border-slate-700 ml-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="flex flex-col gap-1 mt-2 pl-4 border-l-2 border-slate-200 dark:border-slate-800 ml-4 animate-in fade-in slide-in-from-top-2 duration-200">
                   
                   {/* ទី១៖ ការទូទាត់ Payment */}
                   <button
                     onClick={() => handleTabChange("PAYMENTS")}
-                    className={`w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-bold transition-colors cursor-pointer flex items-center gap-2 ${
+                    className={`w-full text-left px-3 py-2.5 rounded-xl text-[13px] font-bold transition-all cursor-pointer flex items-center gap-2.5 ${
                       activeTab === "PAYMENTS"
-                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400'
-                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#3A3B3C]'
+                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 font-black shadow-xs'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                     }`}
                   >
-                    <span className="text-base leading-none">💳</span> ការទូទាត់ payment
+                    <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="5" width="20" height="14" rx="2"/>
+                      <line x1="2" y1="10" x2="22" y2="10"/>
+                    </svg>
+                    <span>ការទូទាត់ Payment</span>
                   </button>
 
                   {/* ទី២៖ ភ្ជាប់ Telegram */}
                   <button
                     onClick={() => handleTabChange("TELEGRAM")}
-                    className={`w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-bold transition-colors cursor-pointer flex items-center gap-2 ${
+                    className={`w-full text-left px-3 py-2.5 rounded-xl text-[13px] font-bold transition-all cursor-pointer flex items-center gap-2.5 ${
                       activeTab === "TELEGRAM"
-                        ? 'bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-400'
-                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#3A3B3C]'
+                        ? 'bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 font-black shadow-xs'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                     }`}
                   >
-                    <span className="text-base leading-none">🤖</span> ភ្ជាប់ Telegram Bot
+                    <svg className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="m22 2-7 20-4-9-9-4Z"/>
+                      <path d="M22 2 11 13"/>
+                    </svg>
+                    <span>ភ្ជាប់ Telegram Bot</span>
                   </button>
 
                   {/* ទី៣៖ Change Password */}
                   <button
                     onClick={() => handleTabChange("SETTINGS")}
-                    className={`w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-bold transition-colors cursor-pointer flex items-center gap-2 ${
+                    className={`w-full text-left px-3 py-2.5 rounded-xl text-[13px] font-bold transition-all cursor-pointer flex items-center gap-2.5 ${
                       activeTab === "SETTINGS"
-                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400'
-                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#3A3B3C]'
+                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 font-black shadow-xs'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                     }`}
                   >
-                    <span className="text-base leading-none">🔒</span> Change Password
+                    <svg className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    <span>Change Password</span>
                   </button>
                   
                 </div>
@@ -4649,14 +4792,19 @@ const handleOpenDuplicateModal = () => {
             <button 
               type="button"
               onClick={handleLogout}
-              className={`w-full px-4 py-3 font-bold rounded-xl border text-xs transition shadow-sm flex items-center justify-center gap-2 cursor-pointer mt-1 ${
+              className={`w-full px-4 py-3 font-bold rounded-2xl border text-xs transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer mt-1 hover:-translate-y-0.5 active:translate-y-0 ${
                 theme === 'dark' 
-                  ? 'bg-red-950/40 border-red-900/50 text-red-400 hover:bg-red-900/40' 
-                  : 'bg-white border-red-200 text-red-600 hover:bg-red-50'
+                  ? 'bg-rose-950/40 border-rose-900/50 text-rose-400 hover:bg-rose-900/40' 
+                  : 'bg-white border-rose-200 text-rose-600 hover:bg-rose-50'
               }`}
               title="ចាកចេញពីគណនី / Logout"
             >
-              <span>🚪</span> <span className="text-[13.5px]">{t.logout}</span>
+              <svg className="w-4 h-4 text-rose-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+              <span className="text-[13.5px]">{t.logout}</span>
             </button>
 
          </div>
@@ -9381,12 +9529,15 @@ const handleOpenDuplicateModal = () => {
             onClick={() => handleTabChange("CREATE")}
             className={`flex flex-col items-center justify-center w-full h-full gap-0.5 transition-all duration-200 cursor-pointer group`}
          >
-            <div className={`px-4 py-1 rounded-[20px] flex items-center justify-center transition-all duration-300 ${
+            <div className={`px-4 py-1.5 rounded-[20px] flex items-center justify-center transition-all duration-300 ${
                activeTab === "CREATE" 
                   ? 'btn-futuristic shadow-[0_4px_16px_rgba(79,70,229,0.5)] scale-105' 
                   : 'hover:bg-slate-500/10'
             }`}>
-               <span className="text-[18px] leading-none">📝</span>
+               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                 <path d="M12 20h9"/>
+                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+               </svg>
             </div>
             <span className={`text-[10px] tracking-tight font-bold ${activeTab === "CREATE" ? (theme === 'dark' ? 'text-white' : 'text-indigo-600') : 'opacity-70'}`}>បង្កើត</span>
          </button>
@@ -9397,12 +9548,16 @@ const handleOpenDuplicateModal = () => {
             onClick={() => handleTabChange("MANAGE")}
             className={`flex flex-col items-center justify-center w-full h-full gap-0.5 transition-all duration-200 cursor-pointer group`}
          >
-            <div className={`px-4 py-1 rounded-[20px] flex items-center justify-center transition-all duration-300 ${
+            <div className={`px-4 py-1.5 rounded-[20px] flex items-center justify-center transition-all duration-300 ${
                activeTab === "MANAGE" 
                   ? 'btn-futuristic shadow-[0_4px_16px_rgba(79,70,229,0.5)] scale-105' 
                   : 'hover:bg-slate-500/10'
             }`}>
-               <span className="text-[18px] leading-none">📊</span>
+               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                 <line x1="18" y1="20" x2="18" y2="10"/>
+                 <line x1="12" y1="20" x2="12" y2="4"/>
+                 <line x1="6" y1="20" x2="6" y2="14"/>
+               </svg>
             </div>
             <span className={`text-[10px] tracking-tight font-bold ${activeTab === "MANAGE" ? (theme === 'dark' ? 'text-white' : 'text-indigo-600') : 'opacity-70'}`}>គ្រប់គ្រង</span>
          </button>
@@ -9413,12 +9568,14 @@ const handleOpenDuplicateModal = () => {
             onClick={() => handleTabChange("AI")}
             className={`flex flex-col items-center justify-center w-full h-full gap-0.5 transition-all duration-200 cursor-pointer group`}
          >
-            <div className={`px-4 py-1 rounded-[20px] flex items-center justify-center transition-all duration-300 ${
+            <div className={`px-4 py-1.5 rounded-[20px] flex items-center justify-center transition-all duration-300 ${
                activeTab === "AI" 
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-[0_4px_12px_rgba(99,102,241,0.4)] scale-105' 
+                  ? 'bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-[0_4px_12px_rgba(99,102,241,0.4)] scale-105' 
                   : 'hover:bg-slate-500/10'
             }`}>
-               <span className="text-[18px] leading-none">✨</span>
+               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                 <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/>
+               </svg>
             </div>
             <span className={`text-[10px] tracking-tight font-bold ${activeTab === "AI" ? 'text-indigo-600 dark:text-indigo-400' : 'opacity-70'}`}>AI Copy</span>
          </button>
@@ -9430,14 +9587,17 @@ const handleOpenDuplicateModal = () => {
                onClick={() => setIsMobileSettingsOpen(!isMobileSettingsOpen)}
                className={`flex flex-col items-center justify-center w-full h-full gap-0.5 transition-all duration-200 cursor-pointer group`}
             >
-               <div className={`px-4 py-1 rounded-[20px] flex items-center justify-center transition-all duration-300 ${
+               <div className={`px-4 py-1.5 rounded-[20px] flex items-center justify-center transition-all duration-300 ${
                   (activeTab === "PAYMENTS" || activeTab === "SETTINGS" || activeTab === "SUBSCRIPTIONS") 
-                     ? 'bg-blue-600 text-white shadow-[0_4px_12px_rgba(37,99,235,0.4)] scale-105' 
+                     ? 'btn-futuristic shadow-[0_4px_12px_rgba(79,70,229,0.4)] scale-105' 
                      : 'hover:bg-slate-500/10'
                }`}>
-                  <span className="text-[18px] leading-none">⚙️</span>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                  </svg>
                </div>
-               <span className={`text-[10px] tracking-tight font-bold ${(activeTab === "PAYMENTS" || activeTab === "SETTINGS" || activeTab === "SUBSCRIPTIONS") ? (theme === 'dark' ? 'text-white' : 'text-blue-600') : 'opacity-70'}`}>Setting</span>
+               <span className={`text-[10px] tracking-tight font-bold ${(activeTab === "PAYMENTS" || activeTab === "SETTINGS" || activeTab === "SUBSCRIPTIONS") ? (theme === 'dark' ? 'text-white' : 'text-indigo-600') : 'opacity-70'}`}>Setting</span>
             </button>
 
             {/* កូន Menu ធ្លាក់ឡើងលើ (Drop-up) ទំនើបទាន់សម័យ */}
