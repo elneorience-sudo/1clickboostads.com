@@ -9,6 +9,7 @@ import PaymentsTab from "@/components/PaymentsTab";
 import HelpCenterTab from "@/components/HelpCenterTab";
 import TelegramTab from "@/components/TelegramTab";
 import SmartRulesModal from "@/components/SmartRulesModal";
+import DigitalInvoiceModal, { InvoiceData } from "@/components/DigitalInvoiceModal";
 
 
 const translations = {
@@ -511,6 +512,10 @@ export default function Home() {
 
   // 🎯 State សម្រាប់គ្រប់គ្រង Smart Ad Rules Modal (ច្បាប់បិទ Ad ស្វ័យប្រវត្តិកុំឱ្យខាតលុយ)
   const [isSmartRulesModalOpen, setIsSmartRulesModalOpen] = useState(false);
+
+  // 🧾 State សម្រាប់គ្រប់គ្រង Digital Invoice Modal របស់ Admin CRM
+  const [isAdminInvoiceModalOpen, setIsAdminInvoiceModalOpen] = useState(false);
+  const [selectedAdminInvoice, setSelectedAdminInvoice] = useState<InvoiceData | null>(null);
 
   const handleConfirmCustomDelete = async () => {
   if (!itemToDeleteData) return;
@@ -5331,6 +5336,31 @@ const handleOpenDuplicateModal = () => {
                                       {item.slip_url && (
                                         <button type="button" onClick={() => handleOpenSlipModal(item)} className="btn-futuristic-indigo px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md">
                                           <span>🧾</span> <span>Slip</span>
+                                        </button>
+                                      )}
+                                      {item.slip_status === 'approved' && (
+                                        <button 
+                                          type="button" 
+                                          onClick={() => {
+                                            setSelectedAdminInvoice({
+                                              invoiceNumber: `INV-${new Date(item.updated_at || item.created_at).getTime().toString().slice(-6)}`,
+                                              issueDate: new Date(item.updated_at || item.created_at).toLocaleDateString('km-KH', { year: 'numeric', month: 'short', day: 'numeric' }),
+                                              clientName: item.client_name || 'អតិថិជន',
+                                              clientEmail: item.email,
+                                              amount: Number(item.amount || 5.00),
+                                              planName: '1Click Boost Ads Subscription',
+                                              paymentMethod: item.payment_history?.[0]?.method === 'KHQR_BAKONG' ? 'KHQR (Bakong / ABA)' : 'KHQR / Bank Transfer',
+                                              transactionRef: item.payment_history?.[0]?.reference || `REF-${item.id.slice(0, 8).toUpperCase()}`,
+                                              status: 'PAID',
+                                              expiryDate: new Date(item.expiry_date).toLocaleDateString('km-KH'),
+                                              fbPageName: item.linked_fb_page || undefined
+                                            });
+                                            setIsAdminInvoiceModalOpen(true);
+                                          }} 
+                                          className="btn-futuristic-glass px-2.5 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md border border-indigo-500/40 text-indigo-300 hover:text-white"
+                                          title="មើល / បោះពុម្ពវិក្កយបត្រផ្លូវការ"
+                                        >
+                                          <span>🧾</span> <span>Invoice</span>
                                         </button>
                                       )}
                                       <button type="button" onClick={() => handleOpenEditClient(item)} className="btn-futuristic px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md">
@@ -11762,6 +11792,14 @@ const handleOpenDuplicateModal = () => {
           if (typeof fetchAds === 'function') fetchAds();
           if (typeof fetchCampaigns === 'function') fetchCampaigns();
         }}
+      />
+
+      {/* 🧾 Digital Invoice Modal (សម្រាប់ Admin CRM) */}
+      <DigitalInvoiceModal
+        isOpen={isAdminInvoiceModalOpen}
+        onClose={() => setIsAdminInvoiceModalOpen(false)}
+        invoiceData={selectedAdminInvoice}
+        theme={theme}
       />
 
     </div>

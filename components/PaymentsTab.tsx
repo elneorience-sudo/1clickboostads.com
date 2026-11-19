@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import DigitalInvoiceModal, { InvoiceData } from './DigitalInvoiceModal';
 
 interface PaymentsTabProps {
   theme: 'light' | 'dark';
@@ -31,6 +32,15 @@ export default function PaymentsTab({
   const [khqrSuccessData, setKhqrSuccessData] = useState<any>(null);
   const [isTestingTelegram, setIsTestingTelegram] = useState(false);
   const [telegramStatus, setTelegramStatus] = useState<string | null>(null);
+  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(null);
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState<string>('');
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user?.email) setUserEmail(user.email);
+    });
+  }, []);
 
   // ⚡ មុខងារផ្ទៀងផ្ទាត់ និង Activate ស្វ័យប្រវត្តិតាម KHQR
   const handleVerifyKHQRPayment = async () => {
@@ -135,13 +145,37 @@ export default function PaymentsTab({
           <div className="inline-block mt-3 px-3 py-1 bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 rounded-lg text-xs font-mono font-bold">
             Ref: {khqrSuccessData.reference}
           </div>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
             <button
+              type="button"
+              onClick={() => {
+                const client = clients && clients.length > 0 ? clients[0] : null;
+                setSelectedInvoice({
+                  invoiceNumber: khqrSuccessData.reference || `INV-${Date.now().toString().slice(-6)}`,
+                  issueDate: new Date().toLocaleDateString('km-KH', { year: 'numeric', month: 'short', day: 'numeric' }),
+                  clientName: client?.client_name || userEmail || 'អតិថិជន',
+                  clientEmail: userEmail || client?.email || '',
+                  amount: selectedPlan.amount,
+                  planName: selectedPlan.name,
+                  paymentMethod: 'KHQR (Bakong / ABA)',
+                  transactionRef: khqrSuccessData.reference || `REF-${Date.now().toString().slice(-6)}`,
+                  status: 'PAID',
+                  expiryDate: khqrSuccessData.expiry_date ? new Date(khqrSuccessData.expiry_date).toLocaleDateString('km-KH') : '+30 ថ្ងៃ'
+                });
+                setIsInvoiceModalOpen(true);
+              }}
+              className="px-5 py-2.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center gap-1.5"
+            >
+              <span>🧾</span> <span>ទាញយកវិក្កយបត្រ (View & Download Invoice)</span>
+            </button>
+
+            <button
+              type="button"
               onClick={() => {
                 setKhqrSuccessData(null);
                 window.location.reload();
               }}
-              className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer"
+              className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer"
             >
               🔄 ចូលប្រើប្រាស់ផ្ទាំង Dashboard ឥឡូវនេះ
             </button>
@@ -464,6 +498,7 @@ export default function PaymentsTab({
                   <th className="py-3 px-4 font-bold">ទឹកប្រាក់ (Amount)</th>
                   <th className="py-3 px-4 font-bold">វិធីទូទាត់ (Method)</th>
                   <th className="py-3 px-4 font-bold text-center">ស្ថានភាព (Status)</th>
+                  <th className="py-3 px-4 font-bold text-center">វិក្កយបត្រ (Invoice)</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
@@ -479,7 +514,7 @@ export default function PaymentsTab({
 
                   return historyRecords.length === 0 ? (
                     <tr>
-                      <td colSpan={4} className="text-center py-8 text-slate-400 italic">
+                      <td colSpan={5} className="text-center py-8 text-slate-400 italic">
                         មិនទាន់មានប្រវត្តិការទូទាត់ប្រាក់នៅឡើយទេ។
                       </td>
                     </tr>
@@ -525,6 +560,34 @@ export default function PaymentsTab({
                             </span>
                           )}
                         </td>
+                        <td className="py-3 px-4 text-center">
+                          {record.status === 'approved' ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const client = clients && clients.length > 0 ? clients[0] : null;
+                                setSelectedInvoice({
+                                  invoiceNumber: record.reference || `INV-${new Date(record.date).getTime().toString().slice(-6)}`,
+                                  issueDate: new Date(record.date).toLocaleDateString('km-KH', { year: 'numeric', month: 'short', day: 'numeric' }),
+                                  clientName: client?.client_name || userEmail || 'អតិថិជន',
+                                  clientEmail: userEmail || client?.email || '',
+                                  amount: Number(record.amount || 0),
+                                  planName: record.package || '1Click Boost Ads Service',
+                                  paymentMethod: record.method === 'KHQR_BAKONG' ? 'KHQR (Bakong / ABA)' : 'Manual Bank Transfer',
+                                  transactionRef: record.reference || 'REF-VERIFIED',
+                                  status: 'PAID',
+                                  expiryDate: client?.expiry_date ? new Date(client.expiry_date).toLocaleDateString('km-KH') : undefined
+                                });
+                                setIsInvoiceModalOpen(true);
+                              }}
+                              className="px-2.5 py-1 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-500 dark:text-indigo-400 border border-indigo-500/25 font-bold text-[11px] transition cursor-pointer inline-flex items-center gap-1 shadow-xs"
+                            >
+                              <span>🧾</span> <span>Invoice</span>
+                            </button>
+                          ) : (
+                            <span className="text-slate-400">-</span>
+                          )}
+                        </td>
                       </tr>
                     ))
                   );
@@ -534,6 +597,14 @@ export default function PaymentsTab({
           </div>
         </div>
       </div>
+
+      {/* 🧾 Digital Invoice Modal (វិក្កយបត្រផ្លូវការ) */}
+      <DigitalInvoiceModal
+        isOpen={isInvoiceModalOpen}
+        onClose={() => setIsInvoiceModalOpen(false)}
+        invoiceData={selectedInvoice}
+        theme={theme}
+      />
     </div>
   );
 }
