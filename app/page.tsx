@@ -1669,21 +1669,33 @@ export default function Home() {
     if (data.success && data.accounts) {
       setAdAccountsList(data.accounts);
       
-      // 🤖 ឆែករក Ad Account ដែលជាប់បញ្ហាហិរញ្ញវត្ថុ/គាំងលុយ និងផ្ញើ Alert តាម Telegram
+      // 🤖 ឆែករក Ad Account ដែលជាប់បញ្ហាហិរញ្ញវត្ថុ/គាំងលុយ និងផ្ញើ Alert តាម Telegram (ជូន Client & Admin)
+      const clientChatId = typeof window !== 'undefined' ? localStorage.getItem('client_telegram_chat_id') : null;
+      const allowBilling = typeof window !== 'undefined' ? (localStorage.getItem('client_alert_billing') !== 'false') : true;
+
       data.accounts.forEach((acc: any) => {
         if ((acc.account_status === 2 || acc.account_status === 3) && !alertedAccountsRef.current.has(acc.account_id)) {
           alertedAccountsRef.current.add(acc.account_id);
+          const alertPayload = {
+            accountName: acc.name,
+            accountId: acc.account_id,
+            errorDetail: acc.account_status === 3 ? 'Unsettled balance / គាំងកាត់លុយមិនបាន' : 'Disabled / Account ត្រូវ Facebook ផ្អាក'
+          };
+          
+          // ផ្ញើទៅ Telegram ផ្ទាល់ខ្លួនរបស់ Client បើបានភ្ជាប់
+          if (clientChatId && allowBilling) {
+            fetch('/api/telegram', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'payment_failed', chatId: clientChatId, payload: alertPayload })
+            }).catch(() => {});
+          }
+
+          // ផ្ញើជូន Admin
           fetch('/api/telegram', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'payment_failed',
-              payload: {
-                accountName: acc.name,
-                accountId: acc.account_id,
-                errorDetail: acc.account_status === 3 ? 'Unsettled balance / គាំងកាត់លុយមិនបាន' : 'Disabled / Account ត្រូវ Facebook ផ្អាក'
-              }
-            })
+            body: JSON.stringify({ action: 'payment_failed', payload: alertPayload })
           }).catch(() => {});
         }
       });
@@ -1938,6 +1950,29 @@ export default function Home() {
         // បើនៅសល់តិចជាង ឬស្មើ 7 ថ្ងៃ និងមិនទាន់ផុតកំណត់ ឬទើបផុត គឺលោត Popup เตือน
         if (diffDays <= 7) {
           setShowExpiryAlertModal(true);
+        }
+
+        // 🤖 បើនៅសល់ត្រឹមតែ ៣ ថ្ងៃ ឬតិចជាង ផ្ញើសាររំលឹកតាម Telegram ផ្ទាល់ខ្លួនរបស់ Client
+        const clientChatId = localStorage.getItem('client_telegram_chat_id');
+        const allowExpiry = localStorage.getItem('client_alert_expiry') !== 'false';
+        const todayDateStr = new Date().toISOString().slice(0, 10);
+        const lastAlertedDate = localStorage.getItem('last_expiry_telegram_alert');
+
+        if (diffDays <= 3 && diffDays > 0 && clientChatId && allowExpiry && lastAlertedDate !== todayDateStr) {
+          localStorage.setItem('last_expiry_telegram_alert', todayDateStr);
+          fetch('/api/telegram', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'expiry_warning',
+              chatId: clientChatId,
+              payload: {
+                clientName: user.email?.split('@')[0] || 'អតិថិជន',
+                daysLeft: diffDays,
+                expiryDate: expiry.toLocaleDateString('km-KH'),
+              }
+            })
+          }).catch(() => {});
         }
       }
     };
@@ -3679,23 +3714,35 @@ const fetchAds = async () => {
     if (data.success) {
       let fetchedAds = data.ads || [];
 
-      // 🤖 ឆែករក Ad ដែលត្រូវ Facebook បដិសេធ (Disapproved) និងផ្ញើ Alert តាម Telegram
+      // 🤖 ឆែករក Ad ដែលត្រូវ Facebook បដិសេធ (Disapproved) និងផ្ញើ Alert តាម Telegram (ជូន Client & Admin)
+      const clientChatId = typeof window !== 'undefined' ? localStorage.getItem('client_telegram_chat_id') : null;
+      const allowDisapproved = typeof window !== 'undefined' ? (localStorage.getItem('client_alert_disapproved') !== 'false') : true;
+
       fetchedAds.forEach((ad: any) => {
         const isDisapproved = ad.effective_status === 'DISAPPROVED' || ad.status === 'DISAPPROVED' || (ad.issues_info && ad.issues_info.length > 0);
         if (isDisapproved && !alertedAdsRef.current.has(ad.id)) {
           alertedAdsRef.current.add(ad.id);
+          const alertPayload = {
+            adName: ad.name,
+            adId: ad.id,
+            reason: ad.issues_info?.[0]?.error_summary || 'រំលោភលើគោលការណ៍ Ad Policy របស់ Facebook',
+            recommendation: ad.issues_info?.[0]?.error_message || 'សូមពិនិត្យមើលពាក្យពេចន៍ក្នុង Caption ឬប្ដូររូបភាព'
+          };
+
+          // ផ្ញើទៅ Telegram ផ្ទាល់ខ្លួនរបស់ Client
+          if (clientChatId && allowDisapproved) {
+            fetch('/api/telegram', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'ad_disapproved', chatId: clientChatId, payload: alertPayload })
+            }).catch(() => {});
+          }
+
+          // ផ្ញើជូន Admin
           fetch('/api/telegram', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'ad_disapproved',
-              payload: {
-                adName: ad.name,
-                adId: ad.id,
-                reason: ad.issues_info?.[0]?.error_summary || 'រំលោភលើគោលការណ៍ Ad Policy របស់ Facebook',
-                recommendation: ad.issues_info?.[0]?.error_message || 'សូមពិនិត្យមើលពាក្យពេចន៍ក្នុង Caption ឬប្ដូររូបភាព'
-              }
-            })
+            body: JSON.stringify({ action: 'ad_disapproved', payload: alertPayload })
           }).catch(() => {});
         }
       });
