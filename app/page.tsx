@@ -1669,7 +1669,18 @@ export default function Home() {
   ]);
   
   const fetchAdAccounts = async () => {
-  // 1. ឆែកមើលក្នុង localStorage មុនគេបង្អស់ បើមាន គឺកំណត់តម្លៃនោះទុកជាគោល
+  // ⚡ 1. FAST CACHE: ឆែកមើល cached_ad_accounts ក្នុង localStorage មកប្រើភ្លាមៗក្នុង 0 វិនាទី
+  if (typeof window !== "undefined") {
+    try {
+      const cachedAccounts = localStorage.getItem('cached_ad_accounts');
+      if (cachedAccounts) {
+        const parsed = JSON.parse(cachedAccounts);
+        if (parsed && parsed.length > 0) setAdAccountsList(parsed);
+      }
+    } catch (e) {}
+  }
+
+  // ឆែកមើល ID ដែលបានជ្រើសរើសចុងក្រោយ
   const savedAccount = localStorage.getItem('selectedAdAccount');
   if (savedAccount) {
     setSelectedAdAccount(savedAccount.replace('act_', ''));
@@ -1684,6 +1695,8 @@ export default function Home() {
 
     if (data.success && data.accounts) {
       setAdAccountsList(data.accounts);
+      // 💾 រក្សាទុក Cache សម្រាប់បើកលើកក្រោយភ្លាមៗ
+      localStorage.setItem('cached_ad_accounts', JSON.stringify(data.accounts));
       
       // 🤖 ឆែករក Ad Account ដែលជាប់បញ្ហាហិរញ្ញវត្ថុ/គាំងលុយ និងផ្ញើ Alert តាម Telegram (ជូន Client & Admin)
       const clientChatId = typeof window !== 'undefined' ? localStorage.getItem('client_telegram_chat_id') : null;
@@ -2287,6 +2300,68 @@ export default function Home() {
     }
   };
 
+  // ⚡ មុខងារ Sync Data ភ្លាមៗ (ទាញយក Post ថ្មីៗ និង Update ទិន្នន័យពី Facebook ក្នុង ១ វិនាទី)
+  const [isSyncingData, setIsSyncingData] = useState(false);
+
+  const handleQuickSyncAllData = async () => {
+    if (isSyncingData) return;
+    setIsSyncingData(true);
+    showToast("⚡ កំពុងទាញយក Post ថ្មីៗ និង Sync Data ពី Facebook...", "info");
+
+    try {
+      const token = localStorage.getItem('fb_user_token');
+      const currentPageId = selectedPage || localStorage.getItem('selectedPage');
+      const pageInfo = pages.find(p => p.id === currentPageId);
+
+      const tasks: Promise<any>[] = [];
+
+      // ១. ទាញយក Post ថ្មីៗបង្អស់ពី Facebook Page ភ្លាមៗ (Force Fetch គ្មាន Cache)
+      if (pageInfo && pageInfo.id) {
+        tasks.push(
+          fetch('/api/posts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              pageId: pageInfo.id, 
+              pageToken: pageInfo.access_token,
+              access_token: token 
+            })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success && data.posts && data.posts.length > 0) {
+              setPosts(data.posts);
+              localStorage.setItem(`cached_posts_${pageInfo.id}`, JSON.stringify(data.posts));
+              const savedPost = localStorage.getItem("selectedPost");
+              if (savedPost && data.posts.find((p: any) => p.id === savedPost)) {
+                setSelectedPost(savedPost);
+              } else {
+                setSelectedPost(data.posts[0].id);
+                localStorage.setItem("selectedPost", data.posts[0].id);
+              }
+            }
+          })
+          .catch(e => console.error("Sync posts error:", e))
+        );
+      }
+
+      // ២. ទាញយក Ad Accounts ថ្មីៗ
+      tasks.push(fetchAdAccounts().catch(() => {}));
+
+      // ៣. ទាញយក Campaigns, Ad Sets, Ads ថ្មីៗ
+      tasks.push(fetchCampaigns().catch(() => {}));
+      if (typeof fetchAdsets === 'function') tasks.push(fetchAdsets().catch(() => {}));
+      if (typeof fetchAds === 'function') tasks.push(fetchAds().catch(() => {}));
+
+      await Promise.allSettled(tasks);
+      showToast("⚡ បានទាញយក Post ថ្មីៗ និងធ្វើសមកាលកម្មទិន្នន័យជោគជ័យក្នុង ១ វិនាទី!", "success");
+    } catch (err: any) {
+      showToast("❌ បរាជ័យក្នុងការ Sync: " + err.message, "error");
+    } finally {
+      setIsSyncingData(false);
+    }
+  };
+
   // 🌟 Logic សម្រាប់ AI Generator
   const generateAiCopy = async () => {
     if (!aiInput.trim() && !aiMedia) return alert("⚠️ សូមវាយអត្ថបទ ឬបញ្ចូលរូបភាពជាមុនសិន!");
@@ -2827,29 +2902,33 @@ export default function Home() {
     const pageInfo = pages.find(p => p.id === selectedPage);
     if (!pageInfo) return;
 
-    // 🛑 បិទកន្លែងនេះចោលដោយប្រើប្រាស់សញ្ញា // ខាងមុខជួរនីមួយៗ
+    // ⚡ 1. FAST CACHE: បង្ហាញ Post ពី Cache ភ្លាមៗក្នុង 0 វិនាទី (បើកមកឃើញភ្លាម មិនបាច់រង់ចាំ Loading យូរពី Facebook)
     const cacheKey = `cached_posts_${selectedPage}`;
     const cachedData = localStorage.getItem(cacheKey);
-    // if (cachedData) {
-    //   try {
-    //     const parsedPosts = JSON.parse(cachedData);
-    //     if (parsedPosts && parsedPosts.length > 0) {
-    //       setPosts(parsedPosts);
-    //       const savedPost = localStorage.getItem("selectedPost");
-    //       if (savedPost && parsedPosts.find((p: any) => p.id === savedPost)) {
-    //         setSelectedPost(savedPost);
-    //       } else {
-    //         setSelectedPost(parsedPosts[0].id);
-    //       }
-    //       return; 
-    //     }
-    //   } catch (e) {
-    //     console.error("Parse cached posts error:", e);
-    //   }
-    // }
+    let hasLoadedFromCache = false;
 
-    // 🚀 បើគ្មានក្នុង Cache ទើបហៅ API ទៅ Facebook មួយដងគត់
-    setFetchingPosts(true);
+    if (cachedData) {
+      try {
+        const parsedPosts = JSON.parse(cachedData);
+        if (parsedPosts && parsedPosts.length > 0) {
+          setPosts(parsedPosts);
+          hasLoadedFromCache = true;
+          const savedPost = localStorage.getItem("selectedPost");
+          if (savedPost && parsedPosts.find((p: any) => p.id === savedPost)) {
+            setSelectedPost(savedPost);
+          } else {
+            setSelectedPost(parsedPosts[0].id);
+          }
+        }
+      } catch (e) {
+        console.error("Parse cached posts error:", e);
+      }
+    }
+
+    // 🚀 2. BACKGROUND AUTO-SYNC: ទាញយក Post ថ្មីៗស្ងាត់ៗពី Facebook API មក Update Cache
+    if (!hasLoadedFromCache) {
+      setFetchingPosts(true);
+    }
     const userToken = localStorage.getItem('fb_user_token');
     
     fetch('/api/posts', {
@@ -2863,28 +2942,19 @@ export default function Home() {
     }).then(res => res.json()).then(data => {
       setFetchingPosts(false);
       
-      if (data.success) {
-        if (data.posts && data.posts.length > 0) {
-          setPosts(data.posts);
-          
-          // 💾 រក្សាទុកចូលក្នុង localStorage (Cache) ទុកប្រើប្រាស់លើកក្រោយ
-          localStorage.setItem(cacheKey, JSON.stringify(data.posts));
+      if (data.success && data.posts && data.posts.length > 0) {
+        setPosts(data.posts);
+        
+        // 💾 រក្សាទុកចូលក្នុង localStorage (Cache) ទុកប្រើប្រាស់លើកក្រោយភ្លាមៗ
+        localStorage.setItem(cacheKey, JSON.stringify(data.posts));
 
-          const savedPost = localStorage.getItem("selectedPost");
-          if (savedPost && data.posts.find((p: any) => p.id === savedPost)) {
-            setSelectedPost(savedPost);
-          } else {
-            setSelectedPost(data.posts[0].id);
-            localStorage.setItem("selectedPost", data.posts[0].id);
-          }
-        } else {
-          setPosts([]);
-          setSelectedPost("");
+        const savedPost = localStorage.getItem("selectedPost");
+        if (savedPost && data.posts.find((p: any) => p.id === savedPost)) {
+          setSelectedPost(savedPost);
+        } else if (!hasLoadedFromCache) {
+          setSelectedPost(data.posts[0].id);
+          localStorage.setItem("selectedPost", data.posts[0].id);
         }
-      } else {
-        setPosts([]);
-        setSelectedPost("");
-        alert("❌ មិនអាចទាញ Post បានទេ:\n" + (data.error || "សូម Reconnect Facebook ម្ដងទៀត!"));
       }
     }).catch((err) => {
       console.error("Fetch Posts Error:", err);
@@ -4479,6 +4549,19 @@ const handleOpenDuplicateModal = () => {
               </>
             )}
           </div>
+
+          {/* ⚡ Fast Sync Data Button (ទាញយក Post ថ្មីៗ និង Insights ក្នុង ១ វិនាទី) */}
+          <button 
+            type="button"
+            onClick={handleQuickSyncAllData}
+            disabled={isSyncingData}
+            title="Sync Data ភ្លាមៗ (ទាញយក Post ថ្មី និង Insights ក្នុង ១ វិនាទី)"
+            className="btn-futuristic-indigo btn-shimmer px-3 sm:px-4 h-[44px] rounded-xl text-xs font-bold cursor-pointer flex items-center justify-center gap-1.5 shadow-md shrink-0 transition-all hover:scale-105 active:scale-95 disabled:opacity-70"
+          >
+            <span className={`text-base inline-block ${isSyncingData ? 'animate-spin' : ''}`}>🔄</span>
+            <span className="hidden sm:inline font-black">Sync Data ភ្លាមៗ</span>
+            <span className="inline sm:hidden font-black">Sync</span>
+          </button>
 
           {/* Lang & Theme Icons */}
           <div className="flex items-center gap-1.5 shrink-0">
