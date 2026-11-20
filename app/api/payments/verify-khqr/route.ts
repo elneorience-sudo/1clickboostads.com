@@ -51,21 +51,44 @@ export async function POST(req: Request) {
     };
     const updatedHistory = [newPaymentRecord, ...existingHistory];
 
-    // ៤. Update ទៅកាន់ Customer Subscriptions (Active ភ្លាមៗ)
-    const { error: updateErr } = await supabaseAdmin
-      .from('customer_subscriptions')
-      .update({
-        status: 'active',
-        slip_status: 'approved',
-        amount: payAmount,
-        expiry_date: newExpiry.toISOString(),
-        payment_history: updatedHistory,
-        updated_at: new Date().toISOString()
-      })
-      .eq('email', clientEmail);
+    // ៤. Update ឬ Insert ទៅកាន់ Customer Subscriptions (Active ភ្លាមៗ)
+    if (client) {
+      const { error: updateErr } = await supabaseAdmin
+        .from('customer_subscriptions')
+        .update({
+          status: 'active',
+          slip_status: 'approved',
+          amount: payAmount,
+          package_name: planName || 'កញ្ចប់ស្តង់ដារ',
+          expiry_date: newExpiry.toISOString(),
+          payment_history: updatedHistory,
+          updated_at: new Date().toISOString()
+        })
+        .eq('email', clientEmail);
 
-    if (updateErr) {
-      return NextResponse.json({ success: false, error: updateErr.message }, { status: 500 });
+      if (updateErr) {
+        return NextResponse.json({ success: false, error: updateErr.message }, { status: 500 });
+      }
+    } else {
+      const { error: insertErr } = await supabaseAdmin
+        .from('customer_subscriptions')
+        .insert([{
+          email: clientEmail,
+          client_name: clientEmail.split('@')[0],
+          status: 'active',
+          slip_status: 'approved',
+          amount: payAmount,
+          package_name: planName || 'កញ្ចប់ស្តង់ដារ',
+          start_date: today.toISOString(),
+          expiry_date: newExpiry.toISOString(),
+          payment_history: updatedHistory,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }]);
+
+      if (insertErr) {
+        return NextResponse.json({ success: false, error: insertErr.message }, { status: 500 });
+      }
     }
 
     // ៥. ផ្ញើសារ Alert តាម Telegram Bot ជូន Admin

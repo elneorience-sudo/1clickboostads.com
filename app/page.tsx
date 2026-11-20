@@ -625,16 +625,16 @@ export default function Home() {
 
   const [activePreviewAdId, setActivePreviewAdId] = useState<string | null>(null);
   
-  useEffect(() => {
-    const fetchClientExpiry = async () => {
+  const fetchClientExpiry = useCallback(async () => {
+    try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user || !user.email) return;
 
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('customer_subscriptions')
         .select('expiry_date')
-        .eq('email', user.email)
-        .single();
+        .eq('email', user.email.trim().toLowerCase())
+        .maybeSingle();
 
       if (data && data.expiry_date) {
         const today = new Date();
@@ -643,9 +643,12 @@ export default function Home() {
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         setClientExpiryDaysLeft(diffDays);
       }
-    };
-    fetchClientExpiry();
+    } catch (e) {}
   }, []);
+
+  useEffect(() => {
+    fetchClientExpiry();
+  }, [fetchClientExpiry]);
 
   // 🌟 មុខងារកំណត់កម្រិត CPA พร้อม Tooltip ពេលเอา Mouse ដាក់លើ (Neon Pill Badges)
   const getCpaBadge = (cpa: number) => {
@@ -6134,6 +6137,10 @@ const handleOpenDuplicateModal = () => {
                 clients={clients}
                 fetchClients={fetchClients}
                 showToast={showToast}
+                onPaymentSuccess={() => {
+                  fetchClients();
+                  fetchClientExpiry();
+                }}
               />
             )}
 
