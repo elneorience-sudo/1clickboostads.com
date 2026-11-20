@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 export interface InvoiceData {
   invoiceNumber: string;
@@ -30,6 +30,15 @@ export default function DigitalInvoiceModal({
   theme = 'dark'
 }: DigitalInvoiceModalProps) {
   const invoiceRef = useRef<HTMLDivElement>(null);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   if (!isOpen || !invoiceData) return null;
 
@@ -153,32 +162,47 @@ export default function DigitalInvoiceModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[9999999] flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className={`fixed inset-0 z-[9999999] flex items-center justify-center ${isFullScreen ? 'p-0' : 'p-0 sm:p-4 md:p-6'} bg-black/85 backdrop-blur-md animate-in fade-in duration-200`}>
       
-      {/* Container */}
-      <div className={`w-full max-w-2xl max-h-[94vh] flex flex-col rounded-3xl shadow-2xl border overflow-hidden ${
+      {/* Container: Fullscreen on Mobile (Edge-to-Edge) and Responsive Modal on Desktop */}
+      <div className={`w-full ${
+        isFullScreen 
+          ? 'w-screen h-screen max-w-none max-h-none rounded-none' 
+          : 'h-full sm:h-auto sm:max-w-3xl sm:max-h-[94vh] rounded-none sm:rounded-3xl'
+      } flex flex-col shadow-2xl border-0 sm:border overflow-hidden transition-all duration-300 ${
         theme === 'dark' ? 'bg-[#0D1117] border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-900'
       }`}>
         
         {/* Top Action Bar (No-Print) */}
-        <div className="no-print p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3 bg-slate-50/50 dark:bg-[#161B22]/60">
-          <div className="flex items-center gap-2.5">
-            <span className="text-xl">🧾</span>
-            <div>
-              <h3 className="font-black text-sm text-slate-900 dark:text-white">
-                វិក្កយបត្រផ្លូវការ (Digital Receipt / Invoice)
+        <div className="no-print px-3 py-2.5 sm:px-5 sm:py-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 bg-slate-50/80 dark:bg-[#161B22]/90 shrink-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="text-lg sm:text-xl shrink-0">🧾</span>
+            <div className="min-w-0">
+              <h3 className="font-black text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+                វិក្កយបត្រផ្លូវការ (Invoice)
               </h3>
-              <p className="text-[11px] text-slate-500 font-mono">
+              <p className="text-[10px] sm:text-[11px] text-slate-500 font-mono truncate">
                 {invoiceData.invoiceNumber}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* Toggle Fullscreen Modal */}
+            <button
+              type="button"
+              onClick={() => setIsFullScreen(prev => !prev)}
+              className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1C2128]"
+              title={isFullScreen ? "បង្រួម" : "ពេញអេក្រង់ (Full Screen)"}
+            >
+              <span>{isFullScreen ? "🗗" : "⛶"}</span>
+              <span className="hidden md:inline">{isFullScreen ? "បង្រួម" : "ពេញអេក្រង់"}</span>
+            </button>
+
             <button
               type="button"
               onClick={handleDownloadOfflineReceipt}
-              className="px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-[#1C2128]"
+              className="p-1.5 sm:px-3 sm:py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1C2128]"
               title="Download HTML Receipt file"
             >
               <span>📥</span> <span className="hidden sm:inline">Save File</span>
@@ -187,15 +211,16 @@ export default function DigitalInvoiceModal({
             <button
               type="button"
               onClick={handlePrint}
-              className="btn-futuristic px-4 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1.5 shadow-md"
+              className="btn-futuristic px-2.5 py-1.5 sm:px-4 sm:py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1.5 shadow-md"
             >
-              <span>🖨️</span> <span>បោះពុម្ព / Save PDF</span>
+              <span>🖨️</span> <span>Save PDF</span>
             </button>
 
             <button
               type="button"
               onClick={onClose}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 text-lg cursor-pointer ml-1"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 text-lg cursor-pointer ml-0.5"
+              title="បិទ (Close)"
             >
               ✕
             </button>
@@ -203,56 +228,56 @@ export default function DigitalInvoiceModal({
         </div>
 
         {/* Printable Invoice Sheet */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-8 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-2 sm:p-6 md:p-8 custom-scrollbar">
           <div 
             id="printable-invoice" 
             ref={invoiceRef}
-            className="p-6 sm:p-8 rounded-2xl border bg-white text-slate-900 border-slate-200 shadow-sm"
+            className="p-3.5 sm:p-6 md:p-8 rounded-2xl border bg-white text-slate-900 border-slate-200 shadow-sm"
           >
             
             {/* Header: Logo & Company Information */}
-            <div className="flex flex-wrap items-start justify-between gap-4 pb-6 border-b border-slate-200">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-5 border-b border-slate-200">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 p-1 flex items-center justify-center shadow-md">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 p-1 flex items-center justify-center shadow-md shrink-0">
                   <img src="/logo.png" alt="1Click Boost Ads" className="w-[85%] h-[85%] object-contain" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-black tracking-tight text-slate-900">
+                  <h1 className="text-base sm:text-xl font-black tracking-tight text-slate-900">
                     1Click Boost Ads
                   </h1>
-                  <p className="text-xs text-indigo-600 font-bold">
+                  <p className="text-[11px] sm:text-xs text-indigo-600 font-bold">
                     Ads Manager Pro & AI Automation
                   </p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
+                  <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">
                     Phnom Penh, Cambodia • sengsoveasnapro@gmail.com
                   </p>
                 </div>
               </div>
 
-              <div className="text-right">
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+              <div className="text-left sm:text-right flex sm:flex-col justify-between items-center sm:items-end">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
                   PAID IN FULL ✓
                 </span>
-                <div className="text-lg font-black text-slate-900 mt-2 font-mono">
+                <div className="text-sm sm:text-lg font-black text-slate-900 sm:mt-1 font-mono">
                   {invoiceData.invoiceNumber}
                 </div>
-                <div className="text-xs text-slate-500">
+                <div className="text-[11px] text-slate-500 hidden sm:block">
                   Date: {invoiceData.issueDate}
                 </div>
               </div>
             </div>
 
             {/* Bill To & Payment Meta */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6 text-xs">
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 my-4 sm:my-6 text-xs">
+              <div className="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                   Billed To (អតិថិជន):
                 </div>
                 <div className="font-black text-sm text-slate-900">
                   {invoiceData.clientName || 'Valued Client'}
                 </div>
-                <div className="text-slate-600 font-medium">
+                <div className="text-slate-600 font-medium text-[11px] sm:text-xs break-all">
                   {invoiceData.clientEmail}
                 </div>
                 {invoiceData.fbPageName && (
@@ -262,22 +287,22 @@ export default function DigitalInvoiceModal({
                 )}
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+              <div className="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                   Payment Details (ព័ត៌មានទូទាត់):
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between text-[11px] sm:text-xs">
                   <span className="text-slate-500">Method:</span>
                   <span className="font-bold text-slate-800 flex items-center gap-1">
                     <span className="text-red-600 font-black">KHQR</span> {invoiceData.paymentMethod}
                   </span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between text-[11px] sm:text-xs">
                   <span className="text-slate-500">Transaction Ref:</span>
                   <span className="font-mono font-bold text-indigo-600">{invoiceData.transactionRef}</span>
                 </div>
                 {invoiceData.expiryDate && (
-                  <div className="flex items-center justify-between text-emerald-700 font-bold">
+                  <div className="flex items-center justify-between text-emerald-700 font-bold text-[11px] sm:text-xs">
                     <span>Valid Until:</span>
                     <span>{invoiceData.expiryDate}</span>
                   </div>
@@ -285,44 +310,44 @@ export default function DigitalInvoiceModal({
               </div>
             </div>
 
-            {/* Line Items Table */}
-            <div className="border border-slate-200 rounded-xl overflow-hidden mb-6">
-              <table className="w-full text-left border-collapse text-xs">
+            {/* Line Items Table with Horizontal Scroll & Non-Clipped Responsive Fit */}
+            <div className="border border-slate-200 rounded-xl overflow-x-auto custom-scrollbar mb-5">
+              <table className="w-full text-left border-collapse text-xs min-w-[320px]">
                 <thead>
-                  <tr className="bg-slate-100 border-b border-slate-200 uppercase tracking-wider text-[11px] font-bold text-slate-600">
-                    <th className="py-3 px-4">បរិយាយ (Description)</th>
-                    <th className="py-3 px-4 text-center w-16">ចំនួន (Qty)</th>
-                    <th className="py-3 px-4 text-right w-24">តម្លៃ (Price)</th>
-                    <th className="py-3 px-4 text-right w-28">សរុប (Amount)</th>
+                  <tr className="bg-slate-100 border-b border-slate-200 uppercase tracking-wider text-[10px] sm:text-[11px] font-bold text-slate-600">
+                    <th className="py-2.5 px-3 sm:py-3 sm:px-4">បរិយាយ (Description)</th>
+                    <th className="py-2.5 px-2 sm:py-3 sm:px-4 text-center w-12 sm:w-16 whitespace-nowrap">ចំនួន</th>
+                    <th className="py-2.5 px-2 sm:py-3 sm:px-4 text-right w-16 sm:w-24 whitespace-nowrap">តម្លៃ</th>
+                    <th className="py-2.5 px-3 sm:py-3 sm:px-4 text-right w-20 sm:w-28 whitespace-nowrap">សរុប</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   <tr>
-                    <td className="py-4 px-4">
-                      <div className="font-bold text-slate-900 text-[13px]">
+                    <td className="py-3 px-3 sm:py-4 sm:px-4">
+                      <div className="font-bold text-slate-900 text-xs sm:text-[13px]">
                         {invoiceData.planName || '1Click Boost Ads - Pro Subscription'}
                       </div>
-                      <div className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                      <div className="text-[10px] sm:text-[11px] text-slate-500 mt-1 leading-relaxed">
                         ចូលប្រើប្រាស់មុខងារ Meta Marketing API Boost, AI Copywriter, Smart Ad Rules 24/7, និង Telegram Bot Alerts (+៣០ ថ្ងៃ)។
                       </div>
                     </td>
-                    <td className="py-4 px-4 text-center font-bold">1</td>
-                    <td className="py-4 px-4 text-right font-mono font-bold">${Number(invoiceData.amount).toFixed(2)}</td>
-                    <td className="py-4 px-4 text-right font-mono font-black text-slate-900">${Number(invoiceData.amount).toFixed(2)}</td>
+                    <td className="py-3 px-2 sm:py-4 sm:px-4 text-center font-bold text-xs sm:text-sm">1</td>
+                    <td className="py-3 px-2 sm:py-4 sm:px-4 text-right font-mono font-bold text-xs sm:text-sm">${Number(invoiceData.amount).toFixed(2)}</td>
+                    <td className="py-3 px-3 sm:py-4 sm:px-4 text-right font-mono font-black text-slate-900 text-xs sm:text-sm">${Number(invoiceData.amount).toFixed(2)}</td>
                   </tr>
                 </tbody>
                 <tfoot className="border-t-2 border-slate-200 bg-slate-50/70 font-semibold text-xs">
                   <tr>
-                    <td colSpan={3} className="py-2.5 px-4 text-right text-slate-500">Subtotal:</td>
-                    <td className="py-2.5 px-4 text-right font-mono font-bold">${Number(invoiceData.amount).toFixed(2)}</td>
+                    <td colSpan={3} className="py-2 px-3 sm:py-2.5 sm:px-4 text-right text-slate-500 text-[11px] sm:text-xs">Subtotal:</td>
+                    <td className="py-2 px-3 sm:py-2.5 sm:px-4 text-right font-mono font-bold text-xs sm:text-sm">${Number(invoiceData.amount).toFixed(2)}</td>
                   </tr>
                   <tr>
-                    <td colSpan={3} className="py-2 px-4 text-right text-slate-500">VAT / Tax (0%):</td>
-                    <td className="py-2 px-4 text-right font-mono font-bold">$0.00</td>
+                    <td colSpan={3} className="py-1.5 px-3 sm:py-2 sm:px-4 text-right text-slate-500 text-[11px] sm:text-xs">VAT / Tax (0%):</td>
+                    <td className="py-1.5 px-3 sm:py-2 sm:px-4 text-right font-mono font-bold text-xs sm:text-sm">$0.00</td>
                   </tr>
                   <tr className="border-t border-slate-200 text-sm">
-                    <td colSpan={3} className="py-3 px-4 text-right font-black text-slate-900">Total Paid (ទឹកប្រាក់ទូទាត់សរុប):</td>
-                    <td className="py-3 px-4 text-right font-mono font-black text-emerald-600 text-base">
+                    <td colSpan={3} className="py-2.5 px-3 sm:py-3 sm:px-4 text-right font-black text-slate-900 text-xs sm:text-sm">Total Paid (ទឹកប្រាក់ទូទាត់សរុប):</td>
+                    <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-right font-mono font-black text-emerald-600 text-sm sm:text-base whitespace-nowrap">
                       ${Number(invoiceData.amount).toFixed(2)}
                     </td>
                   </tr>
@@ -331,23 +356,23 @@ export default function DigitalInvoiceModal({
             </div>
 
             {/* Official Stamp & Bottom Verification */}
-            <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 text-xs">
+            <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
               <div className="flex items-center gap-3">
-                <div className="w-16 h-16 rounded-full border-2 border-emerald-600 border-dashed p-1 flex items-center justify-center text-center rotate-[-12deg] bg-emerald-50/50">
-                  <div className="text-[9px] font-black text-emerald-700 uppercase leading-none">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-emerald-600 border-dashed p-1 flex items-center justify-center text-center rotate-[-12deg] bg-emerald-50/50 shrink-0">
+                  <div className="text-[8px] sm:text-[9px] font-black text-emerald-700 uppercase leading-none">
                     1CLICK BOOST<br/>★ VERIFIED ★<br/>PAID
                   </div>
                 </div>
-                <div className="text-[11px] text-slate-500 leading-tight">
+                <div className="text-[10px] sm:text-[11px] text-slate-500 leading-tight">
                   <div className="font-bold text-slate-700">Verified Electronic Receipt</div>
                   <div>Issued automatically upon Bakong KHQR verification.</div>
                   <div className="text-[10px] text-indigo-600 mt-0.5">https://www.1clickboostads.com</div>
                 </div>
               </div>
 
-              <div className="text-right">
+              <div className="text-left sm:text-right">
                 <div className="text-[10px] uppercase font-bold text-slate-400">Authorized Signature</div>
-                <div className="font-black text-sm text-slate-800 italic mt-1 font-serif">
+                <div className="font-black text-sm text-slate-800 italic mt-0.5 font-serif">
                   Seng Soveasna
                 </div>
                 <div className="text-[10px] text-slate-500">Founder, 1Click Boost Ads</div>
@@ -358,12 +383,14 @@ export default function DigitalInvoiceModal({
         </div>
 
         {/* Footer info (No-Print) */}
-        <div className="no-print p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-400 bg-slate-50/50 dark:bg-[#161B22]/40">
-          <span>💡 ចុច "បោះពុម្ព / Save PDF" ដើម្បី Save ជា PDF ទុកក្នុងទូរស័ព្ទ ឬកុំព្យូទ័រ</span>
+        <div className="no-print px-3 py-2.5 sm:px-5 sm:py-3 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs text-slate-400 bg-slate-50/70 dark:bg-[#161B22]/70 shrink-0">
+          <span className="text-[11px] sm:text-xs text-center sm:text-left">
+            💡 ចុច "Save PDF" ដើម្បីរក្សាទុកក្នុងទូរស័ព្ទ ឬកុំព្យូទ័រ
+          </span>
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 font-bold text-xs rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white cursor-pointer transition"
+            className="w-full sm:w-auto px-5 py-2 font-bold text-xs rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white cursor-pointer transition shadow-xs text-center"
           >
             បិទ (Close)
           </button>
