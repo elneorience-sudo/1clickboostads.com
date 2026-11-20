@@ -4368,7 +4368,7 @@ const handleOpenDuplicateModal = () => {
   }
   
   return (
-    <div className={`min-h-screen font-sans flex flex-col pb-20 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+    <div className={`min-h-screen font-sans flex flex-col pb-28 md:pb-16 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
       
       {/* 🌟 Ultra-Modern Cyber Floating Toast Notification (Neon & Glassmorphism) */}
       {toast && (
@@ -12277,6 +12277,160 @@ const handleOpenDuplicateModal = () => {
         invoiceData={selectedAdminInvoice}
         theme={theme}
       />
+
+      {/* ========================================================= */}
+      {/* 🌟 Ultra-Modern Floating Mobile Bottom Navigation Bar (📱 Mobile Native Feel) */}
+      {/* ========================================================= */}
+      <nav aria-label="Mobile Navigation" className="md:hidden fixed bottom-3 inset-x-3 z-40 max-w-md mx-auto pointer-events-auto animate-in slide-in-from-bottom-4 duration-300">
+        <div className={`flex items-center justify-around px-2 py-2 rounded-2xl border backdrop-blur-2xl transition-all shadow-[0_12px_36px_rgba(0,0,0,0.35)] ${
+          theme === 'dark' 
+            ? 'bg-[#0D1117]/92 border-slate-700/60 text-slate-300 shadow-[0_15px_40px_rgba(0,0,0,0.6)]' 
+            : 'bg-white/92 border-slate-200/90 text-slate-700 shadow-[0_15px_35px_rgba(0,0,0,0.1)]'
+        }`}>
+          {/* 1. Dashboard (MANAGE) */}
+          <button
+            type="button"
+            onClick={() => handleTabChange("MANAGE")}
+            className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer group relative ${
+              activeTab === "MANAGE" 
+                ? (theme === 'dark' ? 'text-white' : 'text-blue-600') 
+                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+            }`}
+          >
+            <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${
+              activeTab === "MANAGE"
+                ? "bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/25 scale-105"
+                : "group-hover:scale-105"
+            }`}>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="7" height="9" rx="1"/>
+                <rect x="14" y="3" width="7" height="5" rx="1"/>
+                <rect x="14" y="12" width="7" height="9" rx="1"/>
+                <rect x="3" y="16" width="7" height="5" rx="1"/>
+              </svg>
+            </div>
+            <span className={`text-[10px] mt-1 tracking-tight ${activeTab === "MANAGE" ? "font-black" : "font-semibold"}`}>
+              Dashboard
+            </span>
+            {activeTab === "MANAGE" && (
+              <span className="w-1 h-1 rounded-full bg-indigo-500 mt-0.5 shadow-[0_0_6px_#6366F1]"></span>
+            )}
+          </button>
+
+          {/* 2. Boost Post (CREATE) - Center Elevated Action */}
+          <button
+            type="button"
+            onClick={() => handleTabChange("CREATE")}
+            className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer group relative ${
+              activeTab === "CREATE" 
+                ? (theme === 'dark' ? 'text-white' : 'text-emerald-600') 
+                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+            }`}
+          >
+            <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${
+              activeTab === "CREATE"
+                ? "bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white shadow-md shadow-emerald-500/25 scale-105"
+                : "bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20 group-hover:scale-105"
+            }`}>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+              </svg>
+            </div>
+            <span className={`text-[10px] mt-1 tracking-tight ${activeTab === "CREATE" ? "font-black" : "font-semibold"}`}>
+              Boost
+            </span>
+            {activeTab === "CREATE" && (
+              <span className="w-1 h-1 rounded-full bg-emerald-500 mt-0.5 shadow-[0_0_6px_#10B981]"></span>
+            )}
+          </button>
+
+          {/* 3. AI Copywriter (AI) */}
+          <button
+            type="button"
+            onClick={() => handleTabChange("AI")}
+            className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer group relative ${
+              activeTab === "AI" 
+                ? (theme === 'dark' ? 'text-white' : 'text-purple-600') 
+                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+            }`}
+          >
+            <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${
+              activeTab === "AI"
+                ? "bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white shadow-md shadow-purple-500/25 scale-105"
+                : "group-hover:scale-105"
+            }`}>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
+                <path d="M12 2a10 10 0 0 1 10 10h-10V2z"/>
+                <path d="m21.17 8-7.17 7.17"/>
+              </svg>
+            </div>
+            <span className={`text-[10px] mt-1 tracking-tight ${activeTab === "AI" ? "font-black" : "font-semibold"}`}>
+              AI Copy
+            </span>
+            {activeTab === "AI" && (
+              <span className="w-1 h-1 rounded-full bg-purple-500 mt-0.5 shadow-[0_0_6px_#A855F7]"></span>
+            )}
+          </button>
+
+          {/* 4. Top Up / Billing (PAYMENTS) */}
+          <button
+            type="button"
+            onClick={() => handleTabChange("PAYMENTS")}
+            className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer group relative ${
+              activeTab === "PAYMENTS" 
+                ? (theme === 'dark' ? 'text-white' : 'text-amber-600') 
+                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+            }`}
+          >
+            <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${
+              activeTab === "PAYMENTS"
+                ? "bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 text-white shadow-md shadow-amber-500/25 scale-105"
+                : "group-hover:scale-105"
+            }`}>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <line x1="2" y1="10" x2="22" y2="10"/>
+              </svg>
+            </div>
+            <span className={`text-[10px] mt-1 tracking-tight ${activeTab === "PAYMENTS" ? "font-black" : "font-semibold"}`}>
+              Top Up
+            </span>
+            {activeTab === "PAYMENTS" && (
+              <span className="w-1 h-1 rounded-full bg-amber-500 mt-0.5 shadow-[0_0_6px_#F59E0B]"></span>
+            )}
+          </button>
+
+          {/* 5. Settings (SETTINGS) */}
+          <button
+            type="button"
+            onClick={() => handleTabChange("SETTINGS")}
+            className={`flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all cursor-pointer group relative ${
+              activeTab === "SETTINGS" || activeTab === "CHANGE_PASSWORD" 
+                ? (theme === 'dark' ? 'text-white' : 'text-blue-600') 
+                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
+            }`}
+          >
+            <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${
+              activeTab === "SETTINGS" || activeTab === "CHANGE_PASSWORD"
+                ? "bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/25 scale-105"
+                : "group-hover:scale-105"
+            }`}>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+              </svg>
+            </div>
+            <span className={`text-[10px] mt-1 tracking-tight ${activeTab === "SETTINGS" || activeTab === "CHANGE_PASSWORD" ? "font-black" : "font-semibold"}`}>
+              Settings
+            </span>
+            {(activeTab === "SETTINGS" || activeTab === "CHANGE_PASSWORD") && (
+              <span className="w-1 h-1 rounded-full bg-blue-500 mt-0.5 shadow-[0_0_6px_#3B82F6]"></span>
+            )}
+          </button>
+        </div>
+      </nav>
 
     </div>
   );
