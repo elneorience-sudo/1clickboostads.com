@@ -5,10 +5,13 @@ import { supabase } from '@/lib/supabase';
 
 interface SettingsTabProps {
   theme: 'light' | 'dark';
+  setTheme?: (theme: 'light' | 'dark') => void;
+  lang?: 'kh' | 'en';
+  setLang?: (lang: 'kh' | 'en') => void;
   showToast?: (msg: string, type: 'success' | 'error' | 'info') => void;
 }
 
-export default function SettingsTab({ theme, showToast }: SettingsTabProps) {
+export default function SettingsTab({ theme, setTheme, lang = 'kh', setLang, showToast }: SettingsTabProps) {
   const notify = (msg: string, type: 'success' | 'error' | 'info' = 'info') => {
     if (showToast) showToast(msg, type);
     else if (typeof window !== 'undefined') window.alert(msg);
@@ -139,6 +142,111 @@ export default function SettingsTab({ theme, showToast }: SettingsTabProps) {
   return (
     <div className={`p-6 rounded-2xl shadow-sm border w-full max-w-2xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
       
+      {/* ========================================================= */}
+      {/* 🌟 ផ្នែកទី ០៖ ការកំណត់រូបរាង (Theme) & ភាសា (Language) */}
+      {/* ========================================================= */}
+      <div className="mb-8 border-b pb-8 border-slate-200 dark:border-slate-700">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400 flex items-center justify-center text-xl shadow-xs">
+            🎨
+          </div>
+          <div>
+            <h2 className={`text-base font-black ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
+              រូបរាង &amp; ភាសា (Theme &amp; Language)
+            </h2>
+            <p className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+              ប្ដូរទម្រង់ពន្លឺ/ងងឹត (Light / Dark Mode) និងជ្រើសរើសភាសាប្រើប្រាស់ក្នុងប្រព័ន្ធ
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+          {/* ១. Theme Switcher */}
+          <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5">
+              ទម្រង់ពណ៌ (Appearance Mode)
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  if (setTheme) setTheme('light');
+                  if (typeof window !== 'undefined') localStorage.setItem('theme', 'light');
+                  notify("☀️ បានប្ដូរទៅជា Light Mode", "success");
+                }}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer border ${
+                  theme === 'light'
+                    ? 'bg-amber-500 text-white border-amber-600 shadow-sm'
+                    : 'bg-white dark:bg-[#161B22] border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-300'
+                }`}
+              >
+                <span>☀️</span>
+                <span>ពន្លឺថ្ងៃ</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (setTheme) setTheme('dark');
+                  if (typeof window !== 'undefined') localStorage.setItem('theme', 'dark');
+                  notify("🌙 បានប្ដូរទៅជា Dark Mode", "success");
+                }}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer border ${
+                  theme === 'dark'
+                    ? 'bg-indigo-600 text-white border-indigo-500 shadow-sm'
+                    : 'bg-white dark:bg-[#161B22] border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-300'
+                }`}
+              >
+                <span>🌙</span>
+                <span>យប់ងងឹត</span>
+              </button>
+            </div>
+          </div>
+
+          {/* ២. Language Switcher */}
+          <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5">
+              ភាសាប្រព័ន្ធ (Language)
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  if (setLang) setLang('kh');
+                  if (typeof window !== 'undefined') localStorage.setItem('lang', 'kh');
+                  notify("🇰🇭 បានប្ដូរទៅជា ភាសាខ្មែរ", "success");
+                }}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer border ${
+                  lang === 'kh'
+                    ? 'bg-blue-600 text-white border-blue-700 shadow-sm'
+                    : 'bg-white dark:bg-[#161B22] border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-300'
+                }`}
+              >
+                <span>🇰🇭</span>
+                <span>ខ្មែរ (KH)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (setLang) setLang('en');
+                  if (typeof window !== 'undefined') localStorage.setItem('lang', 'en');
+                  notify("🇺🇸 Switched to English", "success");
+                }}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer border ${
+                  lang === 'en'
+                    ? 'bg-blue-600 text-white border-blue-700 shadow-sm'
+                    : 'bg-white dark:bg-[#161B22] border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-300'
+                }`}
+              >
+                <span>🇺🇸</span>
+                <span>English</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* ========================================================= */}
       {/* 🌟 ផ្នែកទី ១៖ ភ្ជាប់ Telegram Notification ផ្ទាល់ខ្លួនសម្រាប់អតិថិជន */}
       {/* ========================================================= */}

@@ -4920,55 +4920,7 @@ const handleOpenDuplicateModal = () => {
             <span className="inline sm:hidden font-black">Sync</span>
           </button>
 
-          {/* Lang & Theme Icons */}
-          <div className="flex items-center gap-1.5 shrink-0">
-             <button 
-               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} 
-               title="ប្តូរទម្រង់ យប់/ថ្ងៃ"
-               className={`w-[44px] h-[44px] flex items-center justify-center rounded-xl text-lg shadow-xs transition-all border backdrop-blur-md cursor-pointer hover:scale-105 active:scale-95 ${
-                 theme === 'dark' 
-                   ? 'bg-[#161B22]/75 border-slate-800 text-white hover:border-slate-700 hover:bg-[#1C2128]' 
-                   : 'bg-white/75 border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-50'
-               }`}
-             >
-               {theme === 'light' ? '🌙' : '☀️'}
-             </button>
 
-             <div className="relative">
-                <button 
-                  onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} 
-                  title="ប្តូរភាសា / Change Language"
-                  className={`w-[44px] h-[44px] flex items-center justify-center rounded-xl text-lg shadow-xs transition-all border backdrop-blur-md cursor-pointer hover:scale-105 active:scale-95 ${
-                    theme === 'dark' 
-                      ? 'bg-[#161B22]/75 border-slate-800 text-white hover:border-slate-700 hover:bg-[#1C2128]' 
-                      : 'bg-white/75 border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-50'
-                  }`}
-                >
-                  🌐
-                </button>
-                {isLangMenuOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={() => setIsLangMenuOpen(false)}></div>
-                    <div className={`absolute top-[115%] right-0 w-[160px] border rounded-xl shadow-xl z-50 p-1.5 flex flex-col ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-800'}`}>
-                      <div 
-                        onClick={() => { setLang('kh'); setIsLangMenuOpen(false); showToast("🇰🇭 បានប្ដូរទៅជាភាសាខ្មែរ", "success"); }}
-                        className={`p-2.5 rounded-lg text-xs cursor-pointer transition flex items-center justify-between ${lang === 'kh' ? 'bg-blue-600 text-white font-bold' : 'hover:bg-slate-100 dark:hover:bg-[#1C2128]'}`}
-                      >
-                        <span>🇰🇭 ភាសាខ្មែរ (KH)</span>
-                        {lang === 'kh' && <span>✓</span>}
-                      </div>
-                      <div 
-                        onClick={() => { setLang('en'); setIsLangMenuOpen(false); showToast("🇺🇸 Switched to English", "success"); }}
-                        className={`p-2.5 rounded-lg text-xs cursor-pointer transition flex items-center justify-between ${lang === 'en' ? 'bg-blue-600 text-white font-bold' : 'hover:bg-slate-100 dark:hover:bg-[#1C2128]'}`}
-                      >
-                        <span>🇺🇸 English (EN)</span>
-                        {lang === 'en' && <span>✓</span>}
-                      </div>
-                    </div>
-                  </>
-                )}
-             </div>
-          </div>
 
         </div>
       </header>
@@ -5401,7 +5353,13 @@ const handleOpenDuplicateModal = () => {
             {/* 🌟 ផ្ទាំងប្ដូរលេខសម្ងាត់ (Change Password) មានរូបភ្នែកមើល Password */}
             {/* ========================================================= */}
             {(activeTab === "SETTINGS" || activeTab === "CHANGE_PASSWORD") && (
-              <SettingsTab theme={theme} showToast={showToast} />
+              <SettingsTab 
+                theme={theme} 
+                setTheme={setTheme} 
+                lang={lang} 
+                setLang={setLang} 
+                showToast={showToast} 
+              />
             )}
 
             {/* ========================================================= */}
