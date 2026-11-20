@@ -89,6 +89,34 @@ export default function PaymentsTab({
     setSlipPreview(null);
   };
 
+  const [isCopiedAba, setIsCopiedAba] = useState(false);
+
+  const handleCopyAba = () => {
+    navigator.clipboard.writeText("010723080");
+    setIsCopiedAba(true);
+    showToast("📋 បានចម្លងលេខគណនី ABA: 010 72 30 80", "success");
+    setTimeout(() => setIsCopiedAba(false), 2500);
+  };
+
+  const handleDownloadQR = async () => {
+    if (!adminQrUrl) return;
+    try {
+      const response = await fetch(adminQrUrl);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `KHQR_Payment_${selectedPlan.amount}USD.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+      showToast("📥 បានទាញយករូប QR រួចរាល់! សូមចូល App ABA រួច Scan ពីរូបថត", "success");
+    } catch {
+      window.open(adminQrUrl, '_blank');
+    }
+  };
+
   // ⚡ មុខងារផ្ទៀងផ្ទាត់ និង Activate ស្វ័យប្រវត្តិតាម KHQR (គាំទ្រទាំងមានភ្ជាប់ Slip និងគ្មាន Slip)
   const handleVerifyKHQRPayment = async () => {
     setIsVerifyingKHQR(true);
@@ -418,12 +446,36 @@ export default function PaymentsTab({
 
             {/* Action Buttons */}
             <div className="w-full space-y-2">
-              <a
-                href="bakong://"
-                className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5"
+              <div className="grid grid-cols-2 gap-2 w-full">
+                {/* 1. ប៊ូតុងបើក App ABA Mobile ផ្ទាល់ */}
+                <a
+                  href="abamobilebank://"
+                  className="py-2.5 px-3 bg-[#004A7C] hover:bg-[#003860] text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
+                >
+                  <span>📱</span>
+                  <span>បើក App ABA</span>
+                </a>
+
+                {/* 2. ប៊ូតុង Save រូប QR ទុកស្កេនពី Photo */}
+                <button
+                  type="button"
+                  onClick={handleDownloadQR}
+                  className="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-300/60 dark:border-slate-700 cursor-pointer active:scale-95"
+                >
+                  <span>📥</span>
+                  <span>Save រូប QR</span>
+                </button>
+              </div>
+
+              {/* 3. ប៊ូតុងចម្លងលេខគណនី ABA */}
+              <button
+                type="button"
+                onClick={handleCopyAba}
+                className="w-full py-2 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 border border-blue-200 dark:border-blue-900 cursor-pointer"
               >
-                <span>📱</span> <span>បើកក្នុង App Bakong / ABA</span>
-              </a>
+                <span>📋</span>
+                <span>{isCopiedAba ? "✅ បានចម្លងលេខ ABA 010 72 30 80 រួចរាល់!" : "ចម្លងលេខគណនី ABA (010 72 30 80)"}</span>
+              </button>
 
               <button
                 type="button"
@@ -494,9 +546,9 @@ export default function PaymentsTab({
               <h5 className="font-bold text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
                 <span>💡</span> <span>របៀបទូទាត់ប្រាក់រហ័ស 3 ជំហាន៖</span>
               </h5>
-              <ol className="list-decimal list-inside space-y-1.5 text-[11px] leading-relaxed">
-                <li>បើកកម្មវិធី <strong>Bakong, ABA, Wing ឬធនាគារណាមួយ</strong> ក្នុងទូរស័ព្ទ។</li>
-                <li>ស្កេនរូបភាព <strong>KHQR</strong> ខាងឆ្វេង និងផ្ទៀងផ្ទាត់ចំនួនទឹកប្រាក់ <strong>${selectedPlan.amount.toFixed(2)}</strong>។</li>
+              <ol className="list-decimal list-inside space-y-2 text-[11px] leading-relaxed">
+                <li>ចុចប៊ូតុង <strong>"📱 បើក App ABA"</strong> ឬចុច <strong>"📥 Save រូប QR"</strong> រួចចូលក្នុង App ABA / Bakong ស្កេនរូប QR ពីក្នុង Photo Gallery របស់អ្នក។</li>
+                <li>ផ្ទៀងផ្ទាត់ឈ្មោះ <strong>SENG SOVEASNA</strong> និងចំនួនទឹកប្រាក់ <strong>${selectedPlan.amount.toFixed(2)}</strong> រួចធ្វើការទូទាត់។</li>
                 <li>ភ្ជាប់រូបភាព <strong>Slip ផ្ទេរប្រាក់</strong> រួចចុចប៊ូតុង <strong>"⚡ បញ្ជាក់ការទូទាត់"</strong> នោះប្រព័ន្ធនឹង Active គណនី +៣០ ថ្ងៃភ្លាមៗ!</li>
               </ol>
             </div>
