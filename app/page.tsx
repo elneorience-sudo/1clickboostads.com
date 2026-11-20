@@ -505,9 +505,15 @@ export default function Home() {
     setIsSingleAdDuplicateModalOpen(true);
   };
 
-  // 🌟 State សម្រាប់គ្រប់គ្រងផ្ទាំង Pop-up លុប Ad Set និង Ad បែបទំនើប
+  // 🌟 State សម្រាប់គ្រប់គ្រងផ្ទាំង Pop-up លុបដ៏ទំនើប (Unified Ultra-Modern Delete Modal)
   const [isCustomDeleteModalOpen, setIsCustomDeleteModalOpen] = useState(false);
-  const [itemToDeleteData, setItemToDeleteData] = useState<{ id: string; name: string; type: 'ADSET' | 'AD' } | null>(null);
+  const [itemToDeleteData, setItemToDeleteData] = useState<{ 
+    id?: string; 
+    name?: string; 
+    type?: 'CAMPAIGNS' | 'ADSETS' | 'ADS' | 'CAMPAIGN' | 'ADSET' | 'AD';
+    typeLabel?: string;
+    items?: Array<{ id: string; name: string }>;
+  } | null>(null);
   const [isExecutingDelete, setIsExecutingDelete] = useState(false);
 
   // 🎯 State សម្រាប់គ្រប់គ្រង Smart Ad Rules Modal (ច្បាប់បិទ Ad ស្វ័យប្រវត្តិកុំឱ្យខាតលុយ)
@@ -518,37 +524,56 @@ export default function Home() {
   const [selectedAdminInvoice, setSelectedAdminInvoice] = useState<InvoiceData | null>(null);
 
   const handleConfirmCustomDelete = async () => {
-  if (!itemToDeleteData) return;
-  setIsExecutingDelete(true);
-  try {
-    const token = localStorage.getItem('fb_user_token');
-    if (!token) {
-      alert("⚠️ រកមិនឃើញ Token ទេ សូម Connect Facebook ឡើងវិញ!");
-      return;
-    }
+    if (!itemToDeleteData) return;
+    setIsExecutingDelete(true);
+    try {
+      const token = localStorage.getItem('fb_user_token');
+      if (!token) {
+        showToast("⚠️ រកមិនឃើញ Token ទេ សូម Connect Facebook ឡើងវិញ!", "error");
+        return;
+      }
 
-    const res = await fetch(`https://graph.facebook.com/v18.0/${itemToDeleteData.id}?access_token=${token}`, {
-      method: 'DELETE'
-    });
-    const data = await res.json();
+      // ប្រមូលបញ្ជី Items ទាំងអស់ដែលត្រូវលុប (ទោះលុប ១ ឬលុបច្រើន)
+      const targetItems = itemToDeleteData.items && itemToDeleteData.items.length > 0
+        ? itemToDeleteData.items
+        : [{ id: itemToDeleteData.id!, name: itemToDeleteData.name || 'Item' }];
 
-    if (res.ok || data.success) {
-      showToast(`✅ បានលុប ${itemToDeleteData.type === 'ADSET' ? 'Ad Set' : 'Ad'} ដោយជោគជ័យ!`, "success");
+      const isCampaign = itemToDeleteData.type === 'CAMPAIGNS' || itemToDeleteData.type === 'CAMPAIGN';
+      const isAdset = itemToDeleteData.type === 'ADSETS' || itemToDeleteData.type === 'ADSET';
+
+      for (const item of targetItems) {
+        const endpoint = isCampaign
+          ? `/api/campaigns?id=${item.id}&access_token=${token}`
+          : `https://graph.facebook.com/v18.0/${item.id}?access_token=${token}`;
+
+        await fetch(endpoint, { method: 'DELETE' });
+      }
+
+      const deletedIds = targetItems.map(i => String(i.id));
+      const label = itemToDeleteData.typeLabel || (isCampaign ? 'Campaign' : isAdset ? 'Ad Set' : 'Ad');
+
+      showToast(`✅ បានលុប ${label} ចំនួន ${targetItems.length} ដោយជោគជ័យ!`, "success");
       setIsCustomDeleteModalOpen(false);
       setItemToDeleteData(null);
-      
+      setIsDeleteSuccessModal(true);
+
       // Refresh ទិន្នន័យតាម Tab
-      if (itemToDeleteData.type === 'ADSET' && typeof fetchAdsets === 'function') fetchAdsets();
-      if (itemToDeleteData.type === 'AD' && typeof fetchAds === 'function') fetchAds();
-    } else {
-      alert("❌ Facebook បដិសេធ: " + (data.error?.message || "Unknown error"));
+      if (isCampaign) {
+        setSelectedCampaigns(prev => prev.filter(id => !deletedIds.includes(String(id))));
+        if (typeof fetchCampaigns === 'function') fetchCampaigns();
+      } else if (isAdset) {
+        setSelectedAdSets(prev => prev.filter(id => !deletedIds.includes(String(id))));
+        if (typeof fetchAdsets === 'function') fetchAdsets();
+      } else {
+        setSelectedAds(prev => prev.filter(id => !deletedIds.includes(String(id))));
+        if (typeof fetchAds === 'function') fetchAds();
+      }
+    } catch (err: any) {
+      showToast("❌ បរាជ័យក្នុងការលុប: " + err.message, "error");
+    } finally {
+      setIsExecutingDelete(false);
     }
-  } catch (err: any) {
-    alert("❌ Error: " + err.message);
-  } finally {
-    setIsExecutingDelete(false);
-  }
-};
+  };
 
   const [customAlert, setCustomAlert] = useState<{ title: string; message: string } | null>(null);
 
@@ -3776,62 +3801,17 @@ const idOrMatch = (item: any, id: string) => {
       : currentList.filter(item => stateSelectedIds.some(id => String(id) === String(item.id)));
 
     if (finalItemsToDelete.length === 0) {
-      alert(`⚠️ សូមធីក (Tick) ជ្រើសរើសប៉ុស្តិ៍នៅក្នុងផ្ទាំង ${tabLabel} យ៉ាងហោចណាស់មួយជាមុនសិន!`);
+      showToast(`⚠️ សូមធីក (Tick) ជ្រើសរើសប៉ុស្តិ៍នៅក្នុងផ្ទាំង ${tabLabel} យ៉ាងហោចណាស់មួយជាមុនសិន!`, "error");
       return;
     }
 
-    // ៣. បើធីក ១ ប៉ុស្តិ៍ នៅក្នុងផ្ទាំង Ad Sets ឬ Ads -> បើកផ្ទាំង Pop-up លុបដ៏ស្រស់ស្អាតបង្ហាញឈ្មោះប៉ុស្តិ៍នោះច្បាស់ៗ
-    if (finalItemsToDelete.length === 1 && (activeManageTab === 'ADSETS' || activeManageTab === 'ADS')) {
-      const targetItem = finalItemsToDelete[0];
-      setItemToDeleteData({
-        id: targetItem.id,
-        name: targetItem.name || tabLabel,
-        type: activeManageTab === 'ADSETS' ? 'ADSET' : 'AD'
-      });
-      setIsCustomDeleteModalOpen(true);
-      return;
-    }
-
-    // ៤. បើនៅផ្ទាំង Campaigns ឬធីកច្រើនប៉ុស្តិ៍ព្រមគ្នា -> បញ្ជាក់មុននឹងលុបតែប៉ុស្តិ៍ដែលបានធីកនោះ
-    const namesPreview = finalItemsToDelete.map(item => `• ${item.name || item.id}`).join('\n');
-    if (!confirm(`តើបងពិតជាចង់លុប ${tabLabel} ចំនួន ${finalItemsToDelete.length} ដែលបាន Select នេះមែនទេ?\n\n${namesPreview}\n\n(សកម្មភាពនេះលុបតែប៉ុស្តិ៍ដែលបានជ្រើសរើសប៉ុណ្ណោះ មិនប៉ះពាល់កន្លែងផ្សេងទេ)`)) {
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem('fb_user_token');
-      if (!token) {
-        alert("⚠️ រកមិនឃើញ Token ទេ សូម Connect Facebook ឡើងវិញ!");
-        return;
-      }
-
-      for (const item of finalItemsToDelete) {
-        const endpoint = activeManageTab === 'CAMPAIGNS'
-          ? `/api/campaigns?id=${item.id}&access_token=${token}`
-          : `https://graph.facebook.com/v18.0/${item.id}?access_token=${token}`;
-
-        await fetch(endpoint, { method: 'DELETE' });
-      }
-
-      showToast(`✅ បានលុប ${tabLabel} ចំនួន ${finalItemsToDelete.length} ដោយជោគជ័យ!`, "success");
-
-      const deletedIds = finalItemsToDelete.map(i => String(i.id));
-
-      // ៥. សម្អាតតែសញ្ញាធីករបស់ប៉ុស្តិ៍ដែលបានលុប និង Refresh តែតារាងនៃផ្ទាំងនោះប៉ុណ្ណោះ
-      if (activeManageTab === 'CAMPAIGNS') {
-        setSelectedCampaigns(prev => prev.filter(id => !deletedIds.includes(String(id))));
-        if (typeof fetchCampaigns === 'function') fetchCampaigns();
-      } else if (activeManageTab === 'ADSETS') {
-        setSelectedAdSets(prev => prev.filter(id => !deletedIds.includes(String(id))));
-        if (typeof fetchAdsets === 'function') fetchAdsets();
-      } else if (activeManageTab === 'ADS') {
-        setSelectedAds(prev => prev.filter(id => !deletedIds.includes(String(id))));
-        if (typeof fetchAds === 'function') fetchAds();
-      }
-
-    } catch (err: any) {
-      alert("❌ មានបញ្ហាក្នុងការលុប: " + err.message);
-    }
+    // ៣. បើកផ្ទាំង Pop-up លុបដ៏ទំនើបបែប Glassmorphism & Cyber Red (ជំនួស Browser confirm ១០០%)
+    setItemToDeleteData({
+      type: activeManageTab as any,
+      typeLabel: tabLabel,
+      items: finalItemsToDelete.map(item => ({ id: String(item.id), name: item.name || tabLabel }))
+    });
+    setIsCustomDeleteModalOpen(true);
   };
 
   // 🌟 មុខងារទាញយក Ads និងចម្រាញ់បង្ហាញតែប៉ុស្តិ៍របស់ Ad Set ដែលបាន Select យ៉ាងជាក់លាក់ ១០០%
@@ -7514,10 +7494,14 @@ const handleOpenDuplicateModal = () => {
                                         <span className="text-slate-400">|</span>
                                         <span 
                                           onClick={() => {
-                                            if (!selectedCampaigns || selectedCampaigns.length === 0) {
-                                              setSelectedCampaigns([c.id]);
-                                            }
-                                            setIsDeleteModalOpen(true);
+                                            setItemToDeleteData({
+                                              id: c.id,
+                                              name: c.name || 'Campaign',
+                                              type: 'CAMPAIGN',
+                                              typeLabel: 'Campaign',
+                                              items: [{ id: c.id, name: c.name || 'Campaign' }]
+                                            });
+                                            setIsCustomDeleteModalOpen(true);
                                           }} 
                                           className="text-[#1877F2] hover:underline cursor-pointer font-medium"
                                         >
@@ -8015,7 +7999,13 @@ const handleOpenDuplicateModal = () => {
                                           <span className="text-slate-400">|</span>
                                           <span 
                                             onClick={() => {
-                                              setItemToDeleteData({ id: adset.id, name: adset.name, type: 'ADSET' });
+                                              setItemToDeleteData({ 
+                                                id: adset.id, 
+                                                name: adset.name || 'Ad Set', 
+                                                type: 'ADSET',
+                                                typeLabel: 'Ad Set',
+                                                items: [{ id: adset.id, name: adset.name || 'Ad Set' }]
+                                              });
                                               setIsCustomDeleteModalOpen(true);
                                             }} 
                                             className="text-[#1877F2] hover:underline cursor-pointer font-medium"
@@ -8430,7 +8420,13 @@ const handleOpenDuplicateModal = () => {
                                               <span 
                                                 onClick={(e) => {
                                                   e.stopPropagation();
-                                                  setItemToDeleteData({ id: ad.id, name: ad.name, type: 'AD' });
+                                                  setItemToDeleteData({ 
+                                                    id: ad.id, 
+                                                    name: ad.name || 'Ad', 
+                                                    type: 'AD',
+                                                    typeLabel: 'Ad',
+                                                    items: [{ id: ad.id, name: ad.name || 'Ad' }]
+                                                  });
                                                   setIsCustomDeleteModalOpen(true);
                                                 }} 
                                                 className="text-[#1877F2] hover:underline font-medium"
@@ -10303,25 +10299,33 @@ const handleOpenDuplicateModal = () => {
       {/* 🌟 Custom Modern Delete Success Modal          */}
       {/* ============================================== */}
       {isDeleteSuccessModal && (
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col p-6 text-center transform transition-all scale-100 ${theme === 'dark' ? 'bg-[#0D1117] text-white border border-slate-700' : 'bg-white text-slate-900'}`}>
+        <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/80 backdrop-blur-xl p-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className={`relative rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col p-6 sm:p-8 text-center border ${
+            theme === 'dark' 
+              ? 'bg-[#0D1117] text-white border-emerald-500/30 shadow-[0_20px_60px_rgba(16,185,129,0.25)]' 
+              : 'bg-white text-slate-900 border-emerald-200 shadow-[0_20px_60px_rgba(16,185,129,0.15)]'
+          }`}>
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"></div>
             
-            {/* Icon  ടിកសញ្ញាគ្រីសបៃតង */}
-            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-4 shadow-inner">
-              ✓
+            {/* Glowing Success Radar Pulse */}
+            <div className="relative w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-2xl bg-emerald-500/20 animate-ping opacity-60"></div>
+              <div className="relative z-10 w-16 h-16 bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-transparent border border-emerald-500/30 text-emerald-500 rounded-2xl flex items-center justify-center text-3xl font-black shadow-lg shadow-emerald-500/20">
+                ✓
+              </div>
             </div>
 
-            <h3 className="text-lg font-bold mb-2">លុបបានជោគជ័យ!</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
-              យុទ្ធនាការដែលបានជ្រើសរើសត្រូវបានលុបចេញពី Facebook Ads Manager ដោយជោគជ័យ។
+            <h3 className="text-xl font-black mb-2">លុបបានជោគជ័យ!</h3>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
+              ទិន្នន័យដែលបានជ្រើសរើសត្រូវបានលុបចេញពី Facebook Ads Manager ដោយជោគជ័យ ១០០%។
             </p>
 
             <button
               type="button"
               onClick={() => setIsDeleteSuccessModal(false)}
-              className="w-full py-3 rounded-xl bg-[#1877F2] hover:bg-blue-600 text-white font-bold text-sm transition shadow-md cursor-pointer"
+              className="btn-shimmer w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-sm transition shadow-lg shadow-emerald-600/30 cursor-pointer"
             >
-              OK
+              យល់ព្រម (OK)
             </button>
 
           </div>
@@ -11251,55 +11255,126 @@ const handleOpenDuplicateModal = () => {
 
 
 
-      {/* 🌟 Custom Modern Delete Modal (ស្អាតបែបទំនើប) */}
-      {isCustomDeleteModalOpen && itemToDeleteData && (
-        <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-3xl max-w-md w-full p-6 shadow-2xl border text-center transform transition-all scale-100 ${
-            theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
-          }`}>
-            
-            <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
-              🗑️
-            </div>
+      {/* 🌟 Custom Ultra-Modern Delete Modal (ផ្ទាំង Pop-up លុបដ៏ទំនើបបែប Glassmorphic & Cyber Red) */}
+      {isCustomDeleteModalOpen && itemToDeleteData && (() => {
+        const targetItems = itemToDeleteData.items && itemToDeleteData.items.length > 0
+          ? itemToDeleteData.items
+          : [{ id: itemToDeleteData.id || '', name: itemToDeleteData.name || 'Item' }];
+        const typeLabel = itemToDeleteData.typeLabel || 
+          (itemToDeleteData.type?.includes('CAMPAIGN') ? 'Campaign' :
+           itemToDeleteData.type?.includes('ADSET') ? 'Ad Set' : 'Ad');
+        const count = targetItems.length;
 
-            <h3 className="text-xl font-black mb-2">តើបងពិតជាចង់លុបមែនទេ?</h3>
-            
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
-              {itemToDeleteData.type === 'ADSET' ? 'Ad Set' : 'Ad'} ឈ្មោះ <strong className="text-red-500 font-bold">"{itemToDeleteData.name}"</strong> នេះនឹងត្រូវលុបចេញពី Facebook ទាំងស្រុង។ សកម្មភាពនេះមិនអាចទាញយកវិញបានទេ។
-            </p>
+        return (
+          <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/80 backdrop-blur-xl p-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className={`relative w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl border transition-all text-center overflow-hidden ${
+              theme === 'dark' 
+                ? 'bg-[#0D1117] border-rose-500/30 text-white shadow-[0_20px_60px_rgba(244,63,94,0.25)]' 
+                : 'bg-white border-rose-200 text-slate-900 shadow-[0_20px_60px_rgba(244,63,94,0.15)]'
+            }`}>
+              {/* Top Radiant Gradient Line */}
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-red-500 to-amber-500"></div>
 
-            <div className="flex gap-3">
-              <button 
-                type="button" 
-                disabled={isExecutingDelete}
-                onClick={() => {
-                  setIsCustomDeleteModalOpen(false);
-                  setItemToDeleteData(null);
-                }} 
-                className={`flex-1 py-3 rounded-xl font-bold text-xs border transition cursor-pointer ${
-                  theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                បោះបង់ (Cancel)
-              </button>
+              {/* Futuristic Radar Pulse Glowing Delete Icon */}
+              <div className="relative w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-3xl bg-rose-500/20 animate-ping opacity-60"></div>
+                <div className="relative z-10 w-20 h-20 rounded-3xl bg-gradient-to-br from-rose-500/20 via-red-500/10 to-transparent border border-rose-500/30 flex items-center justify-center text-3xl shadow-xl shadow-rose-500/25">
+                  🗑️
+                </div>
+              </div>
 
-              <button 
-                type="button" 
-                disabled={isExecutingDelete}
-                onClick={handleConfirmCustomDelete}
-                className="flex-1 py-3 rounded-xl font-bold text-xs text-white bg-red-600 hover:bg-red-700 transition shadow-md cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
-              >
-                {isExecutingDelete ? (
-                  <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div><span>កំពុងលុប...</span></>
+              {/* Pill Tag */}
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-rose-500/10 text-rose-500 border border-rose-500/20 mb-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+                ផ្ទាំងបញ្ជាក់ការលុបទិន្នន័យ (Confirm Deletion)
+              </div>
+
+              {/* Modal Title */}
+              <h3 className="text-xl sm:text-2xl font-black mb-2 tracking-tight">
+                តើបងពិតជាចង់លុប {typeLabel} {count > 1 ? `ចំនួន ${count} នេះ` : ''}មែនទេ?
+              </h3>
+
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+                {count === 1 ? (
+                  <>ប៉ុស្តិ៍ <strong className="text-rose-500 font-bold">"{targetItems[0].name}"</strong> នេះនឹងត្រូវលុបចេញពី Facebook Ads Manager ទាំងស្រុង។</>
                 ) : (
-                  <span>យល់ព្រមលុប (Delete)</span>
+                  <>ប៉ុស្តិ៍ចំនួន <strong className="text-rose-500 font-bold">{count}</strong> ខាងក្រោមនេះនឹងត្រូវលុបចេញពី Facebook Ads Manager ទាំងស្រុង។</>
                 )}
-              </button>
-            </div>
+              </p>
 
+              {/* Selected Items Bento Preview List */}
+              <div className={`text-left rounded-2xl p-3 sm:p-4 mb-4 border max-h-48 overflow-y-auto space-y-2 ${
+                theme === 'dark' ? 'bg-[#0B0F17]/90 border-slate-800' : 'bg-slate-50 border-slate-200'
+              }`}>
+                {targetItems.map((item, idx) => (
+                  <div key={item.id || idx} className="flex items-center justify-between gap-2 p-2 rounded-xl bg-white/60 dark:bg-[#161B22] border border-slate-200/60 dark:border-slate-800 text-xs">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="w-5 h-5 rounded-lg bg-rose-500/15 text-rose-500 flex items-center justify-center text-[10px] font-bold shrink-0">
+                        {idx + 1}
+                      </span>
+                      <span className="font-semibold truncate text-slate-800 dark:text-slate-200 max-w-[220px] sm:max-w-[280px]" title={item.name}>
+                        {item.name}
+                      </span>
+                    </div>
+                    {item.id && (
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 shrink-0">
+                        ID: #{String(item.id).slice(-6)}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Security Warning Notice */}
+              <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-left text-[11px] leading-relaxed mb-6">
+                <span className="text-base shrink-0 leading-none">⚠️</span>
+                <span>
+                  <strong>សម្គាល់:</strong> សកម្មភាពនេះលុបតែប៉ុស្តិ៍ដែលបានជ្រើសរើសប៉ុណ្ណោះ មិនប៉ះពាល់យុទ្ធនាការផ្សេងឡើយ។ ទិន្នន័យដែលលុបហើយមិនអាចទាញយកមកវិញបានទេ។
+                </span>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <button 
+                  type="button" 
+                  disabled={isExecutingDelete}
+                  onClick={() => {
+                    setIsCustomDeleteModalOpen(false);
+                    setItemToDeleteData(null);
+                  }} 
+                  className={`flex-1 py-3 px-4 rounded-2xl font-bold text-xs sm:text-sm border transition-all cursor-pointer ${
+                    theme === 'dark' 
+                      ? 'bg-[#1C2128] border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white' 
+                      : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+                  }`}
+                >
+                  បោះបង់ (Cancel)
+                </button>
+
+                <button 
+                  type="button" 
+                  disabled={isExecutingDelete}
+                  onClick={handleConfirmCustomDelete}
+                  className="btn-shimmer flex-1 py-3 px-4 rounded-2xl font-black text-xs sm:text-sm text-white bg-gradient-to-r from-rose-600 via-red-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 transition-all shadow-lg shadow-rose-600/30 hover:shadow-rose-600/50 hover:scale-[1.02] active:scale-[0.98] cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {isExecutingDelete ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <span>កំពុងលុបពី Facebook...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>🗑️</span>
+                      <span>យល់ព្រមលុប ({count > 1 ? `លុប ${count}` : 'Delete'})</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ========================================================= */}
       {/* 🌟 ផ្ទាំង 3-in-1 Full Edit Modal (មានគ្រប់ប្រអប់ និង Placements តូចៗដូចរូប 100%) */}
