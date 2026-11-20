@@ -2191,6 +2191,137 @@ export default function Home() {
     return resultValue > 0 ? resultValue : "-";
   };
 
+  // 📊 មុខងារទាញយករបាយការណ៍ចំណាយ Ad ជា Excel / CSV មួយចុច (Bento Report Exporter)
+  const handleExportReport = () => {
+    try {
+      let currentList: any[] = [];
+      let stateSelectedIds: string[] = [];
+      let tabLabel = "";
+
+      if (activeManageTab === 'CAMPAIGNS') {
+        currentList = campaignsList;
+        stateSelectedIds = selectedCampaigns;
+        tabLabel = "Campaigns";
+      } else if (activeManageTab === 'ADSETS') {
+        currentList = adsetsList;
+        stateSelectedIds = selectedAdSets;
+        tabLabel = "AdSets";
+      } else {
+        currentList = adsList;
+        stateSelectedIds = selectedAds;
+        tabLabel = "Ads";
+      }
+
+      // ជ្រើសរើសទិន្នន័យ (បើបាន Tick គឺ Export តែប៉ុស្តិ៍ដែល Tick បើអត់ Tick គឺ Export ទាំងអស់)
+      const sourceList: any[] = stateSelectedIds.length > 0 
+        ? currentList.filter((item: any) => stateSelectedIds.some((id: string) => String(id) === String(item.id)))
+        : currentList;
+
+      if (!sourceList || sourceList.length === 0) {
+        showToast("⚠️ មិនមានទិន្នន័យសម្រាប់ទាញយករបាយការណ៍ទេ!", "error");
+        return;
+      }
+
+      // ក្បាលតារាង (Headers) សម្រាប់ Excel/CSV
+      const headers = [
+        "លេខសម្គាល់ (ID)",
+        "ឈ្មោះ (Name)",
+        "ប្រភេទ (Type)",
+        "ស្ថានភាព (Status)",
+        "ថវិកា (Budget)",
+        "លទ្ធផល/ឆាត (Results/Messages)",
+        "ថ្លៃក្នុង១លទ្ធផល (Cost per Result / CPA)",
+        "ការចំណាយសរុប (Amount Spent $)",
+        "ចំនួនបង្ហាញ (Impressions)",
+        "ចំនួនមនុស្សបានឃើញ (Reach)",
+        "កាលបរិច្ឆេទ Export (Export Date)"
+      ];
+
+      const exportDate = new Date().toLocaleDateString('km-KH');
+
+      const rows = sourceList.map((item: any) => {
+        const ins = getInsights(item);
+        const results = getResults(ins, item.objective || '');
+        const spend = ins && ins.spend ? Number(ins.spend).toFixed(2) : "0.00";
+        const cpa = (results !== "-" && spend && Number(results) > 0)
+          ? "$" + (Number(spend) / Number(results)).toFixed(2)
+          : "-";
+        const impressions = ins && ins.impressions ? ins.impressions : "0";
+        const reach = ins && ins.reach ? ins.reach : "0";
+
+        let budgetStr = "-";
+        if (item.daily_budget) {
+          budgetStr = `$${(Number(item.daily_budget) / 100).toFixed(2)}/day`;
+        } else if (item.lifetime_budget) {
+          budgetStr = `$${(Number(item.lifetime_budget) / 100).toFixed(2)} (Lifetime)`;
+        }
+
+        const status = (item.effective_status || item.status || "UNKNOWN").toUpperCase();
+        const cleanName = (item.name || "").replace(/"/g, '""');
+
+        return [
+          `"${item.id}"`,
+          `"${cleanName}"`,
+          `"${tabLabel}"`,
+          `"${status}"`,
+          `"${budgetStr}"`,
+          `"${results}"`,
+          `"${cpa}"`,
+          `"${spend}"`,
+          `"${impressions}"`,
+          `"${reach}"`,
+          `"${exportDate}"`
+        ].join(",");
+      });
+
+      // បន្ថែមជួរបូកសរុប (Summary Total Row)
+      const totalSpend = sourceList.reduce((acc, item) => {
+        const ins = getInsights(item);
+        return acc + (ins && ins.spend ? Number(ins.spend) : 0);
+      }, 0);
+
+      const totalResults = sourceList.reduce((acc, item) => {
+        const ins = getInsights(item);
+        const r = getResults(ins, item.objective || '');
+        return acc + (r !== "-" ? Number(r) : 0);
+      }, 0);
+
+      const avgCpa = totalResults > 0 ? "$" + (totalSpend / totalResults).toFixed(2) : "-";
+
+      const summaryRow = [
+        `"សរុប (TOTAL)"`,
+        `"ចំនួន ${sourceList.length} ប៉ុស្តិ៍"`,
+        `"${tabLabel}"`,
+        `"-"`,
+        `"-"`,
+        `"${totalResults}"`,
+        `"${avgCpa}"`,
+        `"${totalSpend.toFixed(2)}"`,
+        `"-"`,
+        `"-"`,
+        `"${exportDate}"`
+      ].join(",");
+
+      // UTF-8 BOM (\uFEFF) ធានាថាភាសាខ្មែរមិនបែកពុម្ពអក្សរក្នុង Microsoft Excel 100%
+      const csvContent = "\uFEFF" + [headers.join(","), ...rows, summaryRow].join("\r\n");
+
+      // បង្កើត Blob និងទាញយក File
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const timestamp = new Date().toISOString().slice(0, 10);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `1ClickBoostAds_Report_${tabLabel}_${timestamp}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      showToast(`📊 បានទាញយករបាយការណ៍ ${tabLabel} (${sourceList.length} ប៉ុស្តិ៍) ជា Excel/CSV ជោគជ័យ!`, "success");
+    } catch (err: any) {
+      showToast("❌ បរាជ័យក្នុងការទាញយករបាយការណ៍: " + err.message, "error");
+    }
+  };
 
   const handleSort = (field: string) => {
     const isAsc = sortField === field && sortDirection === 'desc';
@@ -7187,6 +7318,17 @@ const handleOpenDuplicateModal = () => {
                       className="btn-futuristic-rose py-2.5 px-4 rounded-xl text-[13px] flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
                     >
                       <span className="text-sm">🗑️</span> Delete
+                    </button>
+
+                    {/* 📊 ប៊ូតុង Export Report to Excel / CSV */}
+                    <button 
+                      type="button"
+                      onClick={handleExportReport}
+                      className="btn-futuristic-emerald py-2.5 px-4 rounded-xl text-[13px] flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
+                      title="ទាញយករបាយការណ៍ចំណាយ Ad ជា Excel / CSV (Export Excel)"
+                    >
+                      <span className="text-sm">📊</span> 
+                      <span className="font-bold">Export Excel</span>
                     </button>
 
                     {/* 🎯 Smart Ad Rules (ច្បាប់បិទ Ad ស្វ័យប្រវត្តិកុំឱ្យខាតលុយ) */}
