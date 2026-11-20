@@ -10502,23 +10502,35 @@ const handleOpenDuplicateModal = () => {
       {/* 🌟 ផ្ទាំង Pop-up (Top-up) Duplicate Campaign (Clone ទាំងមូល 100%) */}
       {/* ========================================================= */}
       {isAdDuplicateModalOpen && (
-        <div className="fixed inset-0 z-[99990] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-3xl max-w-4xl w-full p-6 shadow-2xl border flex flex-col max-h-[90vh] overflow-hidden ${
-            theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
+        <div className="fixed inset-0 z-[99990] flex items-center justify-center bg-black/80 backdrop-blur-xl p-3 sm:p-5 animate-in fade-in zoom-in-95 duration-200">
+          <div className={`rounded-3xl max-w-4xl w-full p-5 sm:p-7 shadow-2xl border flex flex-col max-h-[92vh] overflow-hidden relative ${
+            theme === 'dark' ? 'bg-[#0D1117] border-purple-500/30 text-white shadow-[0_25px_70px_rgba(168,85,247,0.25)]' : 'bg-white border-purple-200 text-slate-900 shadow-[0_25px_70px_rgba(168,85,247,0.15)]'
           }`}>
-            
+            {/* Top Radiant Gradient Line */}
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500"></div>
+
             {/* Modal Header */}
-            <div className="flex justify-between items-center mb-4 border-b pb-3.5 dark:border-slate-700 shrink-0">
-              <div>
-                <h3 className="font-black text-lg flex items-center gap-2">
-                  <span>📄</span> ផ្ទៀងផ្ទាត់ និង Duplicate Campaign (Clone ទាំងមូល 100%)
-                </h3>
-                <p className="text-xs text-slate-400 mt-0.5">ទិន្នន័យ និងការកំណត់ទាំងអស់ត្រូវបានទាញយកមកដូច UI ដើម លោកអ្នកអាចកែសម្រួលបាន</p>
+            <div className="flex justify-between items-center mb-4 border-b pb-3.5 dark:border-slate-800 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-purple-500/15 border border-purple-500/30 text-purple-400 flex items-center justify-center text-xl shrink-0 shadow-md shadow-purple-500/10">
+                  📄
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                      🚀 Cyber Bento Clone
+                    </span>
+                  </div>
+                  <h3 className="font-black text-base sm:text-lg flex items-center gap-2 tracking-tight">
+                    ផ្ទៀងផ្ទាត់ និង Duplicate Campaign (Clone ទាំងមូល 100%)
+                  </h3>
+                  <p className="text-xs text-slate-400">ទិន្នន័យ និងការកំណត់ទាំងអស់ត្រូវបានទាញយកមកដូច UI ដើម លោកអ្នកអាចកែសម្រួលបាន</p>
+                </div>
               </div>
               <button 
                 type="button" 
                 onClick={() => setIsAdDuplicateModalOpen(false)} 
-                className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-500 hover:text-red-500 cursor-pointer transition"
+                className="w-9 h-9 rounded-2xl bg-slate-100 dark:bg-slate-800/80 hover:bg-rose-500/20 hover:text-rose-400 border border-transparent hover:border-rose-500/30 flex items-center justify-center font-bold text-slate-400 cursor-pointer transition-all"
               >
                 ✕
               </button>
@@ -11021,22 +11033,46 @@ const handleOpenDuplicateModal = () => {
                 <div>
                   <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Ad creative</label>
                   <div className={`border rounded-xl overflow-visible shadow-sm relative ${theme === 'dark' ? 'border-slate-700 bg-[#0B0F17]' : 'border-slate-200 bg-white'}`}>
-                    <div className="p-4">
-                      <div className={`w-full border rounded-xl p-3 flex items-center justify-between mb-4 shadow-sm relative overflow-hidden group ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600' : 'bg-white border-slate-300'}`}>
-                        <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
+                    <div className="p-4 sm:p-5">
+                      {/* 🌟 Cyber Bento Live Post Preview Box */}
+                      <div className={`w-full border rounded-2xl p-4 flex flex-col sm:flex-row items-start gap-4 mb-4 shadow-md relative overflow-hidden transition-all ${
+                        theme === 'dark' ? 'bg-[#0B0F17] border-purple-500/30' : 'bg-slate-50 border-purple-200'
+                      }`}>
+                        <div className="flex items-start gap-4 flex-1 min-w-0 w-full">
                           {fetchingPosts ? (
-                            <span className="text-slate-500 font-medium text-sm">⏳ កំពុងទាញយក...</span>
+                            <div className="p-6 text-center w-full text-slate-400 font-medium flex items-center justify-center gap-2">
+                              <div className="w-4 h-4 border-2 border-purple-500/40 border-t-purple-500 rounded-full animate-spin"></div>
+                              <span>⏳ កំពុងទាញយកទិន្នន័យ Post ពី Facebook...</span>
+                            </div>
                           ) : (
                             <>
                               {selectedPostData?.full_picture ? (
-                                <img src={selectedPostData.full_picture} className="w-12 h-12 object-cover rounded-xl shrink-0 border" />
+                                <div className="relative shrink-0 group">
+                                  <img src={selectedPostData.full_picture} className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-2xl border border-purple-500/30 shadow-md group-hover:scale-105 transition-transform" alt="Live Post" />
+                                  <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md bg-black/70 backdrop-blur-xs text-[9px] font-mono text-purple-300">Live</span>
+                                </div>
                               ) : (
-                                <div className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center text-[10px] border bg-slate-100 text-slate-400">No Img</div>
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shrink-0 flex flex-col items-center justify-center text-xs border border-dashed border-slate-700 bg-slate-900/50 text-slate-400 font-bold">
+                                  <span>🖼️</span>
+                                  <span className="text-[10px] mt-1">No Image</span>
+                                </div>
                               )}
-                              <div className="flex flex-col min-w-0 flex-1">
-                                <span className={`font-medium text-[13px] line-clamp-2 leading-snug ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
-                                  {selectedPostData?.message || (duplicatePostId || selectedPost ? `Post ID: ${duplicatePostId || selectedPost}` : "[សូមចុច Select post ជាមុនសិន]")}
-                                </span>
+                              <div className="flex flex-col min-w-0 flex-1 justify-between">
+                                <div>
+                                  <div className="flex items-center gap-2 mb-1.5">
+                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">
+                                      ✨ Live Post Preview
+                                    </span>
+                                    {selectedPostData?.id && (
+                                      <span className="text-[10px] font-mono text-slate-400 truncate">
+                                        ID: #{String(selectedPostData.id).slice(-8)}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className={`font-semibold text-xs sm:text-[13px] line-clamp-3 leading-relaxed ${theme === 'dark' ? 'text-slate-200' : 'text-slate-800'}`}>
+                                    {selectedPostData?.message || (duplicatePostId || selectedPost ? `Post ID: ${duplicatePostId || selectedPost}` : "🌟 សូមចុច Select post ដើម្បីជ្រើសរើសប៉ុស្តិ៍ដែលត្រូវ Duplicate...")}
+                                  </p>
+                                </div>
                               </div>
                             </>
                           )}
@@ -11044,14 +11080,16 @@ const handleOpenDuplicateModal = () => {
                       </div>
 
                       <div className="flex flex-wrap items-center gap-3 mb-2">
-                        <button type="button" onClick={() => { setPostSelectionContext('create'); setIsPostMenuOpen(true); }} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
-                          <span className="text-lg leading-none mb-0.5">📄</span> Select post
+                        <button type="button" onClick={() => { setPostSelectionContext('create'); setIsPostMenuOpen(true); }} className="btn-shimmer flex-1 border rounded-xl py-2.5 px-4 text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white cursor-pointer hover:scale-[1.01] transition-all">
+                          <span>📄</span> <span>ជ្រើសរើស Post ថ្មី (Select Post)</span>
                         </button>
-                        <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
-                          + Create post
+                        <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-2.5 px-4 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-xs transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-700 text-slate-200 hover:bg-slate-800' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                          <span>+</span> <span>Create Post ថ្មី</span>
                         </button>
                       </div>
-                      <span onClick={() => setIsEnterPostIdModalOpen(true)} className="text-[#1877F2] text-[13px] font-semibold cursor-pointer hover:underline inline-block mt-2">Enter post ID</span>
+                      <span onClick={() => setIsEnterPostIdModalOpen(true)} className="text-purple-400 text-xs font-bold cursor-pointer hover:underline inline-block mt-1">
+                        + Enter Custom Post ID
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -11130,33 +11168,34 @@ const handleOpenDuplicateModal = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="flex justify-end gap-3 pt-3 border-t dark:border-slate-700 shrink-0">
+            <div className="flex justify-end items-center gap-3 pt-3.5 border-t dark:border-slate-800 shrink-0">
               <button 
                 type="button" 
                 onClick={() => setIsAdDuplicateModalOpen(false)} 
-                className={`px-5 py-2.5 rounded-xl text-xs font-bold border transition cursor-pointer ${
-                  theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
+                className={`px-5 py-2.5 rounded-2xl text-xs font-bold border transition-all cursor-pointer ${
+                  theme === 'dark' ? 'bg-[#1C2128] border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 បោះបង់ (Cancel)
               </button>
 
-              {/* 🌟 ប៊ូតុង OK ថ្មី ភ្ជាប់ជាមួយទិន្នន័យ State ខាងលើ */}
+              {/* 🌟 ប៊ូតុង OK ថ្មី Shimmer Gradient (ស្វាយ-ខៀវ) */}
               <button 
                 type="button" 
                 disabled={isExecutingAdDuplicate}
                 onClick={executeAdvancedCampaignDuplicate} 
-                className="btn-futuristic btn-shimmer px-6 py-2.5 rounded-xl text-xs font-bold shadow-md cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                className="btn-shimmer bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-black px-7 py-3 rounded-2xl text-xs sm:text-sm shadow-lg shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
               >
                 {isExecutingAdDuplicate ? (
-                  <span className="relative z-10 flex items-center gap-2">
-                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span>កំពុងដំណើរការ...</span>
-                  </span>
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>កំពុង Duplicate Campaign...</span>
+                  </>
                 ) : (
-                  <span className="relative z-10 flex items-center gap-1.5">
-                    <span>✓</span> <span>យល់ព្រម Duplicate (OK)</span>
-                  </span>
+                  <>
+                    <span>🚀</span>
+                    <span>យល់ព្រម Duplicate (Clone Campaign 100%)</span>
+                  </>
                 )}
               </button>
             </div>
@@ -11165,82 +11204,121 @@ const handleOpenDuplicateModal = () => {
         </div>
       )}
       
-      {/* 🌟 Modal សម្រាប់ Duplicate Ads ក្នុង Tab Ads (រចនាប័ទ្មថ្មីស្អាត ដូចទម្រង់ Create Ad) */}
+      {/* 🌟 Modal សម្រាប់ Duplicate Ads ក្នុង Tab Ads (Cyber Bento Modal ជាមួយ Live Post Preview) */}
       {isSingleAdDuplicateModalOpen && (
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-2xl max-w-xl w-full p-6 shadow-2xl border max-h-[90vh] overflow-y-auto custom-scrollbar ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
-            
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-xl p-3 sm:p-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className={`rounded-3xl max-w-xl w-full p-5 sm:p-7 shadow-2xl border max-h-[92vh] overflow-y-auto custom-scrollbar relative ${
+            theme === 'dark' ? 'bg-[#0D1117] border-purple-500/30 text-white shadow-[0_25px_70px_rgba(168,85,247,0.25)]' : 'bg-white border-purple-200 text-slate-900 shadow-[0_25px_70px_rgba(168,85,247,0.15)]'
+          }`}>
+            {/* Top Radiant Gradient Line */}
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500"></div>
+
             {/* Header */}
-            <div className="flex justify-between items-center mb-5 border-b pb-3.5 dark:border-slate-700">
-              <h3 className="font-black text-lg flex items-center gap-2">
-                <span>📋</span> Duplicate Ads (ចម្លងការផ្សាយ)
-              </h3>
-              <button onClick={() => setIsSingleAdDuplicateModalOpen(false)} className="text-xl font-bold text-slate-400 hover:text-red-500 cursor-pointer">&times;</button>
+            <div className="flex justify-between items-center mb-5 border-b pb-3.5 dark:border-slate-800">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-purple-500/15 border border-purple-500/30 text-purple-400 flex items-center justify-center text-xl shrink-0 shadow-md shadow-purple-500/10">
+                  📋
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                      ⚡ Quick Ad Clone
+                    </span>
+                  </div>
+                  <h3 className="font-black text-base sm:text-lg flex items-center gap-2 tracking-tight">
+                    Duplicate Ads (ចម្លងការផ្សាយ)
+                  </h3>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsSingleAdDuplicateModalOpen(false)} 
+                className="w-9 h-9 rounded-2xl bg-slate-100 dark:bg-slate-800/80 hover:bg-rose-500/20 hover:text-rose-400 border border-transparent hover:border-rose-500/30 flex items-center justify-center font-bold text-slate-400 cursor-pointer transition-all"
+              >
+                ✕
+              </button>
             </div>
 
-            <div className="space-y-5 text-xs">
+            <div className="space-y-4 text-xs">
               
-              {/* 1. Ad Name (ឈ្មោះការផ្សាយ ស្របតាមរូបទីពីរ) */}
+              {/* 1. Ad Name (ឈ្មោះការផ្សាយ) */}
               <div>
-                <label className={`block font-bold mb-1.5 text-[13px] ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
+                <label className={`block font-bold mb-1.5 text-xs sm:text-[13px] ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
                   Ad name (ឈ្មោះការផ្សាយ)
                 </label>
                 <input 
                   type="text" 
                   value={duplicateAdName} 
                   onChange={(e) => setDuplicateAdName(e.target.value)} 
-                  className={`w-full p-3.5 rounded-xl border text-sm font-semibold outline-none transition ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white focus:border-blue-500' : 'bg-slate-50 border-slate-300 text-slate-900 focus:border-blue-500'}`} 
+                  className={`w-full p-3.5 rounded-2xl border text-xs sm:text-sm font-semibold outline-none transition ${theme === 'dark' ? 'bg-[#1C2128] border-slate-700 text-white focus:border-purple-500' : 'bg-slate-50 border-slate-300 text-slate-900 focus:border-purple-500'}`} 
                   placeholder="New Engagement Ads"
                 />
               </div>
 
-              {/* 2. Facebook Page Selection View (បង្ហាញទម្រង់ Page ស្របតាមរូបទីពីរ) */}
+              {/* 2. Facebook Page Selection View */}
               <div>
-                <label className={`block font-bold mb-1.5 text-[13px] ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
+                <label className={`block font-bold mb-1.5 text-xs sm:text-[13px] ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
                   Facebook Page
                 </label>
-                <div className={`p-3 rounded-xl border flex items-center justify-between ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-slate-50 border-slate-300 text-slate-800'}`}>
+                <div className={`p-3 rounded-2xl border flex items-center justify-between ${theme === 'dark' ? 'bg-[#1C2128] border-slate-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-800'}`}>
                   <div className="flex items-center gap-2.5 truncate">
                     {selectedPageData?.picture?.data?.url ? (
-                      <img src={selectedPageData.picture.data.url} className="w-6 h-6 rounded-full object-cover border" alt="Page Logo" />
+                      <img src={selectedPageData.picture.data.url} className="w-7 h-7 rounded-full object-cover border" alt="Page Logo" />
                     ) : (
-                      <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-[10px]">f</div>
+                      <div className="w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-[11px]">f</div>
                     )}
-                    <span className="font-bold text-sm truncate">{selectedPageData?.name || fbPageName || "Wear Luxury Cambodia"}</span>
+                    <span className="font-bold text-xs sm:text-sm truncate">{selectedPageData?.name || fbPageName || "Wear Luxury Cambodia"}</span>
                   </div>
-                  <span className="text-xs opacity-60">Connected ✓</span>
+                  <span className="text-[11px] font-semibold text-emerald-400 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">Connected ✓</span>
                 </div>
               </div>
 
-              {/* 3. Ad Creative & Post Selection (បង្ហាញប្រអប់ Preview Post ស្របតាមរូបទីពីរ) */}
+              {/* 3. Ad Creative & Live Post Preview (Cyber Bento Live Post Preview) */}
               <div>
-                <label className={`block font-bold mb-1.5 text-[13px] ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
+                <label className={`block font-bold mb-1.5 text-xs sm:text-[13px] ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
                   Ad creative (ប្រភព Post សម្រាប់ការផ្សាយ)
                 </label>
                 
-                <div className={`border rounded-2xl p-4 transition ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-[#F8F9FA] border-slate-300'}`}>
-                  <div className="flex items-start gap-3">
+                <div className={`border rounded-2xl p-4 transition-all shadow-md ${theme === 'dark' ? 'bg-[#0B0F17] border-purple-500/30' : 'bg-slate-50 border-purple-200'}`}>
+                  <div className="flex flex-col sm:flex-row items-start gap-4">
                     {(() => {
                       const matchedPost = posts.find(p => p.id === duplicatePostId);
                       return matchedPost?.full_picture ? (
-                        <img src={matchedPost.full_picture} className="w-12 h-12 object-cover rounded-xl shrink-0 border border-slate-300 shadow-xs" alt="Post Thumb" />
+                        <div className="relative shrink-0 group">
+                          <img src={matchedPost.full_picture} className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-2xl border border-purple-500/30 shadow-md group-hover:scale-105 transition-transform" alt="Live Post" />
+                          <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md bg-black/70 backdrop-blur-xs text-[9px] font-mono text-purple-300">Live</span>
+                        </div>
                       ) : (
-                        <div className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center text-[10px] border bg-slate-200 text-slate-500 font-bold">Post</div>
+                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shrink-0 flex flex-col items-center justify-center text-xs border border-dashed border-slate-700 bg-slate-900/50 text-slate-400 font-bold">
+                          <span>🖼️</span>
+                          <span className="text-[10px] mt-1">No Image</span>
+                        </div>
                       );
                     })()}
                     
-                    <div className="flex flex-col min-w-0 flex-1">
-                      <span className={`font-medium text-[13px] line-clamp-2 leading-snug ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
-                        {(() => {
-                          const matchedPost = posts.find(p => p.id === duplicatePostId);
-                          return matchedPost?.message || matchedPost?.story || (duplicatePostId ? `Post ID: ${duplicatePostId}` : "🌟 សូមជ្រើសរើស Post សម្រាប់ការផ្សាយពាណិជ្ជកម្មរបស់អ្នក...");
-                        })()}
-                      </span>
+                    <div className="flex flex-col min-w-0 flex-1 justify-between">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">
+                            ✨ Live Post Preview
+                          </span>
+                          {duplicatePostId && (
+                            <span className="text-[10px] font-mono text-slate-400 truncate">
+                              ID: #{String(duplicatePostId).slice(-8)}
+                            </span>
+                          )}
+                        </div>
+                        <p className={`font-semibold text-xs sm:text-[13px] line-clamp-3 leading-relaxed ${theme === 'dark' ? 'text-slate-200' : 'text-slate-800'}`}>
+                          {(() => {
+                            const matchedPost = posts.find(p => p.id === duplicatePostId);
+                            return matchedPost?.message || matchedPost?.story || (duplicatePostId ? `Post ID: ${duplicatePostId}` : "🌟 សូមជ្រើសរើស Post សម្រាប់ការផ្សាយពាណិជ្ជកម្មរបស់អ្នក...");
+                          })()}
+                        </p>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="mt-3.5 pt-3 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                    <span className="text-[11px] font-mono text-slate-400 truncate max-w-[200px]">ID: {duplicatePostId || "គ្មាន ID"}</span>
+                  <div className="mt-3.5 pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
+                    <span className="text-[11px] font-mono text-slate-400 truncate max-w-[180px]">ID: {duplicatePostId || "គ្មាន ID"}</span>
                     <button 
                       type="button" 
                       onClick={() => {
@@ -11254,46 +11332,48 @@ const handleOpenDuplicateModal = () => {
                         setPostSelectionContext('duplicate');
                         setIsPostMenuOpen(true);
                       }}
-                      className="btn-futuristic btn-shimmer px-4 py-2 font-bold rounded-xl text-xs cursor-pointer shadow-md flex items-center gap-1.5"
+                      className="btn-shimmer bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 font-bold rounded-xl text-xs cursor-pointer shadow-md flex items-center gap-1.5 hover:scale-[1.02] transition-all"
                     >
-                      <span className="relative z-10 flex items-center gap-1.5">
-                        <span>📄</span> <span>ជ្រើសរើស Post ថ្មី</span>
-                      </span>
+                      <span>📄</span> <span>ជ្រើសរើស Post ថ្មី</span>
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* ចំណាំពណ៌លឿង */}
-              <div className={`p-3.5 rounded-xl border text-[11.5px] leading-relaxed ${theme === 'dark' ? 'bg-blue-950/30 border-blue-900 text-blue-300' : 'bg-blue-50 border-blue-200 text-blue-700'}`}>
-                💡 <strong>ចំណាំ៖</strong> Ads ថ្មីដែលបាន Duplicate នឹងត្រូវដាក់កម្រិតជា Status <span className="font-bold underline">PAUSED</span> ស្វ័យប្រវត្តិ ដើម្បីឱ្យបងអាចពិនិត្យមើលជាមុនសិន មុននឹងចុច Active ដំណើរការឡើងវិញ។
+              {/* Safety notice */}
+              <div className="p-3 rounded-2xl border text-[11.5px] leading-relaxed bg-blue-500/10 border-blue-500/20 text-blue-400 flex items-start gap-2">
+                <span className="text-sm shrink-0">💡</span>
+                <span><strong>ចំណាំ៖</strong> Ads ថ្មីដែលបាន Duplicate នឹងត្រូវកំណត់ Status ជា <span className="font-bold underline text-white">PAUSED</span> ស្វ័យប្រវត្តិ ដើម្បីឱ្យបងអាចត្រួតពិនិត្យជាមុនសិន មុននឹងចុច Active។</span>
               </div>
             </div>
 
             {/* Footer Buttons */}
-            <div className="flex justify-end gap-3 mt-6 pt-4 border-t dark:border-slate-700 shrink-0">
+            <div className="flex justify-end items-center gap-3 mt-6 pt-4 border-t dark:border-slate-800 shrink-0">
               <button 
                 type="button" 
                 onClick={() => setIsSingleAdDuplicateModalOpen(false)} 
-                className={`px-5 py-2.5 rounded-xl font-bold text-xs border transition cursor-pointer hover:-translate-y-0.5 active:translate-y-0 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}
+                className={`px-5 py-2.5 rounded-2xl font-bold text-xs border transition-all cursor-pointer ${
+                  theme === 'dark' ? 'bg-[#1C2128] border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
+                }`}
               >
-                បោះបង់
+                បោះបង់ (Cancel)
               </button>
               <button 
                 type="button" 
                 disabled={isExecutingAdDuplicate}
                 onClick={executeAdDuplicateWithPost} 
-                className="btn-futuristic btn-shimmer px-7 py-2.5 font-bold rounded-xl text-xs cursor-pointer shadow-md flex items-center gap-2 disabled:opacity-50"
+                className="btn-shimmer bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-black px-7 py-3 rounded-2xl text-xs sm:text-sm shadow-lg shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
               >
                 {isExecutingAdDuplicate ? (
-                  <span className="relative z-10 flex items-center gap-2">
-                    <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span>កំពុង Duplicate...</span>
-                  </span>
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>កំពុង Duplicate Ad...</span>
+                  </>
                 ) : (
-                  <span className="relative z-10 flex items-center gap-1.5">
-                    <span>✓</span> <span>បញ្ជាក់ការ Duplicate Ads</span>
-                  </span>
+                  <>
+                    <span>🚀</span>
+                    <span>យល់ព្រម Duplicate (Clone Ad)</span>
+                  </>
                 )}
               </button>
             </div>
@@ -11429,26 +11509,38 @@ const handleOpenDuplicateModal = () => {
       })()}
 
       {/* ========================================================= */}
-      {/* 🌟 ផ្ទាំង 3-in-1 Full Edit Modal (មានគ្រប់ប្រអប់ និង Placements តូចៗដូចរូប 100%) */}
+      {/* 🌟 ផ្ទាំង 3-in-1 Full Edit Modal (Cyber Bento Edit Modal) */}
       {/* ========================================================= */}
       {isFullEditModalOpen && (
-        <div className="fixed inset-0 z-[99990] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className={`rounded-3xl max-w-4xl w-full p-6 shadow-2xl border flex flex-col max-h-[90vh] overflow-hidden ${
-            theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
+        <div className="fixed inset-0 z-[99990] flex items-center justify-center bg-black/80 backdrop-blur-xl p-3 sm:p-5 animate-in fade-in zoom-in-95 duration-200">
+          <div className={`rounded-3xl max-w-4xl w-full p-5 sm:p-7 shadow-2xl border flex flex-col max-h-[92vh] overflow-hidden relative ${
+            theme === 'dark' ? 'bg-[#0D1117] border-blue-500/30 text-white shadow-[0_25px_70px_rgba(59,130,246,0.25)]' : 'bg-white border-blue-200 text-slate-900 shadow-[0_25px_70px_rgba(59,130,246,0.15)]'
           }`}>
-            
+            {/* Top Radiant Gradient Line */}
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"></div>
+
             {/* Modal Header */}
-            <div className="flex justify-between items-center mb-4 border-b pb-3.5 dark:border-slate-700 shrink-0">
-              <div>
-                <h3 className="font-black text-lg flex items-center gap-2">
-                  <span className="text-blue-600">✎</span> ផ្ទៀងផ្ទាត់ និង កែសម្រួលទិន្នន័យ (Edit ទាំងមូល 100%)
-                </h3>
-                <p className="text-xs text-slate-400 mt-0.5">ទិន្នន័យ និងការកំណត់ដើមទាំងអស់ត្រូវបានទាញយកមកដូច UI ដើម លោកអ្នកអាចកែសម្រួលបាន</p>
+            <div className="flex justify-between items-center mb-4 border-b pb-3.5 dark:border-slate-800 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-blue-500/15 border border-blue-500/30 text-blue-400 flex items-center justify-center text-xl shrink-0 shadow-md shadow-blue-500/10">
+                  ✎
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                      ⚡ Smart Bento Edit
+                    </span>
+                  </div>
+                  <h3 className="font-black text-base sm:text-lg flex items-center gap-2 tracking-tight">
+                    ផ្ទៀងផ្ទាត់ និង កែសម្រួលទិន្នន័យ (Edit ទាំងមូល 100%)
+                  </h3>
+                  <p className="text-xs text-slate-400">ទិន្នន័យ និងការកំណត់ដើមទាំងអស់ត្រូវបានទាញយកមកដូច UI ដើម លោកអ្នកអាចកែសម្រួលបាន</p>
+                </div>
               </div>
               <button 
                 type="button" 
                 onClick={() => setIsFullEditModalOpen(false)} 
-                className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-500 hover:text-red-500 cursor-pointer transition"
+                className="w-9 h-9 rounded-2xl bg-slate-100 dark:bg-slate-800/80 hover:bg-rose-500/20 hover:text-rose-400 border border-transparent hover:border-rose-500/30 flex items-center justify-center font-bold text-slate-400 cursor-pointer transition-all"
               >
                 ✕
               </button>
@@ -11911,22 +12003,46 @@ const handleOpenDuplicateModal = () => {
                 <div>
                   <label className={`block text-sm font-semibold mb-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>Ad creative</label>
                   <div className={`border rounded-xl overflow-visible shadow-sm relative ${theme === 'dark' ? 'border-slate-700 bg-[#0B0F17]' : 'border-slate-200 bg-white'}`}>
-                    <div className="p-4">
-                      <div className={`w-full border rounded-xl p-3 flex items-center justify-between mb-4 shadow-sm relative overflow-hidden group ${theme === 'dark' ? 'bg-[#0D1117] border-slate-600' : 'bg-white border-slate-300'}`}>
-                        <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
+                    <div className="p-4 sm:p-5">
+                      {/* 🌟 Cyber Bento Live Post Preview Box */}
+                      <div className={`w-full border rounded-2xl p-4 flex flex-col sm:flex-row items-start gap-4 mb-4 shadow-md relative overflow-hidden transition-all ${
+                        theme === 'dark' ? 'bg-[#0B0F17] border-blue-500/30' : 'bg-slate-50 border-blue-200'
+                      }`}>
+                        <div className="flex items-start gap-4 flex-1 min-w-0 w-full">
                           {fetchingPosts ? (
-                            <span className="text-slate-500 font-medium text-sm">⏳ កំពុងទាញយក...</span>
+                            <div className="p-6 text-center w-full text-slate-400 font-medium flex items-center justify-center gap-2">
+                              <div className="w-4 h-4 border-2 border-blue-500/40 border-t-blue-500 rounded-full animate-spin"></div>
+                              <span>⏳ កំពុងទាញយកទិន្នន័យ Post ពី Facebook...</span>
+                            </div>
                           ) : (
                             <>
                               {selectedPostData?.full_picture ? (
-                                <img src={selectedPostData.full_picture} className="w-12 h-12 object-cover rounded-xl shrink-0 border" alt="Post Thumb" />
+                                <div className="relative shrink-0 group">
+                                  <img src={selectedPostData.full_picture} className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-2xl border border-blue-500/30 shadow-md group-hover:scale-105 transition-transform" alt="Live Post" />
+                                  <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md bg-black/70 backdrop-blur-xs text-[9px] font-mono text-blue-300">Live</span>
+                                </div>
                               ) : (
-                                <div className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center text-[10px] border bg-slate-100 text-slate-400">No Img</div>
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shrink-0 flex flex-col items-center justify-center text-xs border border-dashed border-slate-700 bg-slate-900/50 text-slate-400 font-bold">
+                                  <span>🖼️</span>
+                                  <span className="text-[10px] mt-1">No Image</span>
+                                </div>
                               )}
-                              <div className="flex flex-col min-w-0 flex-1">
-                                <span className={`font-medium text-[13px] line-clamp-2 leading-snug ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
-                                  {selectedPostData?.message || (selectedPost || duplicatePostId ? `Post ID: ${selectedPost || duplicatePostId}` : "[សូមចុច Select post ជាមុនសិន]")}
-                                </span>
+                              <div className="flex flex-col min-w-0 flex-1 justify-between">
+                                <div>
+                                  <div className="flex items-center gap-2 mb-1.5">
+                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/15 text-blue-400 border border-blue-500/30">
+                                      ✨ Live Post Preview
+                                    </span>
+                                    {selectedPostData?.id && (
+                                      <span className="text-[10px] font-mono text-slate-400 truncate">
+                                        ID: #{String(selectedPostData.id).slice(-8)}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className={`font-semibold text-xs sm:text-[13px] line-clamp-3 leading-relaxed ${theme === 'dark' ? 'text-slate-200' : 'text-slate-800'}`}>
+                                    {selectedPostData?.message || (selectedPost || duplicatePostId ? `Post ID: ${selectedPost || duplicatePostId}` : "🌟 សូមចុច Select post ដើម្បីជ្រើសរើសប៉ុស្តិ៍...")}
+                                  </p>
+                                </div>
                               </div>
                             </>
                           )}
@@ -11934,14 +12050,16 @@ const handleOpenDuplicateModal = () => {
                       </div>
 
                       <div className="flex flex-wrap items-center gap-3 mb-2">
-                        <button type="button" onClick={() => { setPostSelectionContext('create'); setIsPostMenuOpen(true); }} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
-                          <span className="text-lg leading-none mb-0.5">📄</span> Select post
+                        <button type="button" onClick={() => { setPostSelectionContext('create'); setIsPostMenuOpen(true); }} className="btn-shimmer flex-1 border rounded-xl py-2.5 px-4 text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white cursor-pointer hover:scale-[1.01] transition-all">
+                          <span>📄</span> <span>ជ្រើសរើស Post ថ្មី (Select Post)</span>
                         </button>
-                        <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-2.5 text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-200 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
-                          + Create post
+                        <button type="button" onClick={() => setIsCreatePostOpen(true)} className={`flex-1 border rounded-xl py-2.5 px-4 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-xs transition cursor-pointer ${theme === 'dark' ? 'bg-[#1C2128] border-slate-700 text-slate-200 hover:bg-slate-800' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                          <span>+</span> <span>Create Post ថ្មី</span>
                         </button>
                       </div>
-                      <span onClick={() => setIsEnterPostIdModalOpen(true)} className="text-[#1877F2] text-[13px] font-semibold cursor-pointer hover:underline inline-block mt-2">Enter post ID</span>
+                      <span onClick={() => setIsEnterPostIdModalOpen(true)} className="text-blue-400 text-xs font-bold cursor-pointer hover:underline inline-block mt-1">
+                        + Enter Custom Post ID
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -11962,12 +12080,12 @@ const handleOpenDuplicateModal = () => {
             </div>
 
             {/* Footer Buttons */}
-            <div className="flex justify-end gap-3 mt-2 pt-3 border-t dark:border-slate-700 shrink-0">
+            <div className="flex justify-end items-center gap-3 mt-4 pt-3.5 border-t dark:border-slate-800 shrink-0">
               <button 
                 type="button" 
                 onClick={() => setIsFullEditModalOpen(false)} 
-                className={`px-5 py-2.5 rounded-xl text-xs font-bold border transition cursor-pointer ${
-                  theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-slate-300 hover:bg-[#4E4F50]' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
+                className={`px-5 py-2.5 rounded-2xl text-xs font-bold border transition-all cursor-pointer ${
+                  theme === 'dark' ? 'bg-[#1C2128] border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 បោះបង់ (Cancel)
@@ -11977,12 +12095,18 @@ const handleOpenDuplicateModal = () => {
                 type="button" 
                 disabled={isSavingFullEdit}
                 onClick={handleExecuteFullEdit} 
-                className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md transition cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                className="btn-shimmer bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-black px-7 py-3 rounded-2xl text-xs sm:text-sm shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
               >
                 {isSavingFullEdit ? (
-                  <><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div><span>កំពុងរក្សាទុក...</span></>
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>កំពុងរក្សាទុកក្នុង Facebook...</span>
+                  </>
                 ) : (
-                  <span>✓ យល់ព្រមរក្សាទុក (Save Changes)</span>
+                  <>
+                    <span>✓</span>
+                    <span>យល់ព្រមរក្សាទុក (Save Changes 100%)</span>
+                  </>
                 )}
               </button>
             </div>
