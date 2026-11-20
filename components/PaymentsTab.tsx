@@ -159,7 +159,10 @@ export default function PaymentsTab({
 
       if (result.success) {
         setKhqrSuccessData(result);
-        showToast("🎉 ការទូទាត់ប្រាក់ជោគជ័យ! គណនីត្រូវបាន Activate +៣០ ថ្ងៃ!", "success");
+        const successNotice = slipFile 
+          ? "🎉 បានបញ្ជូន Slip ផ្ទេរប្រាក់ជូន Admin រួចរាល់! សូមរង់ចាំ Admin ពិនិត្យ និង Approve ក្នុងផ្ទាំង CRM"
+          : "🎉 ការទូទាត់ប្រាក់ជោគជ័យ! គណនីត្រូវបាន Activate +៣០ ថ្ងៃ!";
+        showToast(successNotice, "success");
         setSlipFile(null);
         setSlipPreview(null);
         loadMySubscription(user.email);
@@ -208,7 +211,7 @@ export default function PaymentsTab({
       const result = await res.json();
       if (result.success) {
         setKhqrSuccessData(result);
-        showToast("✅ បានបញ្ជូន Slip ជោគជ័យ! គណនីត្រូវបាន Active +៣០ ថ្ងៃ!", "success");
+        showToast("🎉 បានបញ្ជូន Slip ផ្ទេរប្រាក់ជូន Admin រួចរាល់! សូមរង់ចាំ Admin ពិនិត្យ និង Approve ក្នុងផ្ទាំង CRM", "success");
         setManualSlipFile(null);
         setManualSlipPreview(null);
         form.reset();
@@ -487,7 +490,7 @@ export default function PaymentsTab({
                   {isVerifyingKHQR ? (
                     <span>⏳ កំពុងផ្ទៀងផ្ទាត់ &amp; បញ្ជាក់ការទូទាត់...</span>
                   ) : slipFile ? (
-                    <span>🚀 បញ្ជូន Slip &amp; Active គណនីភ្លាមៗ (+៣០ ថ្ងៃ)</span>
+                    <span>🚀 បញ្ជូន Slip ជូន Admin ពិនិត្យ &amp; Approve</span>
                   ) : (
                     <span>⚡ ខ្ញុំបានស្កេនរួចរាល់ (បញ្ជាក់ &amp; Active ភ្លាមៗ)</span>
                   )}
@@ -641,7 +644,7 @@ export default function PaymentsTab({
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <span>📤</span>
-                  <span>{isUploadingManualSlip ? "កំពុងបញ្ជូន Slip..." : "បញ្ជូន Slip ជូន Admin & Active ភ្លាមៗ"}</span>
+                  <span>{isUploadingManualSlip ? "កំពុងបញ្ជូន Slip..." : "បញ្ជូន Slip ជូន Admin ពិនិត្យ & Approve"}</span>
                 </span>
               </button>
             </form>

@@ -4564,24 +4564,18 @@ const handleOpenDuplicateModal = () => {
   return (
     <div className={`min-h-screen font-sans flex flex-col pb-28 md:pb-16 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
       
-      {/* 🌟 Ultra-Modern Cyber Floating Toast Notification (Neon & Glassmorphism) */}
+      {/* 🌟 Ultra-Modern Cyber Floating Toast Notification (High-Contrast & Crystal Clear) */}
       {toast && (
         <div className="fixed top-5 sm:top-6 right-4 sm:right-6 z-[9999999] max-w-md w-[calc(100vw-2rem)] sm:w-auto animate-in slide-in-from-top-4 sm:slide-in-from-right-6 fade-in zoom-in-95 duration-300 pointer-events-auto">
-          <div className={`relative overflow-hidden flex items-start gap-3.5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all ${
+          <div className={`relative overflow-hidden flex items-start gap-3.5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-2xl sm:rounded-3xl border-2 shadow-2xl transition-all ${
             toast.type === 'success'
-              ? (theme === 'dark' 
-                  ? 'bg-[#0B1512]/95 border-emerald-500/40 text-emerald-100 shadow-[0_15px_45px_rgba(16,185,129,0.3)]' 
-                  : 'bg-white/95 border-emerald-500/50 text-slate-900 shadow-[0_15px_40px_rgba(16,185,129,0.2)]')
+              ? 'bg-white dark:bg-[#0B1512] border-emerald-500 text-slate-950 dark:text-white shadow-[0_15px_45px_rgba(16,185,129,0.25)]'
               : toast.type === 'error'
-              ? (theme === 'dark' 
-                  ? 'bg-[#180B0F]/95 border-rose-500/40 text-rose-100 shadow-[0_15px_45px_rgba(244,63,94,0.3)]' 
-                  : 'bg-white/95 border-rose-500/50 text-slate-900 shadow-[0_15px_40px_rgba(244,63,94,0.2)]')
-              : (theme === 'dark' 
-                  ? 'bg-[#0B1220]/95 border-sky-500/40 text-sky-100 shadow-[0_15px_45px_rgba(14,165,233,0.3)]' 
-                  : 'bg-white/95 border-sky-500/50 text-slate-900 shadow-[0_15px_40px_rgba(14,165,233,0.2)]')
+              ? 'bg-white dark:bg-[#180B0F] border-rose-500 text-slate-950 dark:text-white shadow-[0_15px_45px_rgba(244,63,94,0.25)]'
+              : 'bg-white dark:bg-[#0B1220] border-sky-500 text-slate-950 dark:text-white shadow-[0_15px_45px_rgba(14,165,233,0.25)]'
           }`}>
             {/* Top Accent Gradient Line */}
-            <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${
+            <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${
               toast.type === 'success' 
                 ? 'from-emerald-400 via-teal-400 to-emerald-500 shadow-[0_0_8px_#10B981]' 
                 : toast.type === 'error'
@@ -4593,10 +4587,10 @@ const handleOpenDuplicateModal = () => {
             <div className="relative shrink-0 mt-0.5">
               <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base font-black border ${
                 toast.type === 'success' 
-                  ? 'bg-emerald-500/20 text-emerald-500 border-emerald-500/30' 
+                  ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-500/40' 
                   : toast.type === 'error'
-                  ? 'bg-rose-500/20 text-rose-500 border-rose-500/30'
-                  : 'bg-sky-500/20 text-sky-500 border-sky-500/30'
+                  ? 'bg-rose-500/20 text-rose-600 dark:text-rose-400 border-rose-500/40'
+                  : 'bg-sky-500/20 text-sky-600 dark:text-sky-400 border-sky-500/40'
               }`}>
                 {toast.type === 'success' ? '✓' : toast.type === 'error' ? '⚠️' : 'ℹ️'}
               </div>
@@ -4608,13 +4602,13 @@ const handleOpenDuplicateModal = () => {
             {/* Message Content */}
             <div className="flex-1 min-w-0 pr-1">
               <div className="flex items-center gap-2 mb-0.5">
-                <span className={`text-[11px] font-black uppercase tracking-wider ${
-                  toast.type === 'success' ? 'text-emerald-500' : toast.type === 'error' ? 'text-rose-500' : 'text-sky-500'
+                <span className={`text-[12px] font-black uppercase tracking-wider ${
+                  toast.type === 'success' ? 'text-emerald-700 dark:text-emerald-400' : toast.type === 'error' ? 'text-rose-700 dark:text-rose-400' : 'text-sky-700 dark:text-sky-400'
                 }`}>
                   {toast.title || (toast.type === 'success' ? 'ជោគជ័យ (Success)' : toast.type === 'error' ? 'ការជូនដំណឹង (Notice)' : 'ដំណឹង (Info)')}
                 </span>
               </div>
-              <p className="text-[13px] font-semibold leading-relaxed break-words whitespace-pre-line text-slate-800 dark:text-slate-100">
+              <p className="text-[13px] font-bold leading-relaxed break-words whitespace-pre-line text-slate-900 dark:text-white">
                 {toast.message}
               </p>
             </div>
@@ -4623,7 +4617,7 @@ const handleOpenDuplicateModal = () => {
             <button 
               type="button"
               onClick={() => setToast(null)} 
-              className="shrink-0 p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition cursor-pointer text-sm leading-none"
+              className="shrink-0 p-1 rounded-lg text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition cursor-pointer text-sm leading-none font-bold"
               title="Close"
             >
               ✕

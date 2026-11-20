@@ -25,7 +25,6 @@ export async function POST(req: Request) {
       const cleanFileName = `slip_${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
 
       try {
-        // ធានាថា Bucket 'slips' មាន
         const { data: buckets } = await supabaseAdmin.storage.listBuckets();
         if (!buckets?.some(b => b.name === 'slips')) {
           await supabaseAdmin.storage.createBucket('slips', { public: true });
@@ -60,19 +59,7 @@ export async function POST(req: Request) {
       .eq('email', email)
       .maybeSingle();
 
-    // ៣. គណនាកាលបរិច្ឆេទផុតកំណត់ថ្មី (+៣០ ថ្ងៃ)
-    const today = new Date();
-    let baseDate = today;
-    if (existingClient?.expiry_date) {
-      const currentExpiry = new Date(existingClient.expiry_date);
-      if (currentExpiry > today) {
-        baseDate = currentExpiry;
-      }
-    }
-    const newExpiry = new Date(baseDate);
-    newExpiry.setDate(baseDate.getDate() + 30);
-
-    // ៤. រៀបចំប្រវត្តិទូទាត់ប្រាក់ (Payment History)
+    // ៣. រៀបចំប្រវត្តិទូទាត់ប្រាក់ (Payment History)
     const existingHistory = existingClient?.payment_history || [];
     const newPaymentRecord = {
       date: new Date().toISOString(),
@@ -80,30 +67,31 @@ export async function POST(req: Request) {
       method: file ? 'BANK_SLIP' : 'KHQR_INSTANT',
       slip_url: publicUrl || undefined,
       package: planName,
-      status: 'approved',
-      reference: `SLIP-${Date.now().toString().slice(-8)}`,
-      verified_at: new Date().toISOString()
+      status: 'pending', // ⏳ ដាក់ជា pending ដើម្បីឱ្យ Admin ពិនិត្យ និង Approve ក្នុងផ្ទាំង CRM
+      reference: `SLIP-${Date.now().toString().slice(-8)}`
     };
     const updatedHistory = [newPaymentRecord, ...existingHistory];
 
-    // ៥. Update ឬ Insert ចូល customer_subscriptions (Active ភ្លាមៗ)
+    const today = new Date();
+
+    // ៤. Update ឬ Insert ចូល customer_subscriptions ជាមួយ slip_status = 'pending'
     if (existingClient) {
       const { error: updateErr } = await supabaseAdmin
         .from('customer_subscriptions')
         .update({
-          status: 'active',
-          slip_status: 'approved',
+          slip_status: 'pending', // 👈 លោតទៅ Admin CRM ជា Pending Slip
           slip_url: publicUrl || existingClient.slip_url || null,
           amount: amount,
           package_name: planName,
-          expiry_date: newExpiry.toISOString(),
-          payment_history: updatedHistory,
-          updated_at: new Date().toISOString()
+          payment_history: updatedHistory
         })
         .eq('email', email);
 
       if (updateErr) throw updateErr;
     } else {
+      const expiryDate = new Date();
+      expiryDate.setDate(today.getDate() - 1); // ហួសថ្ងៃសិន រង់ចាំ Admin Approve
+
       const { error: insertErr } = await supabaseAdmin
         .from('customer_subscriptions')
         .insert([{
@@ -112,20 +100,19 @@ export async function POST(req: Request) {
           phone: phone,
           package_name: planName,
           amount: amount,
-          status: 'active',
-          slip_status: 'approved',
+          status: 'pending',
+          slip_status: 'pending', // 👈 លោតទៅ Admin CRM
           slip_url: publicUrl || null,
           start_date: today.toISOString(),
-          expiry_date: newExpiry.toISOString(),
+          expiry_date: expiryDate.toISOString(),
           payment_history: updatedHistory,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
+          created_at: new Date().toISOString()
         }]);
 
       if (insertErr) throw insertErr;
     }
 
-    // ៦. ផ្ញើសារជូនដំណឹងទៅកាន់ Telegram Admin ភ្លាមៗ
+    // ៥. ផ្ញើសារជូនដំណឹងទៅកាន់ Telegram Admin ភ្លាមៗដើម្បីឱ្យ Admin ចូលពិនិត្យ
     notifyNewSlipUploaded({
       clientName: existingClient?.client_name || email.split('@')[0],
       email: email,
@@ -137,9 +124,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: `🎉 បានទទួលព័ត៌មានទូទាត់ប្រាក់ជោគជ័យ! គណនីរបស់អ្នកត្រូវបាន Activate +៣០ ថ្ងៃ (រហូតដល់ ${newExpiry.toLocaleDateString('km-KH')})`,
-      slipUrl: publicUrl,
-      expiry_date: newExpiry.toISOString()
+      message: `🎉 បានបញ្ជូន Slip ផ្ទេរប្រាក់ជូន Admin រួចរាល់! សូមរង់ចាំ Admin ពិនិត្យ និង Approve ក្នុងផ្ទាំងគ្រប់គ្រងអតិថិជន។`,
+      slipUrl: publicUrl
     });
 
   } catch (err: any) {
