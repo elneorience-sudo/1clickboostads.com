@@ -5,9 +5,14 @@ import { supabase } from '@/lib/supabase';
 
 interface SettingsTabProps {
   theme: 'light' | 'dark';
+  showToast?: (msg: string, type: 'success' | 'error' | 'info') => void;
 }
 
-export default function SettingsTab({ theme }: SettingsTabProps) {
+export default function SettingsTab({ theme, showToast }: SettingsTabProps) {
+  const notify = (msg: string, type: 'success' | 'error' | 'info' = 'info') => {
+    if (showToast) showToast(msg, type);
+    else if (typeof window !== 'undefined') window.alert(msg);
+  };
   // Password states
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -46,7 +51,7 @@ export default function SettingsTab({ theme }: SettingsTabProps) {
   // 💾 រក្សាទុក Telegram Settings របស់អតិថិជន
   const handleSaveTelegram = async () => {
     if (!telegramChatId.trim()) {
-      alert("⚠️ សូមបញ្ចូលលេខ Telegram Chat ID របស់អ្នក!");
+      notify("⚠️ សូមបញ្ចូលលេខ Telegram Chat ID របស់អ្នក!", "error");
       return;
     }
 
@@ -77,7 +82,7 @@ export default function SettingsTab({ theme }: SettingsTabProps) {
   const handleTestClientTelegram = async () => {
     const targetId = telegramChatId.trim() || savedChatId;
     if (!targetId) {
-      alert("⚠️ សូមបញ្ចូល និងរក្សាទុក Telegram Chat ID ជាមុនសិន!");
+      notify("⚠️ សូមបញ្ចូល និងរក្សាទុក Telegram Chat ID ជាមុនសិន!", "error");
       return;
     }
 
@@ -298,11 +303,11 @@ export default function SettingsTab({ theme }: SettingsTabProps) {
           const confirmPass = (form.elements.namedItem('confirmPass') as HTMLInputElement).value;
 
           if (newPass !== confirmPass) {
-            alert("❌ លេខសម្ងាត់ថ្មី និងការបញ្ជាក់មិនដូចគ្នាទេ!");
+            notify("❌ លេខសម្ងាត់ថ្មី និងការបញ្ជាក់មិនដូចគ្នាទេ!", "error");
             return;
           }
           if (newPass.length < 6) {
-            alert("❌ លេខសម្ងាត់ថ្មីត្រូវមានយ៉ាងហោចណាស់ ៦ តួអក្សរ!");
+            notify("❌ លេខសម្ងាត់ថ្មីត្រូវមានយ៉ាងហោចណាស់ ៦ តួអក្សរ!", "error");
             return;
           }
 
@@ -315,10 +320,10 @@ export default function SettingsTab({ theme }: SettingsTabProps) {
               await supabase.from('customer_subscriptions').update({ password: newPass }).eq('email', user.email);
             }
 
-            alert("✅ បានផ្លាស់ប្ដូរលេខសម្ងាត់ថ្មីដោយជោគជ័យ!");
+            notify("✅ បានផ្លាស់ប្ដូរលេខសម្ងាត់ថ្មីដោយជោគជ័យ!", "success");
             form.reset();
           } catch (err: any) {
-            alert("❌ បរាជ័យ: " + err.message);
+            notify("❌ បរាជ័យ: " + err.message, "error");
           }
         }} className="space-y-4 text-xs">
 

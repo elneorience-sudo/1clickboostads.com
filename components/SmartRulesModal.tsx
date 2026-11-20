@@ -74,18 +74,18 @@ export default function SmartRulesModal({
       }
       onClose();
     } catch (err: any) {
-      alert("បរាជ័យក្នុងការរក្សាទុក: " + err.message);
+      if (showToast) showToast("បរាជ័យក្នុងការរក្សាទុក: " + err.message, "error");
     }
   };
 
   const handleRunCheckNow = async () => {
     const token = localStorage.getItem('fb_user_token');
     if (!token) {
-      alert("⚠️ សូមភ្ជាប់ Facebook Account ជាមុនសិន!");
+      if (showToast) showToast("⚠️ សូមភ្ជាប់ Facebook Account ជាមុនសិន!", "error");
       return;
     }
     if (!selectedAdAccount) {
-      alert("⚠️ សូមជ្រើសរើស Ad Account ជាមុនសិន!");
+      if (showToast) showToast("⚠️ សូមជ្រើសរើស Ad Account ជាមុនសិន!", "error");
       return;
     }
 
@@ -124,10 +124,10 @@ export default function SmartRulesModal({
           }
         }
       } else {
-        alert("❌ Error: " + data.error);
+        if (showToast) showToast("❌ Error: " + data.error, "error");
       }
     } catch (err: any) {
-      alert("❌ មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ: " + err.message);
+      if (showToast) showToast("❌ មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ: " + err.message, "error");
     } finally {
       setIsRunningCheck(false);
     }

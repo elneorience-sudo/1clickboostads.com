@@ -1,7 +1,6 @@
 "use client";
-"use client";
 
-import { useState, useEffect, useRef } from "react"; // 👈 ថែម useRef ត្រង់នេះ
+import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import AICopywriterTab from "@/components/AICopywriterTab";
 import SettingsTab from "@/components/SettingsTab";
@@ -46,6 +45,27 @@ const datePresetOptions = [
 export default function Home() {
   const alertedAdsRef = useRef<Set<string>>(new Set());
   const alertedAccountsRef = useRef<Set<string>>(new Set());
+
+  // 🌟 State & Handler សម្រាប់ Cyber Floating Toast Notifications (ជំនួស alert() ទាំងអស់ ១០០%)
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info'; title?: string } | null>(null);
+  const toastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'success', title?: string) => {
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    setToast({ message, type, title });
+    toastTimeoutRef.current = setTimeout(() => {
+      setToast(null);
+    }, 3500); // បាត់ទៅវិញដោយស្វ័យប្រវត្តិក្នងរយៈពេល ៣.៥ វិនាទី
+  }, []);
+
+  // 🌟 Shadowing alert() ដើមរបស់ Browser ដើម្បីឱ្យការហៅ alert() ទាំងអស់រត់ចូល Cyber Floating Toast ស្វ័យប្រវត្តិ
+  const alert = useCallback((msg: any) => {
+    const text = typeof msg === 'object' ? JSON.stringify(msg) : String(msg || '');
+    const isSuccess = text.includes('✅') || text.toLowerCase().includes('success') || text.includes('ជោគជ័យ');
+    const isError = text.includes('❌') || text.includes('⚠️') || text.toLowerCase().includes('error') || text.includes('បរាជ័យ') || text.includes('ខកខាន') || text.includes('បដិសេធ') || text.includes('រកមិនឃើញ');
+    const type: 'success' | 'error' | 'info' = isSuccess ? 'success' : isError ? 'error' : 'info';
+    showToast(text, type);
+  }, [showToast]);
 
   const [canUseAutoFill, setCanUseAutoFill] = useState(true);
 
@@ -625,16 +645,6 @@ export default function Home() {
     };
     fetchClientExpiry();
   }, []);
-
-  // 🌟 State សម្រាប់ Toast Notifications
-  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
-
-  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => {
-      setToast(null);
-    }, 4000); // បាត់ទៅវិញដោយស្វ័យប្រវត្តិក្រោយ ៤ វិនាទី
-  };
 
   // 🌟 មុខងារកំណត់កម្រិត CPA พร้อม Tooltip ពេលเอา Mouse ដាក់លើ (Neon Pill Badges)
   const getCpaBadge = (cpa: number) => {
@@ -4229,27 +4239,69 @@ const handleOpenDuplicateModal = () => {
   return (
     <div className={`min-h-screen font-sans flex flex-col pb-20 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0B0F17] text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
       
-      {/* 🌟 Modern Toast Notification Popup (มุมខាងស្តាំលើ) */}
+      {/* 🌟 Ultra-Modern Cyber Floating Toast Notification (Neon & Glassmorphism) */}
       {toast && (
-        <div className="fixed top-20 right-6 z-[999999] animate-in slide-in-from-top-5 fade-in duration-300">
-          <div className={`flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-2xl border backdrop-blur-md font-sans ${
-            toast.type === 'success' 
-              ? (theme === 'dark' ? 'bg-emerald-950/90 border-emerald-800 text-emerald-200' : 'bg-emerald-600 border-emerald-500 text-white')
+        <div className="fixed top-5 sm:top-6 right-4 sm:right-6 z-[9999999] max-w-md w-[calc(100vw-2rem)] sm:w-auto animate-in slide-in-from-top-4 sm:slide-in-from-right-6 fade-in zoom-in-95 duration-300 pointer-events-auto">
+          <div className={`relative overflow-hidden flex items-start gap-3.5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-2xl sm:rounded-3xl border backdrop-blur-2xl transition-all ${
+            toast.type === 'success'
+              ? (theme === 'dark' 
+                  ? 'bg-[#0B1512]/95 border-emerald-500/40 text-emerald-100 shadow-[0_15px_45px_rgba(16,185,129,0.3)]' 
+                  : 'bg-white/95 border-emerald-500/50 text-slate-900 shadow-[0_15px_40px_rgba(16,185,129,0.2)]')
               : toast.type === 'error'
-              ? (theme === 'dark' ? 'bg-red-950/90 border-red-800 text-red-200' : 'bg-red-600 border-red-500 text-white')
-              : (theme === 'dark' ? 'bg-blue-950/90 border-blue-800 text-blue-200' : 'bg-blue-600 border-blue-500 text-white')
+              ? (theme === 'dark' 
+                  ? 'bg-[#180B0F]/95 border-rose-500/40 text-rose-100 shadow-[0_15px_45px_rgba(244,63,94,0.3)]' 
+                  : 'bg-white/95 border-rose-500/50 text-slate-900 shadow-[0_15px_40px_rgba(244,63,94,0.2)]')
+              : (theme === 'dark' 
+                  ? 'bg-[#0B1220]/95 border-sky-500/40 text-sky-100 shadow-[0_15px_45px_rgba(14,165,233,0.3)]' 
+                  : 'bg-white/95 border-sky-500/50 text-slate-900 shadow-[0_15px_40px_rgba(14,165,233,0.2)]')
           }`}>
-            <span className="text-xl">
-              {toast.type === 'success' ? '✅' : toast.type === 'error' ? '❌' : 'ℹ️'}
-            </span>
-            <div className="flex flex-col">
-              <span className="text-[13.5px] font-bold tracking-wide">{toast.message}</span>
+            {/* Top Accent Gradient Line */}
+            <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${
+              toast.type === 'success' 
+                ? 'from-emerald-400 via-teal-400 to-emerald-500 shadow-[0_0_8px_#10B981]' 
+                : toast.type === 'error'
+                ? 'from-rose-500 via-red-500 to-pink-500 shadow-[0_0_8px_#F43F5E]'
+                : 'from-sky-400 via-blue-500 to-cyan-400 shadow-[0_0_8px_#0EA5E9]'
+            }`}></div>
+
+            {/* Icon with Pulse Ring */}
+            <div className="relative shrink-0 mt-0.5">
+              <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base font-black border ${
+                toast.type === 'success' 
+                  ? 'bg-emerald-500/20 text-emerald-500 border-emerald-500/30' 
+                  : toast.type === 'error'
+                  ? 'bg-rose-500/20 text-rose-500 border-rose-500/30'
+                  : 'bg-sky-500/20 text-sky-500 border-sky-500/30'
+              }`}>
+                {toast.type === 'success' ? '✓' : toast.type === 'error' ? '⚠️' : 'ℹ️'}
+              </div>
+              <span className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full animate-ping ${
+                toast.type === 'success' ? 'bg-emerald-400' : toast.type === 'error' ? 'bg-rose-400' : 'bg-sky-400'
+              }`}></span>
             </div>
+
+            {/* Message Content */}
+            <div className="flex-1 min-w-0 pr-1">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className={`text-[11px] font-black uppercase tracking-wider ${
+                  toast.type === 'success' ? 'text-emerald-500' : toast.type === 'error' ? 'text-rose-500' : 'text-sky-500'
+                }`}>
+                  {toast.title || (toast.type === 'success' ? 'ជោគជ័យ (Success)' : toast.type === 'error' ? 'ការជូនដំណឹង (Notice)' : 'ដំណឹង (Info)')}
+                </span>
+              </div>
+              <p className="text-[13px] font-semibold leading-relaxed break-words whitespace-pre-line text-slate-800 dark:text-slate-100">
+                {toast.message}
+              </p>
+            </div>
+
+            {/* Close Button */}
             <button 
+              type="button"
               onClick={() => setToast(null)} 
-              className="ml-3 opacity-70 hover:opacity-100 text-lg font-bold cursor-pointer"
+              className="shrink-0 p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition cursor-pointer text-sm leading-none"
+              title="Close"
             >
-              &times;
+              ✕
             </button>
           </div>
         </div>
@@ -5024,7 +5076,7 @@ const handleOpenDuplicateModal = () => {
             {/* 🌟 ផ្ទាំងប្ដូរលេខសម្ងាត់ (Change Password) មានរូបភ្នែកមើល Password */}
             {/* ========================================================= */}
             {(activeTab === "SETTINGS" || activeTab === "CHANGE_PASSWORD") && (
-              <SettingsTab theme={theme} />
+              <SettingsTab theme={theme} showToast={showToast} />
             )}
 
             {/* ========================================================= */}

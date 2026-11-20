@@ -48,7 +48,7 @@ export default function PaymentsTab({
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user || !user.email) {
-        alert("❌ រកមិនឃើញគណនី Login ទេ សូម Login ជាថ្មី!");
+        showToast("❌ រកមិនឃើញគណនី Login ទេ សូម Login ជាថ្មី!", "error");
         return window.location.href = '/login';
       }
 
@@ -69,10 +69,10 @@ export default function PaymentsTab({
         showToast("🎉 ការទូទាត់ប្រាក់ជោគជ័យ! គណនីត្រូវបាន Activate ៣០ ថ្ងៃ!", "success");
         fetchClients();
       } else {
-        alert("❌ បរាជ័យ: " + (result.error || "មិនអាចផ្ទៀងផ្ទាត់បានទេ"));
+        showToast("❌ បរាជ័យ: " + (result.error || "មិនអាចផ្ទៀងផ្ទាត់បានទេ"), "error");
       }
     } catch (err: any) {
-      alert("❌ Error: " + err.message);
+      showToast("❌ Error: " + err.message, "error");
     } finally {
       setIsVerifyingKHQR(false);
     }
@@ -337,7 +337,7 @@ export default function PaymentsTab({
               const fileInput = form.elements.namedItem('slipFile') as HTMLInputElement;
 
               if (!fileInput.files || fileInput.files.length === 0) {
-                alert("⚠️ សូមជ្រើសរើសរូបភាព Slip ផ្ទេរប្រាក់ជាមុនសិន!");
+                showToast("⚠️ សូមជ្រើសរើសរូបភាព Slip ផ្ទេរប្រាក់ជាមុនសិន!", "error");
                 return;
               }
 
@@ -345,7 +345,7 @@ export default function PaymentsTab({
                 const file = fileInput.files[0];
                 const { data: { user } } = await supabase.auth.getUser();
                 if (!user || !user.email) {
-                  alert("❌ រកមិនឃើញគណនី Login ទេ សូម Login ម្ដងទៀត។");
+                  showToast("❌ រកមិនឃើញគណនី Login ទេ សូម Login ម្ដងទៀត។", "error");
                   return window.location.href = '/login';
                 }
                 const clientEmailInput = user.email.trim().toLowerCase();
@@ -410,7 +410,7 @@ export default function PaymentsTab({
                 fetchClients();
 
               } catch (err: any) {
-                alert("❌ បរាជ័យក្នុងការបញ្ជូន Slip: " + err.message);
+                showToast("❌ បរាជ័យក្នុងការបញ្ជូន Slip: " + err.message, "error");
               }
             }} className="space-y-4 text-xs">
 

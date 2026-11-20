@@ -56,14 +56,14 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
 
   const handleSave = () => {
     if (!telegramChatId.trim()) {
-      alert("⚠️ សូមបញ្ចូលលេខ Telegram Chat ID ផ្ទាល់ខ្លួនរបស់អ្នក!");
+      if (showToast) showToast("⚠️ សូមបញ្ចូលលេខ Telegram Chat ID ផ្ទាល់ខ្លួនរបស់អ្នក!", "error");
       return;
     }
 
     const valError = validateChatId(telegramChatId);
     if (valError) {
       setStatusMsg({ text: valError, type: 'error' });
-      alert(valError);
+      if (showToast) showToast(valError, "error");
       return;
     }
 
@@ -96,14 +96,14 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
   const handleTest = async () => {
     const targetId = telegramChatId.trim() || savedChatId;
     if (!targetId) {
-      alert("⚠️ សូមបញ្ចូល និងរក្សាទុក Telegram Chat ID ជាមុនសិន!");
+      if (showToast) showToast("⚠️ សូមបញ្ចូល និងរក្សាទុក Telegram Chat ID ជាមុនសិន!", "error");
       return;
     }
 
     const valError = validateChatId(targetId);
     if (valError) {
       setStatusMsg({ text: valError, type: 'error' });
-      alert(valError);
+      if (showToast) showToast(valError, "error");
       return;
     }
 
