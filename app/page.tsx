@@ -2528,14 +2528,18 @@ export default function Home() {
     }
   };
 
-  // 🌟 Logic សម្រាប់ AI Generator
-  const generateAiCopy = async () => {
-    if (!aiInput.trim() && !aiMedia) return alert("⚠️ សូមវាយអត្ថបទ ឬបញ្ចូលរូបភាពជាមុនសិន!");
+  // 🌟 Logic សម្រាប់ AI Generator (គាំទ្រ Khmer E-Commerce Quick Templates មួយចុច)
+  const generateAiCopy = async (customPrompt?: string) => {
+    const promptToSend = (typeof customPrompt === 'string' && customPrompt.trim()) ? customPrompt : aiInput;
+    if (!promptToSend.trim() && !aiMedia) return alert("⚠️ សូមវាយអត្ថបទ ឬជ្រើសរើស Template ខាងលើជាមុនសិន!");
+    if (customPrompt && typeof customPrompt === 'string') {
+      setAiInput(customPrompt);
+    }
     setAiLoading(true);
 
     try {
       const formData = new FormData();
-      formData.append("prompt", aiInput || "ជួយសរសេរអត្ថបទលក់ផលិតផលក្នុងរូបភាពនេះឱ្យបានទាក់ទាញបំផុត");
+      formData.append("prompt", promptToSend || "ជួយសរសេរអត្ថបទលក់ផលិតផលក្នុងរូបភាពនេះឱ្យបានទាក់ទាញបំផុត");
       if (aiMedia) {
         formData.append("file", aiMedia);
       }
