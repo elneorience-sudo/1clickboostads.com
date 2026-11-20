@@ -2700,7 +2700,23 @@ export default function Home() {
   // 🌟 States សម្រាប់គ្រប់គ្រងការបង់ប្រាក់ និងមើល Slip
   const [isSlipModalOpen, setIsSlipModalOpen] = useState(false);
   const [selectedClientSlip, setSelectedClientSlip] = useState<any>(null);
+  const [isSlipModalFullScreen, setIsSlipModalFullScreen] = useState(false);
+  const [fullscreenSlipUrl, setFullscreenSlipUrl] = useState<string | null>(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false); // សម្រាប់អតិថិជនបង់ប្រាក់
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (fullscreenSlipUrl) {
+          setFullscreenSlipUrl(null);
+        } else if (isSlipModalOpen) {
+          setIsSlipModalOpen(false);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [fullscreenSlipUrl, isSlipModalOpen]);
 
   // 🌟 States សម្រាប់ Clients និង Pending Slips Count
   const [clients, setClients] = useState<any[]>([]);
@@ -5862,215 +5878,361 @@ const handleOpenDuplicateModal = () => {
                 )}
                 {/* 🌟 Modal សម្រាប់ Admin មើល Slip និងកែប្រែទឹកប្រាក់មុន Approve */}
                 {isSlipModalOpen && selectedClientSlip && (
-                  <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-[99999] p-4 animate-in fade-in duration-200">
-                    <div className={`rounded-3xl max-w-xl w-full p-6 shadow-2xl border max-h-[90vh] overflow-y-auto custom-scrollbar ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
+                  <div className={`fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[99999] ${isSlipModalFullScreen ? 'p-0' : 'p-2 sm:p-4'} animate-in fade-in duration-200`}>
+                    <div className={`shadow-2xl border flex flex-col transition-all duration-300 ${
+                      isSlipModalFullScreen 
+                        ? 'w-screen h-screen max-w-none max-h-none rounded-none p-4 sm:p-6 overflow-y-auto' 
+                        : 'rounded-3xl max-w-6xl w-full p-4 sm:p-6 max-h-[92vh] overflow-y-auto custom-scrollbar'
+                    } ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
                       
                       {/* Header */}
-                      <div className="flex justify-between items-center mb-4 border-b pb-3 dark:border-slate-700">
+                      <div className="flex justify-between items-center mb-4 border-b pb-3 dark:border-slate-700 shrink-0">
                         <div>
-                          <h3 className="font-bold text-lg flex items-center gap-2">
+                          <h3 className="font-bold text-base sm:text-lg flex items-center gap-2">
                             <span>🧾</span> ពិនិត្យ Slip និងកំណត់ទឹកប្រាក់
                           </h3>
                           <p className="text-xs text-slate-400">អតិថិជន៖ <strong className="text-blue-500">{selectedClientSlip.client_name}</strong> ({selectedClientSlip.email})</p>
                         </div>
-                        <button onClick={() => setIsSlipModalOpen(false)} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-500 hover:text-red-500 cursor-pointer transition">✕</button>
-                      </div>
+                        <div className="flex items-center gap-2">
+                          {/* ⛶ Toggle Fullscreen Modal */}
+                          <button 
+                            type="button"
+                            onClick={() => setIsSlipModalFullScreen(prev => !prev)} 
+                            className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-500/10 hover:text-blue-500 text-slate-600 dark:text-slate-300 flex items-center gap-1.5 text-xs font-bold transition cursor-pointer border border-slate-200 dark:border-slate-700"
+                            title={isSlipModalFullScreen ? "បង្រួមធម្មតា" : "ពង្រីកពេញអេក្រង់ (Fullscreen)"}
+                          >
+                            <span>{isSlipModalFullScreen ? "🗗" : "⛶"}</span>
+                            <span className="hidden sm:inline">{isSlipModalFullScreen ? "បង្រួមធម្មតា" : "ពេញអេក្រង់ (Full Screen)"}</span>
+                          </button>
 
-                      {/* Slip Image Preview Box */}
-                      <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 flex items-center justify-center min-h-[240px] max-h-[320px] mb-4 relative">
-                        {selectedClientSlip.slip_url ? (
-                          <img src={selectedClientSlip.slip_url} alt="Bank Slip" className="w-full h-full object-contain" />
-                        ) : (
-                          <div className="flex flex-col items-center justify-center text-slate-400 gap-2 p-6 text-center">
-                            <span className="text-4xl">េ</span>
-                            <p className="text-xs font-medium">អតិថិជនរូបនេះមិនទាន់បាន Upload រូបភាព Slip មកទីកាន់ប្រព័ន្ធនៅឡើយទេ។</p>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Payment Info Details & Custom Amount Input */}
-                      <div className={`p-4 rounded-2xl border mb-5 text-xs space-y-3 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
-                        <div className="flex justify-between items-center">
-                          <span className="text-slate-400">កញ្ចប់សេវា៖</span>
-                          <span className="font-bold">{selectedClientSlip.package_name}</span>
+                          <button 
+                            type="button"
+                            onClick={() => {
+                              setIsSlipModalOpen(false);
+                              setIsSlipModalFullScreen(false);
+                            }} 
+                            className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-500 hover:text-red-500 cursor-pointer transition border border-slate-200 dark:border-slate-700"
+                            title="បិទ (Close)"
+                          >
+                            ✕
+                          </button>
                         </div>
+                      </div>
+
+                      {/* 🌟 2-Column Responsive Layout: Left = Large Slip Viewer, Right = Info & Approval */}
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start flex-1 min-h-0">
                         
-                        {/* 🌟 ប្រអប់ឱ្យ Admin វាយបញ្ចូលទឹកប្រាក់ (អាចកែប្រែ / Discount បាន) */}
-                        <div className="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-700">
-                          <span className="font-bold text-slate-700 dark:text-slate-300 uppercase">ទឹកប្រាក់អនុម័ត ($)៖</span>
-                          <div className="relative w-36">
-                            <span className="absolute left-3 top-2 font-bold text-emerald-500">$</span>
-                            <input 
-                              type="number" 
-                              id="adminCustomAmount" 
-                              step="0.01"
-                              defaultValue={selectedClientSlip.amount || 5.00} 
-                              className={`w-full pl-7 pr-3 py-1.5 rounded-xl border text-sm outline-none font-bold text-emerald-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
-                            />
+                        {/* 🌟 Left Column: Large Bank Slip Preview Box */}
+                        <div className="lg:col-span-7 flex flex-col h-full space-y-2">
+                          <div className="flex items-center justify-between px-1">
+                            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                              <span>📷</span> រូបភាព Slip ផ្ទេរប្រាក់
+                            </span>
+                            <div className="flex items-center gap-2">
+                              {selectedClientSlip.slip_url && (
+                                <>
+                                  <button
+                                    type="button"
+                                    onClick={() => setFullscreenSlipUrl(selectedClientSlip.slip_url)}
+                                    className="px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                                  >
+                                    <span>🔍</span> <span>ពង្រីកពេញអេក្រង់</span>
+                                  </button>
+                                  <a
+                                    href={selectedClientSlip.slip_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold transition flex items-center gap-1"
+                                    title="បើកមើលក្នុងផ្ទាំងថ្មី"
+                                  >
+                                    <span>↗</span> <span>Original</span>
+                                  </a>
+                                </>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Slip Image Box */}
+                          <div 
+                            onClick={() => selectedClientSlip.slip_url && setFullscreenSlipUrl(selectedClientSlip.slip_url)}
+                            className={`w-full bg-slate-950/90 dark:bg-black rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 flex items-center justify-center relative group select-none ${
+                              selectedClientSlip.slip_url ? 'cursor-zoom-in' : ''
+                            } ${
+                              isSlipModalFullScreen 
+                                ? 'h-[calc(100vh-170px)]' 
+                                : 'min-h-[380px] sm:min-h-[480px] lg:h-[580px]'
+                            }`}
+                          >
+                            {selectedClientSlip.slip_url ? (
+                              <>
+                                <img 
+                                  src={selectedClientSlip.slip_url} 
+                                  alt="Bank Slip" 
+                                  className="w-full h-full object-contain p-2 group-hover:scale-[1.01] transition-transform duration-300" 
+                                />
+                                {/* Overlay Hint */}
+                                <div className="absolute bottom-3 bg-black/75 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1.5 rounded-full border border-white/20 opacity-90 group-hover:opacity-100 transition shadow-lg flex items-center gap-1.5 pointer-events-none">
+                                  <span>🔍</span> ចុចលើរូបភាពដើម្បីមើលពេញអេក្រង់ (Click to View Fullscreen)
+                                </div>
+                              </>
+                            ) : (
+                              <div className="flex flex-col items-center justify-center text-slate-400 gap-2 p-6 text-center">
+                                <span className="text-4xl">🧾</span>
+                                <p className="text-xs font-medium">អតិថិជនរូបនេះមិនទាន់បាន Upload រូបភាព Slip មកទីកាន់ប្រព័ន្ធនៅឡើយទេ។</p>
+                              </div>
+                            )}
                           </div>
                         </div>
 
-                        <div className="flex justify-between items-center">
-                          <span className="text-slate-400">ស្ថានភាព Slip ចុងក្រោយ៖</span>
-                          <span className={`font-bold ${selectedClientSlip.slip_status === 'approved' ? 'text-blue-500' : 'text-amber-500'}`}>
-                            {selectedClientSlip.slip_status === 'approved' ? 'បានទូទាត់ប្រាក់ ✓' : 'រង់ចាំការអនុម័ត (Pending)'}
-                          </span>
-                        </div>
-                      </div>
+                        {/* 🌟 Right Column: Payment Info Details, Custom Amount & Actions */}
+                        <div className="lg:col-span-5 flex flex-col space-y-4">
+                          <div className={`p-4 rounded-2xl border text-xs space-y-3 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+                            <div className="flex justify-between items-center">
+                              <span className="text-slate-400">កញ្ចប់សេវា៖</span>
+                              <span className="font-bold text-slate-900 dark:text-white">{selectedClientSlip.package_name || 'Starter'}</span>
+                            </div>
+                            
+                            {/* 🌟 ប្រអប់ឱ្យ Admin វាយបញ្ចូលទឹកប្រាក់ (អាចកែប្រែ / Discount បាន) */}
+                            <div className="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-700">
+                              <span className="font-bold text-slate-700 dark:text-slate-300 uppercase">ទឹកប្រាក់អនុម័ត ($)៖</span>
+                              <div className="relative w-36">
+                                <span className="absolute left-3 top-2 font-bold text-emerald-500">$</span>
+                                <input 
+                                  type="number" 
+                                  id="adminCustomAmount" 
+                                  step="0.01"
+                                  defaultValue={selectedClientSlip.amount || 5.00} 
+                                  className={`w-full pl-7 pr-3 py-1.5 rounded-xl border text-sm outline-none font-bold text-emerald-500 ${theme === 'dark' ? 'bg-[#1C2128] border-slate-600 text-white' : 'bg-white border-slate-300 text-slate-900'}`}
+                                />
+                              </div>
+                            </div>
 
-                      {/* 🌟 ផ្នែកតារាងប្រវត្តិបង់ប្រាក់ និងប៊ូតុង Approve / Reject សម្រាប់ Admin */}
-                      <div className="mb-6">
-                        <h4 className="font-bold text-xs uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-                          <span>📜</span> ប្រវត្តិការទូទាត់ប្រាក់ទាំងអស់របស់អតិថិជន
-                        </h4>
+                            <div className="flex justify-between items-center">
+                              <span className="text-slate-400">ស្ថានភាព Slip ចុងក្រោយ៖</span>
+                              <span className={`font-bold px-2.5 py-0.5 rounded-full text-[11px] ${
+                                selectedClientSlip.slip_status === 'approved' 
+                                  ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30' 
+                                  : 'bg-amber-500/10 text-amber-500 border border-amber-500/30'
+                              }`}>
+                                {selectedClientSlip.slip_status === 'approved' ? 'បានទូទាត់ប្រាក់ ✓' : 'រង់ចាំការអនុម័ត (Pending)'}
+                              </span>
+                            </div>
+                          </div>
 
-                        <div className={`rounded-xl border overflow-hidden ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-white border-slate-200'}`}>
-                          <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse text-xs">
-                              <thead>
-                                <tr className={`border-b uppercase ${theme === 'dark' ? 'bg-[#1C2128] text-slate-300 border-slate-700' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                                  <th className="py-2.5 px-3 font-bold">កាលបរិច្ឆេទ</th>
-                                  <th className="py-2.5 px-3 font-bold">ទឹកប្រាក់</th>
-                                  <th className="py-2.5 px-3 font-bold">Slip</th>
-                                  <th className="py-2.5 px-3 font-bold text-center">សកម្មភាព (Approve / Reject)</th>
-                                </tr>
-                              </thead>
-                              <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
-                                {(() => {
-                                  const records = selectedClientSlip.payment_history || (selectedClientSlip.slip_url ? [{
-                                    date: selectedClientSlip.created_at || new Date().toISOString(),
-                                    amount: selectedClientSlip.amount || 0,
-                                    slip_url: selectedClientSlip.slip_url,
-                                    status: selectedClientSlip.slip_status || 'pending'
-                                  }] : []);
+                          {/* 🌟 ផ្នែកតារាងប្រវត្តិបង់ប្រាក់ និងប៊ូតុង Approve / Reject សម្រាប់ Admin */}
+                          <div className="space-y-2">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                              <span>📜</span> ប្រវត្តិការទូទាត់ប្រាក់ទាំងអស់របស់អតិថិជន
+                            </h4>
 
-                                  return records.length === 0 ? (
-                                    <tr>
-                                      <td colSpan={4} className="text-center py-6 text-slate-400 italic">គ្មានប្រវត្តិទូទាត់ប្រាក់</td>
+                            <div className={`rounded-xl border overflow-hidden ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-white border-slate-200'}`}>
+                              <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse text-xs">
+                                  <thead>
+                                    <tr className={`border-b uppercase ${theme === 'dark' ? 'bg-[#1C2128] text-slate-300 border-slate-700' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                                      <th className="py-2.5 px-3 font-bold">កាលបរិច្ឆេទ</th>
+                                      <th className="py-2.5 px-3 font-bold">ទឹកប្រាក់</th>
+                                      <th className="py-2.5 px-3 font-bold">Slip</th>
+                                      <th className="py-2.5 px-3 font-bold text-center">សកម្មភាព</th>
                                     </tr>
-                                  ) : (
-                                    records.map((rec: any, idx: number) => (
-                                      <tr key={idx} className={`transition ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
-                                        <td className="py-2.5 px-3 font-medium">
-                                          {new Date(rec.date).toLocaleDateString('km-KH')}
-                                        </td>
-                                        <td className="py-2.5 px-3 font-bold text-emerald-500">
-                                          ${Number(rec.amount || 0).toFixed(2)}
-                                        </td>
-                                        <td className="py-2.5 px-3">
-                                          {rec.slip_url ? (
-                                            <a href={rec.slip_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-bold">
-                                              មើល Slip 👁️
-                                            </a>
-                                          ) : '-'}
-                                        </td>
-                                        <td className="py-2.5 px-3 text-center">
-                                          <div className="flex items-center justify-center gap-1.5">
-                                            {rec.status === 'approved' ? (
-                                              <span className="px-2 py-0.5 bg-blue-500/10 text-blue-500 rounded font-bold text-[10px]">Approved ✓</span>
-                                            ) : rec.status === 'rejected' ? (
-                                              <span className="px-2 py-0.5 bg-red-500/10 text-red-500 rounded font-bold text-[10px]">Rejected ✕</span>
-                                            ) : (
-                                              <>
-                                                {/* 🌟 ប៊ូតុង Approve (ទាញយកទឹកប្រាក់ដែល Admin បានវាយកែប្រែ / Discount ដាក់ចូល) */}
+                                  </thead>
+                                  <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                                    {(() => {
+                                      const records = selectedClientSlip.payment_history || (selectedClientSlip.slip_url ? [{
+                                        date: selectedClientSlip.created_at || new Date().toISOString(),
+                                        amount: selectedClientSlip.amount || 0,
+                                        slip_url: selectedClientSlip.slip_url,
+                                        status: selectedClientSlip.slip_status || 'pending'
+                                      }] : []);
+
+                                      return records.length === 0 ? (
+                                        <tr>
+                                          <td colSpan={4} className="text-center py-6 text-slate-400 italic">គ្មានប្រវត្តិទូទាត់ប្រាក់</td>
+                                        </tr>
+                                      ) : (
+                                        records.map((rec: any, idx: number) => (
+                                          <tr key={idx} className={`transition ${theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-slate-50'}`}>
+                                            <td className="py-2.5 px-3 font-medium">
+                                              {new Date(rec.date).toLocaleDateString('km-KH')}
+                                            </td>
+                                            <td className="py-2.5 px-3 font-bold text-emerald-500">
+                                              ${Number(rec.amount || 0).toFixed(2)}
+                                            </td>
+                                            <td className="py-2.5 px-3">
+                                              {rec.slip_url ? (
                                                 <button 
                                                   type="button"
-                                                  onClick={async () => {
-                                                    try {
-                                                      const customAmountEl = document.getElementById('adminCustomAmount') as HTMLInputElement;
-                                                      const finalAmount = customAmountEl ? Number(customAmountEl.value) || 0 : (selectedClientSlip.amount || 0);
-                                                      const updatedHist = records.map((r: any, i: number) => i === idx ? { ...r, amount: finalAmount, status: 'approved' } : r);
-
-                                                      const currentExpiry = selectedClientSlip.expiry_date ? new Date(selectedClientSlip.expiry_date) : new Date();
-                                                      const baseDate = currentExpiry > new Date() ? currentExpiry : new Date();
-                                                      baseDate.setDate(baseDate.getDate() + 30);
-                                                      const newExpiryDate = baseDate.toISOString();
-
-                                                      const { error } = await supabase
-                                                        .from('customer_subscriptions')
-                                                        .update({ 
-                                                          slip_status: 'approved',
-                                                          status: 'active',
-                                                          amount: finalAmount,
-                                                          expiry_date: newExpiryDate,
-                                                          payment_history: updatedHist 
-                                                        })
-                                                        .eq('id', selectedClientSlip.id);
-
-                                                      if (error) throw error;
-
-                                                      // 🌟🌟 ថែមបន្ទាត់នេះ ដើម្បីឱ្យលេខ Alert ធ្លាក់ចុះបាត់ភ្លាមៗមួយរំពេច 🌟🌟
-                                                      setClients(prev => prev.map(c => c.id === selectedClientSlip.id ? { ...c, slip_status: 'approved', status: 'active' } : c));
-
-                                                      showToast(`✅ បាន Approve ទឹកប្រាក់ $${finalAmount.toFixed(2)} និងបន្តសេវា ៣០ថ្ងៃជោគជ័យ!`, "success");
-                                                      setIsSlipModalOpen(false);
-                                                      fetchClients();
-                                                    } catch (err: any) {
-                                                      alert("Error: " + err.message);
-                                                    }
-                                                  }}
-                                                  className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[11px] transition shadow-xs cursor-pointer flex items-center gap-1"
+                                                  onClick={() => setFullscreenSlipUrl(rec.slip_url)}
+                                                  className="text-blue-500 hover:underline font-bold flex items-center gap-1 cursor-pointer"
                                                 >
-                                                  <span>✓</span> Approve
+                                                  <span>👁️</span> Slip
                                                 </button>
+                                              ) : '-'}
+                                            </td>
+                                            <td className="py-2.5 px-3 text-center">
+                                              <div className="flex items-center justify-center gap-1.5">
+                                                {rec.status === 'approved' ? (
+                                                  <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 rounded font-bold text-[10px]">Approved ✓</span>
+                                                ) : rec.status === 'rejected' ? (
+                                                  <span className="px-2 py-0.5 bg-red-500/10 text-red-500 rounded font-bold text-[10px]">Rejected ✕</span>
+                                                ) : (
+                                                  <>
+                                                    {/* 🌟 ប៊ូតុង Approve */}
+                                                    <button 
+                                                      type="button"
+                                                      onClick={async () => {
+                                                        try {
+                                                          const customAmountEl = document.getElementById('adminCustomAmount') as HTMLInputElement;
+                                                          const finalAmount = customAmountEl ? Number(customAmountEl.value) || 0 : (selectedClientSlip.amount || 0);
+                                                          const updatedHist = records.map((r: any, i: number) => i === idx ? { ...r, amount: finalAmount, status: 'approved' } : r);
 
-                                                {/* 🌟 ប៊ូតុង Reject */}
-                                                <button 
-                                                  type="button"
-                                                  onClick={async () => {
-                                                    if (!confirm("តើបងពិតជាចង់ Reject Slip នេះមែនទេ?")) return;
-                                                    try {
-                                                      const updatedHist = records.map((r: any, i: number) => i === idx ? { ...r, status: 'rejected' } : r);
+                                                          const currentExpiry = selectedClientSlip.expiry_date ? new Date(selectedClientSlip.expiry_date) : new Date();
+                                                          const baseDate = currentExpiry > new Date() ? currentExpiry : new Date();
+                                                          baseDate.setDate(baseDate.getDate() + 30);
+                                                          const newExpiryDate = baseDate.toISOString();
 
-                                                      const { error } = await supabase
-                                                        .from('customer_subscriptions')
-                                                        .update({ 
-                                                          slip_status: 'rejected',
-                                                          payment_history: updatedHist 
-                                                        })
-                                                        .eq('id', selectedClientSlip.id);
+                                                          const { error } = await supabase
+                                                            .from('customer_subscriptions')
+                                                            .update({ 
+                                                              slip_status: 'approved',
+                                                              status: 'active',
+                                                              amount: finalAmount,
+                                                              expiry_date: newExpiryDate,
+                                                              payment_history: updatedHist 
+                                                            })
+                                                            .eq('id', selectedClientSlip.id);
 
-                                                      if (error) throw error;
+                                                          if (error) throw error;
 
-                                                      // 🌟🌟 ថែមបន្ទាត់នេះ ដើម្បីបំបាត់ Alert ពេលចុច Reject 🌟🌟
-                                                      setClients(prev => prev.map(c => c.id === selectedClientSlip.id ? { ...c, slip_status: 'rejected' } : c));
+                                                          setClients(prev => prev.map(c => c.id === selectedClientSlip.id ? { ...c, slip_status: 'approved', status: 'active' } : c));
 
-                                                      showToast("❌ បាន Reject Slip រួចរាល់!", "error");
-                                                      setIsSlipModalOpen(false);
-                                                      fetchClients();
-                                                    } catch (err: any) {
-                                                      alert("Error: " + err.message);
-                                                    }
-                                                  }}
-                                                  className="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-[11px] transition shadow-xs cursor-pointer flex items-center gap-1"
-                                                >
-                                                  <span>✕</span> Reject
-                                                </button>
-                                              </>
-                                            )}
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    ))
-                                  );
-                                })()}
-                              </tbody>
-                            </table>
+                                                          showToast(`✅ បាន Approve ទឹកប្រាក់ $${finalAmount.toFixed(2)} និងបន្តសេវា ៣០ថ្ងៃជោគជ័យ!`, "success");
+                                                          setIsSlipModalOpen(false);
+                                                          setIsSlipModalFullScreen(false);
+                                                          fetchClients();
+                                                        } catch (err: any) {
+                                                          alert("Error: " + err.message);
+                                                        }
+                                                      }}
+                                                      className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[11px] transition shadow-xs cursor-pointer flex items-center gap-1"
+                                                    >
+                                                      <span>✓</span> Approve
+                                                    </button>
+
+                                                    {/* 🌟 ប៊ូតុង Reject */}
+                                                    <button 
+                                                      type="button"
+                                                      onClick={async () => {
+                                                        if (!confirm("តើបងពិតជាចង់ Reject Slip នេះមែនទេ?")) return;
+                                                        try {
+                                                          const updatedHist = records.map((r: any, i: number) => i === idx ? { ...r, status: 'rejected' } : r);
+
+                                                          const { error } = await supabase
+                                                            .from('customer_subscriptions')
+                                                            .update({ 
+                                                              slip_status: 'rejected',
+                                                              payment_history: updatedHist 
+                                                            })
+                                                            .eq('id', selectedClientSlip.id);
+
+                                                          if (error) throw error;
+
+                                                          setClients(prev => prev.map(c => c.id === selectedClientSlip.id ? { ...c, slip_status: 'rejected' } : c));
+
+                                                          showToast("❌ បាន Reject Slip រួចរាល់!", "error");
+                                                          setIsSlipModalOpen(false);
+                                                          setIsSlipModalFullScreen(false);
+                                                          fetchClients();
+                                                        } catch (err: any) {
+                                                          alert("Error: " + err.message);
+                                                        }
+                                                      }}
+                                                      className="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-[11px] transition shadow-xs cursor-pointer flex items-center gap-1"
+                                                    >
+                                                      <span>✕</span> Reject
+                                                    </button>
+                                                  </>
+                                                )}
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        ))
+                                      );
+                                    })()}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Footer Actions */}
+                          <div className="flex gap-3 pt-2">
+                            <button 
+                              type="button" 
+                              onClick={() => {
+                                setIsSlipModalOpen(false);
+                                setIsSlipModalFullScreen(false);
+                              }} 
+                              className="w-full py-3 rounded-xl font-bold text-xs border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                            >
+                              បិទ (Close)
+                            </button>
                           </div>
                         </div>
+
                       </div>
 
-                      {/* Footer Actions */}
-                      <div className="flex gap-3 pt-2">
-                        <button 
-                          type="button" 
-                          onClick={() => setIsSlipModalOpen(false)} 
-                          className="w-full py-3 rounded-xl font-bold text-xs border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                    </div>
+                  </div>
+                )}
+
+                {/* 🌟 Dedicated 100% Fullscreen Lightbox សម្រាប់មើលរូបភាព Slip ពេញអេក្រង់ធំទូលាយ */}
+                {fullscreenSlipUrl && (
+                  <div 
+                    className="fixed inset-0 z-[100005] bg-black/95 backdrop-blur-md flex flex-col items-center justify-between p-3 sm:p-5 animate-in fade-in duration-200 select-none"
+                    onClick={() => setFullscreenSlipUrl(null)}
+                  >
+                    {/* Top Bar */}
+                    <div className="w-full flex items-center justify-between px-2 sm:px-6 py-2 text-white z-10 shrink-0" onClick={e => e.stopPropagation()}>
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">🧾</span>
+                        <div>
+                          <h4 className="font-black text-sm sm:text-base">រូបភាព Slip ពេញអេក្រង់ (Full Screen Slip)</h4>
+                          <p className="text-xs text-slate-400">អតិថិជន៖ <strong className="text-blue-400">{selectedClientSlip?.client_name}</strong> ({selectedClientSlip?.email})</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <a 
+                          href={fullscreenSlipUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1.5 border border-white/15 cursor-pointer"
                         >
-                          បិទ (Close)
+                          <span>↗</span> បើកក្នុងផ្ទាំងថ្មី
+                        </a>
+                        <button 
+                          type="button"
+                          onClick={() => setFullscreenSlipUrl(null)}
+                          className="w-10 h-10 rounded-xl bg-white/10 hover:bg-rose-600 text-white flex items-center justify-center font-black text-lg transition cursor-pointer border border-white/15"
+                          title="បិទ (ESC)"
+                        >
+                          ✕
                         </button>
                       </div>
+                    </div>
 
+                    {/* Centered Large High-Res Image */}
+                    <div className="flex-1 w-full flex items-center justify-center p-2 sm:p-4 overflow-hidden" onClick={e => e.stopPropagation()}>
+                      <img 
+                        src={fullscreenSlipUrl} 
+                        alt="Bank Slip Fullscreen" 
+                        className="max-h-[86vh] max-w-[96vw] object-contain rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.9)] border border-white/10"
+                      />
+                    </div>
+
+                    {/* Bottom Helper Hint */}
+                    <div className="text-xs text-slate-400 text-center py-1 flex items-center gap-2 shrink-0">
+                      <span>💡 ចុចលើកន្លែងទទេ ឬចុចប៊ូតុង ✕ / ចុច ESC ដើម្បីបិទត្រឡប់មកវិញ</span>
                     </div>
                   </div>
                 )}
