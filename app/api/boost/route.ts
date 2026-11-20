@@ -280,7 +280,15 @@ export async function POST(request: Request) {
        throw new Error(`Ad ធ្លាក់: ${translateFBError(adData.error.message)}`);
     }
 
-    return NextResponse.json({ success: true, message: `🎉 ជោគជ័យ ១០០%` });
+    return NextResponse.json({ 
+      success: true, 
+      message: `🎉 ជោគជ័យ ១០០%`,
+      adId: adData.id,
+      campaignId: campaignId,
+      adsetId: adSetId,
+      adName: adName || `Ad - Final`,
+      campaignName: campaignName || `Auto Boost Campaign`
+    });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }

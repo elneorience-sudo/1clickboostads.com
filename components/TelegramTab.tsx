@@ -13,6 +13,8 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
   const [alertDisapproved, setAlertDisapproved] = useState(true);
   const [alertBilling, setAlertBilling] = useState(true);
   const [alertExpiry, setAlertExpiry] = useState(true);
+  const [alertBoost, setAlertBoost] = useState(true);
+  const [alertApproved, setAlertApproved] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
   const [statusMsg, setStatusMsg] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
@@ -41,6 +43,12 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
 
     const prefExp = localStorage.getItem('client_alert_expiry');
     if (prefExp !== null) setAlertExpiry(prefExp === 'true');
+
+    const prefBoost = localStorage.getItem('client_alert_boost');
+    if (prefBoost !== null) setAlertBoost(prefBoost === 'true');
+
+    const prefAppr = localStorage.getItem('client_alert_approved');
+    if (prefAppr !== null) setAlertApproved(prefAppr === 'true');
   }, []);
 
   const validateChatId = (id: string) => {
@@ -79,6 +87,8 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
       localStorage.setItem('client_alert_disapproved', String(alertDisapproved));
       localStorage.setItem('client_alert_billing', String(alertBilling));
       localStorage.setItem('client_alert_expiry', String(alertExpiry));
+      localStorage.setItem('client_alert_boost', String(alertBoost));
+      localStorage.setItem('client_alert_approved', String(alertApproved));
 
       setSavedChatId(cleanId);
       setStatusMsg({
@@ -265,6 +275,32 @@ export default function TelegramTab({ theme, showToast }: TelegramTabProps) {
           <span className="font-bold block text-slate-500 uppercase text-[11px] tracking-wider mb-1">
             ប្រភេទសារដែលអ្នកចង់ឱ្យប្រព័ន្ធជូនដំណឹង (Notification Preferences)៖
           </span>
+
+          <label className="flex items-center gap-3 cursor-pointer select-none p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+            <input
+              type="checkbox"
+              checked={alertBoost}
+              onChange={(e) => setAlertBoost(e.target.checked)}
+              className="w-4 h-4 accent-sky-600 rounded cursor-pointer"
+            />
+            <div className="text-xs">
+              <strong className="block text-slate-900 dark:text-white">🚀 Boost Ad ជោគជ័យ (Pending Review)</strong>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400">ផ្ញើសារប្រាប់ឈ្មោះ Campaign, Ad ID, ថវិកា និងផេក ភ្លាមៗពេល Boost ចប់</span>
+            </div>
+          </label>
+
+          <label className="flex items-center gap-3 cursor-pointer select-none p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+            <input
+              type="checkbox"
+              checked={alertApproved}
+              onChange={(e) => setAlertApproved(e.target.checked)}
+              className="w-4 h-4 accent-sky-600 rounded cursor-pointer"
+            />
+            <div className="text-xs">
+              <strong className="block text-slate-900 dark:text-white">🎉 Facebook បានយល់ព្រម (Ad Approved / Active)</strong>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400">ជូនដំណឹងភ្លាមៗនៅពេល Facebook ត្រួតពិនិត្យចប់ ហើយ Ad ចាប់ផ្ដើមដំណើរការ</span>
+            </div>
+          </label>
 
           <label className="flex items-center gap-3 cursor-pointer select-none p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <input

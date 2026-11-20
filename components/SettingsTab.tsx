@@ -23,6 +23,8 @@ export default function SettingsTab({ theme, showToast }: SettingsTabProps) {
   const [alertDisapproved, setAlertDisapproved] = useState(true);
   const [alertBilling, setAlertBilling] = useState(true);
   const [alertExpiry, setAlertExpiry] = useState(true);
+  const [alertBoost, setAlertBoost] = useState(true);
+  const [alertApproved, setAlertApproved] = useState(true);
   const [isSavingTelegram, setIsSavingTelegram] = useState(false);
   const [isTestingTelegram, setIsTestingTelegram] = useState(false);
   const [telegramStatusMsg, setTelegramStatusMsg] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
@@ -44,6 +46,12 @@ export default function SettingsTab({ theme, showToast }: SettingsTabProps) {
 
       const prefExp = localStorage.getItem('client_alert_expiry');
       if (prefExp !== null) setAlertExpiry(prefExp === 'true');
+
+      const prefBoost = localStorage.getItem('client_alert_boost');
+      if (prefBoost !== null) setAlertBoost(prefBoost === 'true');
+
+      const prefAppr = localStorage.getItem('client_alert_approved');
+      if (prefAppr !== null) setAlertApproved(prefAppr === 'true');
     };
     loadTelegramSettings();
   }, []);
@@ -65,6 +73,8 @@ export default function SettingsTab({ theme, showToast }: SettingsTabProps) {
       localStorage.setItem('client_alert_disapproved', String(alertDisapproved));
       localStorage.setItem('client_alert_billing', String(alertBilling));
       localStorage.setItem('client_alert_expiry', String(alertExpiry));
+      localStorage.setItem('client_alert_boost', String(alertBoost));
+      localStorage.setItem('client_alert_approved', String(alertApproved));
 
       setSavedChatId(cleanId);
       setTelegramStatusMsg({
@@ -211,6 +221,26 @@ export default function SettingsTab({ theme, showToast }: SettingsTabProps) {
           <div className={`p-3.5 rounded-xl border text-xs space-y-2.5 ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
             <span className="font-bold block text-slate-500 uppercase text-[10px]">ជ្រើសរើសប្រភេទសារដែលចង់ទទួលបាន៖</span>
             
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={alertBoost}
+                onChange={(e) => setAlertBoost(e.target.checked)}
+                className="w-4 h-4 accent-sky-600 rounded cursor-pointer"
+              />
+              <span className="font-medium">🚀 ជូនដំណឹងពេលបានបង្កើត &amp; BOOST Ad ជោគជ័យ</span>
+            </label>
+
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={alertApproved}
+                onChange={(e) => setAlertApproved(e.target.checked)}
+                className="w-4 h-4 accent-sky-600 rounded cursor-pointer"
+              />
+              <span className="font-medium">🎉 ជូនដំណឹងពេល Facebook បានយល់ព្រម (Ad Approved / Active)</span>
+            </label>
+
             <label className="flex items-center gap-2 cursor-pointer select-none">
               <input
                 type="checkbox"

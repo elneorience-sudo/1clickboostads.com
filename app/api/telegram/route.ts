@@ -7,7 +7,9 @@ import {
   notifyKHQRInstantPaid,
   notifyExpiryWarning,
   notifySmartRuleZeroMsgPaused,
-  notifySmartRuleHighCpaTriggered
+  notifySmartRuleHighCpaTriggered,
+  notifyBoostSuccess,
+  notifyAdApproved
 } from '@/lib/telegram';
 
 export async function POST(req: Request) {
@@ -67,6 +69,18 @@ export async function POST(req: Request) {
     // 8. ⚠️ Smart Rules: Alert ពេល CPA ឡើងខ្ពស់
     if (action === 'smart_rule_high_cpa') {
       const result = await notifySmartRuleHighCpaTriggered({ ...payload, chatId: targetChatId });
+      return NextResponse.json(result);
+    }
+
+    // 9. 🚀 Alert ពេល Boost ជោគជ័យ (Pending Review)
+    if (action === 'boost_success') {
+      const result = await notifyBoostSuccess({ ...payload, chatId: targetChatId });
+      return NextResponse.json(result);
+    }
+
+    // 10. 🎉 Alert ពេល Facebook បាន Approved យល់ព្រមលើ Ad
+    if (action === 'ad_approved') {
+      const result = await notifyAdApproved({ ...payload, chatId: targetChatId });
       return NextResponse.json(result);
     }
 

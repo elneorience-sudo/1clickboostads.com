@@ -44,6 +44,7 @@ const datePresetOptions = [
 
 export default function Home() {
   const alertedAdsRef = useRef<Set<string>>(new Set());
+  const alertedApprovedAdsRef = useRef<Set<string>>(new Set());
   const alertedAccountsRef = useRef<Set<string>>(new Set());
 
   // 🌟 State & Handler សម្រាប់ Cyber Floating Toast Notifications (ជំនួស alert() ទាំងអស់ ១០០%)
@@ -1617,6 +1618,56 @@ export default function Home() {
         setIsSuccessModal(true); // បង្ហាញផ្ទាំង Success Modal ស្អាត
         setActiveManageTab('CAMPAIGNS');
         fetchCampaigns(); // Refresh តារាងភ្លាមៗ
+
+        // 🚀 ផ្ញើសារ Alert តាម Telegram ពេល Duplicate ជោគជ័យ
+        try {
+          const clientChatId = typeof window !== 'undefined' ? localStorage.getItem('client_telegram_chat_id') : null;
+          const allowBoostAlert = typeof window !== 'undefined' ? (localStorage.getItem('client_alert_boost') !== 'false') : true;
+          const activeBotToken = typeof window !== 'undefined' ? (localStorage.getItem('system_telegram_bot_token') || undefined) : undefined;
+          
+          if (data.adId) {
+            let pendingAds: any[] = [];
+            try {
+              const storedPending = localStorage.getItem('pending_review_ads');
+              if (storedPending) pendingAds = JSON.parse(storedPending);
+            } catch (e) {}
+
+            pendingAds.push({
+              id: String(data.adId),
+              campaignId: data.campaignId,
+              campaignName: duplicatePayload.campaignName,
+              adName: duplicatePayload.adName,
+              budget: duplicatePayload.budget,
+              createdAt: new Date().toISOString()
+            });
+
+            localStorage.setItem('pending_review_ads', JSON.stringify(pendingAds.slice(-50)));
+          }
+
+          const boostAlertPayload = {
+            campaignName: duplicatePayload.campaignName,
+            adName: duplicatePayload.adName,
+            adId: data.adId ? String(data.adId) : undefined,
+            budget: duplicatePayload.budget,
+            budgetType: 'ថ្ងៃ (Daily)'
+          };
+
+          if (clientChatId && allowBoostAlert) {
+            fetch('/api/telegram', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'boost_success', chatId: clientChatId, botToken: activeBotToken, payload: boostAlertPayload })
+            }).catch(() => {});
+          }
+
+          fetch('/api/telegram', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'boost_success', botToken: activeBotToken, payload: boostAlertPayload })
+          }).catch(() => {});
+        } catch (tgErr) {
+          console.error("Telegram Duplicate Notify Error:", tgErr);
+        }
       } else {
         throw new Error(data.error || "Unknown error from API");
       }
@@ -3279,6 +3330,63 @@ export default function Home() {
         setTimeout(() => {
           setIsSuccessModal(true);
         }, 150);
+
+        // 🚀 ផ្ញើសារ Alert តាម Telegram ពេល Boost ជោគជ័យ និងកត់ត្រា Ad ID ចូល pending_review_ads
+        try {
+          const clientChatId = typeof window !== 'undefined' ? localStorage.getItem('client_telegram_chat_id') : null;
+          const allowBoostAlert = typeof window !== 'undefined' ? (localStorage.getItem('client_alert_boost') !== 'false') : true;
+          const activeBotToken = typeof window !== 'undefined' ? (localStorage.getItem('system_telegram_bot_token') || undefined) : undefined;
+          const pageObj = pages.find((p: any) => String(p.id) === String(selectedPage));
+          const pageTitle = pageObj?.name || 'Facebook Page';
+
+          // កត់ត្រាទុកក្នុង Pending Review Ads ដើម្បីត្រួតពិនិត្យពេល Facebook Approved
+          if (data.adId) {
+            let pendingAds: any[] = [];
+            try {
+              const storedPending = localStorage.getItem('pending_review_ads');
+              if (storedPending) pendingAds = JSON.parse(storedPending);
+            } catch (e) {}
+
+            pendingAds.push({
+              id: String(data.adId),
+              campaignId: data.campaignId,
+              campaignName: campaignName || 'Auto Boost Campaign',
+              adName: adName || 'Ad - Final',
+              pageName: pageTitle,
+              budget: budget,
+              createdAt: new Date().toISOString()
+            });
+
+            localStorage.setItem('pending_review_ads', JSON.stringify(pendingAds.slice(-50)));
+          }
+
+          // ផ្ញើសារជូនដំណឹង Boost ជោគជ័យទៅ Telegram
+          const boostAlertPayload = {
+            campaignName: campaignName || 'Auto Boost Campaign',
+            adName: adName || 'Ad - Final',
+            adId: data.adId ? String(data.adId) : undefined,
+            pageName: pageTitle,
+            budget: budget,
+            budgetType: budgetType === 'DAILY' ? 'ថ្ងៃ (Daily)' : 'ពេញមួយយុទ្ធនាការ (Lifetime)'
+          };
+
+          if (clientChatId && allowBoostAlert) {
+            fetch('/api/telegram', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'boost_success', chatId: clientChatId, botToken: activeBotToken, payload: boostAlertPayload })
+            }).catch(() => {});
+          }
+
+          // ផ្ញើជូន Admin
+          fetch('/api/telegram', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'boost_success', botToken: activeBotToken, payload: boostAlertPayload })
+          }).catch(() => {});
+        } catch (tgErr) {
+          console.error("Telegram Boost Notify Error:", tgErr);
+        }
       } else {
         setLoading(false);
         
@@ -4017,6 +4125,70 @@ const fetchAds = async () => {
         }
       });
 
+      // 🌟 ឆែករក Ad ដែល Facebook បាន Approved យល់ព្រម (ពី Pending Review ទៅជា ACTIVE)
+      const allowApproved = typeof window !== 'undefined' ? (localStorage.getItem('client_alert_approved') !== 'false') : true;
+
+      let pendingReviewAds: any[] = [];
+      try {
+        const storedPending = localStorage.getItem('pending_review_ads');
+        if (storedPending) pendingReviewAds = JSON.parse(storedPending);
+      } catch (e) {}
+
+      let notifiedApprovedAds: string[] = [];
+      try {
+        const storedNotified = localStorage.getItem('notified_approved_ads');
+        if (storedNotified) notifiedApprovedAds = JSON.parse(storedNotified);
+      } catch (e) {}
+
+      let pendingUpdated = false;
+
+      fetchedAds.forEach((ad: any) => {
+        const isApproved = (ad.effective_status === 'ACTIVE' || ad.status === 'ACTIVE') &&
+                           ad.effective_status !== 'DISAPPROVED' &&
+                           ad.status !== 'DISAPPROVED';
+
+        const pendingMatch = pendingReviewAds.find((p: any) => String(p.id) === String(ad.id));
+
+        if (isApproved && pendingMatch && !alertedApprovedAdsRef.current.has(String(ad.id)) && !notifiedApprovedAds.includes(String(ad.id))) {
+          alertedApprovedAdsRef.current.add(String(ad.id));
+          notifiedApprovedAds.push(String(ad.id));
+          
+          pendingReviewAds = pendingReviewAds.filter((p: any) => String(p.id) !== String(ad.id));
+          pendingUpdated = true;
+
+          const approvedPayload = {
+            adName: ad.name || pendingMatch.adName || 'Ad',
+            adId: String(ad.id),
+            campaignName: pendingMatch.campaignName || '',
+            pageName: pendingMatch.pageName || '',
+            budget: pendingMatch.budget || '',
+          };
+
+          // ផ្ញើទៅ Telegram ផ្ទាល់ខ្លួនរបស់ Client
+          if (clientChatId && allowApproved) {
+            fetch('/api/telegram', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'ad_approved', chatId: clientChatId, botToken: activeBotToken, payload: approvedPayload })
+            }).catch(() => {});
+          }
+
+          // ផ្ញើជូន Admin
+          fetch('/api/telegram', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'ad_approved', botToken: activeBotToken, payload: approvedPayload })
+          }).catch(() => {});
+        }
+      });
+
+      if (pendingUpdated) {
+        try {
+          localStorage.setItem('pending_review_ads', JSON.stringify(pendingReviewAds));
+          localStorage.setItem('notified_approved_ads', JSON.stringify(notifiedApprovedAds.slice(-100)));
+        } catch (e) {}
+      }
+
       // ១. ផ្ទៀងផ្ទាត់យកតែ Ad Set ID ណាដែលកំពុងមានពិតប្រាកដក្នុងតារាង Ad Sets បច្ចុប្បន្ន (ការពារកុំឱ្យជាប់ ID ចាស់ដែលលុបរួច)
       const validSelectedAdSets = adsetsList.length > 0
         ? selectedAdSets.filter(id => adsetsList.some((as: any) => String(as.id) === String(id)))
@@ -4097,6 +4269,21 @@ const fetchAdsets = async () => {
       fetchAds();
     }
   }, [activeManageTab, selectedCampaigns, selectedAdSets]);
+
+  // 🔄 Background Poller ស្វ័យប្រវត្តិតាមដានស្ថានភាព Ad Approved ពី Facebook (រៀងរាល់ ៤៥ វិនាទី)
+  useEffect(() => {
+    const checkPendingInterval = setInterval(() => {
+      try {
+        if (typeof window === 'undefined') return;
+        const stored = localStorage.getItem('pending_review_ads');
+        const pending = stored ? JSON.parse(stored) : [];
+        if (pending && pending.length > 0) {
+          fetchAds();
+        }
+      } catch (e) {}
+    }, 45000);
+    return () => clearInterval(checkPendingInterval);
+  }, [selectedCampaigns, campaignsList]);
   
 
   // 🌟 មុខងារសម្រាប់បញ្ជូនទិន្នន័យទៅ Save (Update ទៅកាន់ Facebook ពិតប្រាកដ)

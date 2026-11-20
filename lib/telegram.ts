@@ -286,6 +286,59 @@ export async function notifySmartRuleHighCpaTriggered(params: {
   return sendTelegramMessage(text.trim(), { chatId: params.chatId });
 }
 
+/**
+ * 🚀 ផ្ញើសារ Alert ពេលបានបង្កើត & BOOST Ad ជោគជ័យ
+ */
+export async function notifyBoostSuccess(params: {
+  campaignName: string;
+  adName?: string;
+  adId?: string;
+  pageName?: string;
+  budget?: string | number;
+  budgetType?: string;
+  chatId?: string;
+}) {
+  const time = new Date().toLocaleString('km-KH', { timeZone: 'Asia/Phnom_Penh' });
+  const text = `
+🚀 <b>[BOOST SUCCESS] បានបង្កើត &amp; BOOST ជោគជ័យ!</b>
+━━━━━━━━━━━━━━━━━━━━━
+📢 <b>ឈ្មោះយុទ្ធនាការ:</b> <code>${escapeHtml(params.campaignName)}</code>
+${params.adName ? `📝 <b>ឈ្មោះ Ad:</b> <code>${escapeHtml(params.adName)}</code>\n` : ''}${params.adId ? `🆔 <b>Ad ID:</b> <code>${params.adId}</code>\n` : ''}${params.pageName ? `📄 <b>ផេក (Page):</b> ${escapeHtml(params.pageName)}\n` : ''}${params.budget ? `💰 <b>ថវិកា (Budget):</b> <b>$${params.budget} / ${params.budgetType || 'ថ្ងៃ'}</b>\n` : ''}⏳ <b>ស្ថានភាព Facebook:</b> <b>កំពុងរង់ចាំត្រួតពិនិត្យ (Pending Review)</b>
+⏰ <b>ពេលវេលា:</b> ${time}
+━━━━━━━━━━━━━━━━━━━━━
+💡 <i>Facebook កំពុងពិនិត្យ Ad របស់អ្នក (ជាទូទៅចន្លោះពី ៥ ទៅ ៦០ នាទី)។ ប្រព័ន្ធនឹងផ្ញើសារប្រាប់អ្នកតាម Telegram នេះភ្លាមៗនៅពេល Facebook បាន Approved យល់ព្រម!</i>
+👉 <i>ចូលពិនិត្យ:</i> <a href="https://www.1clickboostads.com">1clickboostads.com</a>
+`;
+  return sendTelegramMessage(text.trim(), { chatId: params.chatId });
+}
+
+/**
+ * 🎉 ផ្ញើសារ Alert ពេល Facebook បាន Approved យល់ព្រមលើ Ad
+ */
+export async function notifyAdApproved(params: {
+  adName: string;
+  adId: string;
+  campaignName?: string;
+  pageName?: string;
+  accountName?: string;
+  budget?: string | number;
+  chatId?: string;
+}) {
+  const time = new Date().toLocaleString('km-KH', { timeZone: 'Asia/Phnom_Penh' });
+  const text = `
+🎉 <b>[AD APPROVED] FACEBOOK បានយល់ព្រម (APPROVED) ហើយ!</b>
+━━━━━━━━━━━━━━━━━━━━━
+✅ <b>ស្ថានភាព:</b> <b>កំពុងដំណើរការផ្សាយ (ACTIVE / APPROVED)</b>
+📢 <b>ឈ្មោះ Ad:</b> <code>${escapeHtml(params.adName)}</code>
+🆔 <b>Ad ID:</b> <code>${params.adId}</code>
+${params.campaignName ? `🎯 <b>Campaign:</b> <code>${escapeHtml(params.campaignName)}</code>\n` : ''}${params.pageName ? `📄 <b>ផេក (Page):</b> ${escapeHtml(params.pageName)}\n` : ''}${params.accountName ? `🏢 <b>គណនី Ad Account:</b> ${escapeHtml(params.accountName)}\n` : ''}⏰ <b>ពេលវេលា Approved:</b> ${time}
+━━━━━━━━━━━━━━━━━━━━━
+🚀 <i>ការផ្សាយពាណិជ្ជកម្មរបស់អ្នកបានចាប់ផ្ដើមដំណើរការ និងទៅដល់អតិថិជនពិតៗហើយ! សូមរង់ចាំទទួលសារឆាតចូល។</i>
+👉 <i>ចូលតាមដាន Results &amp; Messages:</i> <a href="https://www.1clickboostads.com">1clickboostads.com</a>
+`;
+  return sendTelegramMessage(text.trim(), { chatId: params.chatId });
+}
+
 function escapeHtml(text: string): string {
   if (!text) return '';
   return text
