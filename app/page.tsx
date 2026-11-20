@@ -3008,6 +3008,45 @@ export default function Home() {
     setIsSlipModalOpen(true);
   };
 
+  // 📊 ទាញយកទិន្នន័យអតិថិជនជា Excel / CSV (Export CRM Data)
+  const handleExportClientsToCSV = () => {
+    if (!clients || clients.length === 0) {
+      showToast("⚠️ មិនមានទិន្នន័យអតិថិជនដើម្បី Export ទេ!", "error");
+      return;
+    }
+    const headers = ["ឈ្មោះអតិថិជន", "អ៊ីមែល", "លេខទូរស័ព្ទ", "កញ្ចប់សេវា", "តម្លៃ ($)", "កាលបរិច្ឆេទចាប់ផ្តើម", "កាលបរិច្ឆេទផុតកំណត់", "ស្ថានភាពសេវា", "ស្ថានភាព Slip", "Facebook Page"];
+    const rows = clients.map(c => [
+      `"${(c.client_name || '').replace(/"/g, '""')}"`,
+      `"${(c.email || '').replace(/"/g, '""')}"`,
+      `"${(c.phone || '').replace(/"/g, '""')}"`,
+      `"${(c.package_name || '').replace(/"/g, '""')}"`,
+      `"${Number(c.amount || 0).toFixed(2)}"`,
+      `"${c.start_date ? new Date(c.start_date).toLocaleDateString('en-CA') : ''}"`,
+      `"${c.expiry_date ? new Date(c.expiry_date).toLocaleDateString('en-CA') : ''}"`,
+      `"${new Date(c.expiry_date) < new Date() ? 'ផុតកំណត់ (Expired)' : 'សកម្ម (Active)'}"`,
+      `"${c.slip_status || 'none'}"`,
+      `"${(c.linked_fb_page || c.page_name || '').replace(/"/g, '""')}"`
+    ]);
+    const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(r => r.join(","))].join("\r\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Clients_CRM_Report_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("📊 បានទាញយកទិន្នន័យអតិថិជនជា Excel/CSV ជោគជ័យ!", "success");
+  };
+
+  // 📋 ចម្លងព័ត៌មានអតិថិជន (Copy Email / Phone)
+  const handleCopyClientText = (text: string, label: string) => {
+    if (!text || text === '-' || text === 'គ្មានលេខទូរស័ព្ទ') return;
+    navigator.clipboard.writeText(text);
+    showToast(`📋 បានចម្លង ${label}: ${text}`, "success");
+  };
+
   // 🌟 កូដថ្មីដែលបញ្ជូនទិន្នន័យទៅឱ្យ API ធ្វើការងារទាំង ២ ខាងលើ
   const handleAddClient = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -5376,128 +5415,213 @@ const handleOpenDuplicateModal = () => {
             {/* ផ្ទាំងគ្រប់គ្រងអតិថិជន (CRM & SUBSCRIPTIONS) */}
             {/* ========================================================= */}
             {activeTab === "SUBSCRIPTIONS" && (
-              <div className={`p-6 rounded-xl shadow-sm border w-full max-w-7xl mx-auto my-6 animate-in fade-in duration-300 transition-colors ${theme === 'dark' ? 'bg-[#0D1117] border-slate-700 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
+              <div className={`p-4 sm:p-6 lg:p-8 rounded-3xl shadow-2xl border w-full max-w-7xl mx-auto my-6 animate-in fade-in duration-300 transition-all backdrop-blur-xl relative ${
+                theme === 'dark' 
+                  ? 'bg-[#0B0F17]/95 border-slate-800 text-slate-100 shadow-[0_20px_60px_rgba(0,0,0,0.6)]' 
+                  : 'bg-white/95 border-slate-200 text-slate-900 shadow-[0_20px_50px_rgba(0,0,0,0.06)]'
+              }`}>
                 
-                {/* Header */}
-                <div className="flex justify-between items-center mb-6 flex-wrap gap-4 relative">
-                  <div>
-                    <h1 className={`text-xl font-bold flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
-                      <span className="p-1.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg text-lg">👥</span> 
-                      គ្រប់គ្រងគណនី និងកញ្ចប់សេវាអតិថិជន
-                    </h1>
-                    <p className={`text-sm mt-1.5 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>បង្កើតគណនីភ្ជាប់ជាមួយ Facebook Page និងតាមដានទិន្នន័យអតិថិជនរបស់អ្នក</p>
+                {/* 🌟 ផ្ទាំង Alert ពណ៌ទឹកក្រូចអណ្តែតនៅខាងស្តាំលើ (Floating Top-Right) */}
+                {isAdmin && pendingSlipsCount > 0 && (
+                  <div className="fixed top-20 right-6 z-[999999] animate-in slide-in-from-top-5 fade-in duration-300">
+                    <div 
+                      onClick={() => {
+                        setActiveTab("SUBSCRIPTIONS");
+                        setClientStatusFilter('pending_slip');
+                        const firstPending = clients.find(c => c.slip_status === 'pending');
+                        if (firstPending) {
+                          setHighlightedClientId(firstPending.id);
+                          setTimeout(() => {
+                            const el = clientRowRefs.current[firstPending.id];
+                            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          }, 200);
+                        }
+                      }}
+                      className="flex items-center gap-3 px-5 py-3.5 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 hover:from-amber-600 hover:to-rose-700 text-white font-bold rounded-2xl shadow-[0_10px_35px_rgba(249,115,22,0.45)] border border-orange-300/40 backdrop-blur-md cursor-pointer transition-transform hover:scale-105 active:scale-95"
+                      title="ចុចដើម្បីពិនិត្យ Slip ថ្មីដែលរង់ចាំការ Approve"
+                    >
+                      <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg shrink-0 shadow-inner">
+                        🔔
+                      </div>
+                      <div className="flex flex-col text-left">
+                        <span className="text-[13.5px] font-black tracking-wide">មាន Slip ថ្មីរង់ចាំ Approve!</span>
+                        <span className="text-[11px] opacity-95 font-medium">ចំនួន {pendingSlipsCount} ភ័ស្តុតាងទូទាត់ប្រាក់</span>
+                      </div>
+                      <span className="w-7 h-7 bg-white text-orange-600 rounded-full font-black text-xs flex items-center justify-center shadow-md ml-2 animate-bounce">
+                        {pendingSlipsCount}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Header Section (Glassmorphism & Action Buttons) */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-7 pb-6 border-b border-slate-200 dark:border-slate-800">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 p-0.5 shadow-lg flex items-center justify-center text-2xl shrink-0 text-white shadow-indigo-500/25">
+                      👥
+                    </div>
+                    <div>
+                      <h1 className={`text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                        មជ្ឈមណ្ឌលគ្រប់គ្រងអតិថិជន (Client CRM Hub)
+                      </h1>
+                      <p className={`text-xs sm:text-sm mt-0.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+                        គ្រប់គ្រងគណនី, តាមដានសុពលភាព, ពិនិត្យ Slip បង់ប្រាក់ និងភ្ជាប់ Facebook Page ស្វ័យប្រវត្តិ
+                      </p>
+                    </div>
                   </div>
 
-                  {/* 🌟 ផ្ទាំង Alert ពណ៌ទឹកក្រូចអណ្តែតនៅខាងស្តាំលើ (Floating Top-Right) */}
-                  {isAdmin && pendingSlipsCount > 0 && (
-                    <div className="fixed top-20 right-6 z-[999999] animate-in slide-in-from-top-5 fade-in duration-300">
-                      <div 
-                        onClick={() => {
-                          setActiveTab("SUBSCRIPTIONS");
-                          const firstPending = clients.find(c => c.slip_status === 'pending');
-                          if (firstPending) {
-                            setHighlightedClientId(firstPending.id);
-                            setTimeout(() => {
-                              const el = clientRowRefs.current[firstPending.id];
-                              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            }, 200);
-                          }
-                        }}
-                        className="flex items-center gap-3 px-5 py-3.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold rounded-2xl shadow-2xl border border-orange-400/50 backdrop-blur-md cursor-pointer transition-transform hover:scale-105 active:scale-95"
-                        title="Click to check new slips"
-                      >
-                        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-base shrink-0 shadow-inner">
-                          🔔
-                        </div>
-                        <div className="flex flex-col text-left">
-                          <span className="text-[13.5px] tracking-wide">មាន Slip ថ្មីរង់ចាំ Approve!</span>
-                          <span className="text-[11px] opacity-90 font-normal">ចំនួន {pendingSlipsCount} ភ័ស្តុតាងទូទាត់ប្រាក់</span>
-                        </div>
-                        <span className="w-6 h-6 bg-white text-orange-600 rounded-full font-black text-xs flex items-center justify-center shadow-md ml-2 animate-bounce">
-                          {pendingSlipsCount}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div className="flex items-center gap-3">
-                    <button onClick={() => setShowSubModal(true)} className="px-5 py-2.5 bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold rounded-xl transition shadow-md cursor-pointer flex items-center gap-2">
-                      <span className="text-lg leading-none">+</span> <span className="hidden sm:inline">បង្កើតគណនីថ្មីអោយអតិថិជន</span>
+                  <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+                    {/* 🔄 Refresh Button */}
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        fetchClients();
+                        showToast("🔄 កំពុងទាញយកទិន្នន័យអតិថិជនថ្មី...", "info");
+                      }} 
+                      className={`p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                        theme === 'dark' ? 'bg-[#161B22] border-slate-700 text-slate-300 hover:bg-slate-800' : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+                      }`}
+                      title="Refresh Client Data"
+                    >
+                      <span className={loadingClients ? 'animate-spin' : ''}>🔄</span>
+                      <span className="hidden sm:inline">Refresh</span>
+                    </button>
+
+                    {/* 📊 Export to CSV / Excel Button */}
+                    <button 
+                      type="button"
+                      onClick={handleExportClientsToCSV}
+                      className="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-all shadow-md cursor-pointer flex items-center gap-1.5"
+                      title="ទាញយកទិន្នន័យអតិថិជនជា File Excel / CSV"
+                    >
+                      <span>📥</span> <span>Export Excel</span>
+                    </button>
+
+                    {/* ➕ Create Client Button */}
+                    <button 
+                      type="button"
+                      onClick={() => setShowSubModal(true)} 
+                      className="btn-futuristic px-4 py-2.5 text-white font-bold rounded-xl text-xs transition-all shadow-lg cursor-pointer flex items-center gap-1.5"
+                    >
+                      <span className="text-sm font-black">+</span> <span>បង្កើតគណនីថ្មី</span>
                     </button>
                   </div>
                 </div>
 
-                {/* 🌟 ផ្នែក Dashboard Statistic Cards ទាំង ៤ (ដាក់ពីលើតារាង) */}
+                {/* 🌟 Futuristic Bento Metric KPI Cards ទាំង ៥ */}
                 {(() => {
                   const totalClients = clients.length;
                   const activeClients = clients.filter(c => new Date(c.expiry_date) >= new Date()).length;
+                  const activePct = totalClients > 0 ? Math.round((activeClients / totalClients) * 100) : 0;
+                  const expiringSoon = clients.filter(c => {
+                    const today = new Date();
+                    const expiry = new Date(c.expiry_date);
+                    const diffDays = Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                    return diffDays >= 0 && diffDays <= 7;
+                  }).length;
+                  const expiredClients = clients.filter(c => new Date(c.expiry_date) < new Date()).length;
                   const totalRevenue = clients
-                    .filter(c => c.slip_status === 'approved') // គណនាតែប្រាក់ណាដែលអនុម័តរួច
+                    .filter(c => c.slip_status === 'approved')
                     .reduce((sum, c) => sum + (Number(c.amount) || 0), 0);
+                  const displayRevenue = Number(localStorage.getItem("admin_custom_revenue") || totalRevenue);
                   const pendingSlips = clients.filter(c => c.slip_status === 'pending').length || 0;
 
                   return (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4 mb-7">
                       
                       {/* 1. សរុបអតិថិជន (TOTAL CLIENTS) */}
-                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
-                        <div>
-                          <h4 className={`text-[11px] font-bold uppercase tracking-widest mb-1.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>សរុបអតិថិជន (Total Clients)</h4>
-                          <div className={`text-3xl font-black ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>{totalClients}</div>
+                      <div className={`p-4 sm:p-5 rounded-2xl border shadow-sm flex flex-col justify-between transition-all hover:translate-y-[-2px] ${theme === 'dark' ? 'bg-[#0E1420]/80 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[11px] font-black uppercase tracking-wider text-slate-400">សរុបអតិថិជន</span>
+                          <span className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-sm font-bold">👥</span>
                         </div>
-                        <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl shadow-inner">
-                          👥
+                        <div>
+                          <div className={`text-2xl sm:text-3xl font-black ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{totalClients}</div>
+                          <span className="text-[11px] text-slate-400 font-medium">គណនីក្នុងប្រព័ន្ធទាំងមូល</span>
                         </div>
                       </div>
 
-                      {/* 2. អតិថិជនសកម្ម (ACTIVE) */}
-                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
-                        <div>
-                          <h4 className={`text-[11px] font-bold uppercase tracking-widest mb-1.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>អតិថិជនសកម្ម (Active)</h4>
-                          <div className="text-3xl font-black text-[#31A24C]">{activeClients}</div>
+                      {/* 2. អតិថិជនសកម្ម (ACTIVE SUBSCRIPTIONS) */}
+                      <div className={`p-4 sm:p-5 rounded-2xl border shadow-sm flex flex-col justify-between transition-all hover:translate-y-[-2px] ${theme === 'dark' ? 'bg-[#0E1420]/80 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[11px] font-black uppercase tracking-wider text-emerald-500">កំពុងដំណើរការ</span>
+                          <span className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-sm font-bold">✓</span>
                         </div>
-                        <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-[#31A24C] flex items-center justify-center text-xl shadow-inner">
-                          ✅
-                        </div>
-                      </div>
-
-                      {/* 3. ប្រាក់ចំណូលសរុប (REVENUE) មានប៊ូតុង Edit បែបទំនើប */}
-                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors relative group ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
                         <div>
-                          <div className="flex items-center gap-2 mb-1.5">
-                            <h4 className={`text-[11px] font-bold uppercase tracking-widest ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>ប្រាក់ចំណូលសរុប (Revenue)</h4>
-                            
-                            {/* 🌟 ប៊ូតុង Edit បែប Modern ទំនើប */}
-                            <button 
-                              type="button"
-                              onClick={() => {
-                                const currentVal = localStorage.getItem("admin_custom_revenue") || totalRevenue.toString();
-                                setCustomRevenueInput(currentVal);
-                                setIsRevenueModalOpen(true);
-                              }}
-                              className="opacity-80 group-hover:opacity-100 text-[11px] bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-2.5 py-0.5 rounded-full font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1 transform hover:scale-105 active:scale-95"
-                              title="កែប្រែប្រាក់ចំណូលសរុប"
-                            >
-                              <span>✏️</span> កែប្រែ
-                            </button>
-                          </div>
-                          <div className="text-3xl font-black text-[#F5C33B] dark:text-amber-400">
-                            ${Number(localStorage.getItem("admin_custom_revenue") || totalRevenue).toFixed(2)}
+                          <div className="text-2xl sm:text-3xl font-black text-emerald-500">{activeClients}</div>
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <div className="flex-1 bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                              <div className="bg-emerald-500 h-full rounded-full transition-all duration-500" style={{ width: `${activePct}%` }}></div>
+                            </div>
+                            <span className="text-[10.5px] font-bold text-emerald-500">{activePct}%</span>
                           </div>
                         </div>
-                        <div className="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl shadow-inner">
-                          💰
+                      </div>
+
+                      {/* 3. ជិតផុតកំណត់ & ផុតកំណត់ (EXPIRING / EXPIRED) */}
+                      <div className={`p-4 sm:p-5 rounded-2xl border shadow-sm flex flex-col justify-between transition-all hover:translate-y-[-2px] ${theme === 'dark' ? 'bg-[#0E1420]/80 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[11px] font-black uppercase tracking-wider text-amber-500">ជិត & ផុតកំណត់</span>
+                          <span className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-sm font-bold">⏳</span>
+                        </div>
+                        <div>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-2xl sm:text-3xl font-black text-amber-500">{expiringSoon}</span>
+                            <span className="text-xs text-rose-500 font-bold">/ {expiredClients} ផុត</span>
+                          </div>
+                          <span className="text-[11px] text-slate-400 font-medium">សល់ ≤ ៧ ថ្ងៃ / ផុតកំណត់</span>
                         </div>
                       </div>
 
-                      {/* 4. រង់ចាំពិនិត្យ SLIP (PENDING) */}
-                      <div className={`p-5 rounded-2xl border shadow-sm flex items-center justify-between transition-colors ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
-                        <div>
-                          <h4 className={`text-[11px] font-bold uppercase tracking-widest mb-1.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>រង់ចាំពិនិត្យ SLIP (Pending)</h4>
-                          <div className={`text-3xl font-black ${pendingSlips > 0 ? 'text-[#F5533D]' : (theme === 'dark' ? 'text-slate-500' : 'text-slate-400')}`}>{pendingSlips}</div>
+                      {/* 4. ប្រាក់ចំណូលសរុប (TOTAL REVENUE) */}
+                      <div className={`p-4 sm:p-5 rounded-2xl border shadow-sm flex flex-col justify-between transition-all hover:translate-y-[-2px] relative group ${theme === 'dark' ? 'bg-[#0E1420]/80 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[11px] font-black uppercase tracking-wider text-amber-400">ចំណូលសរុប</span>
+                          <button 
+                            type="button"
+                            onClick={() => {
+                              const currentVal = localStorage.getItem("admin_custom_revenue") || totalRevenue.toString();
+                              setCustomRevenueInput(currentVal);
+                              setIsRevenueModalOpen(true);
+                            }}
+                            className="text-[10px] bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-2 py-0.5 rounded-full font-bold transition shadow-xs cursor-pointer flex items-center gap-1"
+                            title="កែប្រែប្រាក់ចំណូលសរុប"
+                          >
+                            <span>✏️</span> កែ
+                          </button>
                         </div>
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-inner ${pendingSlips > 0 ? 'bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-400' : 'bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-400'}`}>
-                          ⏳
+                        <div>
+                          <div className="text-2xl sm:text-3xl font-black text-amber-400 font-mono">
+                            ${displayRevenue.toFixed(2)}
+                          </div>
+                          <span className="text-[11px] text-slate-400 font-medium">ប្រាក់ចំណូល Subscription</span>
+                        </div>
+                      </div>
+
+                      {/* 5. រង់ចាំពិនិត្យ SLIP (PENDING SLIPS) */}
+                      <div 
+                        onClick={() => pendingSlips > 0 && setClientStatusFilter('pending_slip')}
+                        className={`p-4 sm:p-5 rounded-2xl border shadow-sm flex flex-col justify-between transition-all hover:translate-y-[-2px] cursor-pointer ${
+                          pendingSlips > 0 
+                            ? 'bg-gradient-to-br from-rose-500/15 via-orange-500/10 to-amber-500/15 border-rose-500/40 animate-pulse' 
+                            : (theme === 'dark' ? 'bg-[#0E1420]/80 border-slate-800' : 'bg-slate-50 border-slate-200')
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className={`text-[11px] font-black uppercase tracking-wider ${pendingSlips > 0 ? 'text-rose-500' : 'text-slate-400'}`}>
+                            រង់ចាំពិនិត្យ SLIP
+                          </span>
+                          <span className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold ${pendingSlips > 0 ? 'bg-rose-500 text-white shadow-md' : 'bg-slate-200 dark:bg-slate-800 text-slate-400'}`}>
+                            🧾
+                          </span>
+                        </div>
+                        <div>
+                          <div className={`text-2xl sm:text-3xl font-black ${pendingSlips > 0 ? 'text-rose-500' : (theme === 'dark' ? 'text-slate-500' : 'text-slate-400')}`}>
+                            {pendingSlips}
+                          </div>
+                          <span className={`text-[11px] font-medium ${pendingSlips > 0 ? 'text-rose-400 font-bold' : 'text-slate-400'}`}>
+                            {pendingSlips > 0 ? 'ចុចទីនេះដើម្បីពិនិត្យ ↗' : 'គ្មាន Slip រង់ចាំ ✓'}
+                          </span>
                         </div>
                       </div>
 
@@ -5505,288 +5629,538 @@ const handleOpenDuplicateModal = () => {
                   );
                 })()}
 
-                {/* Table CRM */}
-                                {/* 🌟 ផ្ទាំង Search & Filters ស្វែងរកអតិថិជនកម្រិតខ្ពស់ */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
+                {/* 🌟 ផ្ទាំង Search & Filters ស្វែងរកអតិថិជនកម្រិតខ្ពស់ */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-5">
                   {/* ប្រអប់ Search */}
-                  <div className="relative flex-1 max-w-md">
+                  <div className="relative flex-1 max-w-lg">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
                     <input
                       type="text"
                       value={clientSearchQuery}
                       onChange={(e) => setClientSearchQuery(e.target.value)}
-                      placeholder="🔍 ស្វែងរកតាមឈ្មោះ, អ៊ីមែល, លេខទូរស័ព្ទ..."
-                      className={`w-full pl-9 pr-8 py-2.5 rounded-xl border text-xs outline-none transition-all ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700 text-white placeholder-slate-500 focus:border-blue-500' : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:border-blue-500'}`}
+                      placeholder="ស្វែងរកតាមឈ្មោះ, អ៊ីមែល, លេខទូរស័ព្ទ, ឬ Facebook Page..."
+                      className={`w-full pl-10 pr-9 py-2.5 rounded-2xl border text-xs sm:text-sm outline-none transition-all ${
+                        theme === 'dark' 
+                          ? 'bg-[#0E1420] border-slate-700 text-white placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20' 
+                          : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20'
+                      }`}
                     />
                     {clientSearchQuery && (
                       <button
                         onClick={() => setClientSearchQuery("")}
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center cursor-pointer"
+                        title="សម្អាត"
                       >
                         ✕
                       </button>
                     )}
                   </div>
 
-                  {/* Filter Badges */}
-                  <div className="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1 sm:pb-0 flex-nowrap text-xs">
+                  {/* Filter Badges with Live Counts */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1 md:pb-0 flex-nowrap text-xs">
                     {[
-                      { key: 'all', label: 'ទាំងអស់' },
-                      { key: 'active', label: '🟢 កំពុងដំណើរការ' },
-                      { key: 'expiring', label: '⏳ ជិតផុតកំណត់ (≤ ៧ថ្ងៃ)' },
-                      { key: 'expired', label: '🔴 ផុតកំណត់' },
-                      { key: 'pending_slip', label: '🔔 រង់ចាំ Slip' }
+                      { key: 'all', label: 'ទាំងអស់', count: clients.length },
+                      { key: 'active', label: '🟢 កំពុងដំណើរការ', count: clients.filter(c => new Date(c.expiry_date) >= new Date()).length },
+                      { key: 'expiring', label: '⏳ ជិតផុត (≤ ៧ថ្ងៃ)', count: clients.filter(c => {
+                        const today = new Date();
+                        const expiry = new Date(c.expiry_date);
+                        const diffDays = Math.ceil((expiry.getTime() - today.getTime()) / 86400000);
+                        return diffDays >= 0 && diffDays <= 7;
+                      }).length },
+                      { key: 'expired', label: '🔴 ផុតកំណត់', count: clients.filter(c => new Date(c.expiry_date) < new Date()).length },
+                      { key: 'pending_slip', label: '🔔 រង់ចាំ Slip', count: clients.filter(c => c.slip_status === 'pending').length }
                     ].map((f) => (
                       <button
                         key={f.key}
                         onClick={() => setClientStatusFilter(f.key as any)}
-                        className={`px-3 py-1.5 rounded-lg font-bold transition-all text-xs whitespace-nowrap cursor-pointer ${
+                        className={`px-3 py-2 rounded-xl font-bold transition-all text-xs whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
                           clientStatusFilter === f.key
-                            ? 'bg-blue-600 text-white shadow-xs'
-                            : (theme === 'dark' ? 'bg-[#0B0F17] text-slate-400 hover:text-white border border-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
+                            ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 scale-[1.02]'
+                            : (theme === 'dark' ? 'bg-[#0E1420] text-slate-400 hover:text-white border border-slate-800' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
                         }`}
                       >
-                        {f.label}
+                        <span>{f.label}</span>
+                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
+                          clientStatusFilter === f.key ? 'bg-white/20 text-white' : 'bg-black/10 dark:bg-white/10 text-slate-500 dark:text-slate-400'
+                        }`}>
+                          {f.count}
+                        </span>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className={`rounded-2xl shadow-sm border overflow-hidden ${theme === 'dark' ? 'bg-[#0B0F17] border-slate-700' : 'bg-white border-gray-100'}`}>
-                  <div className="overflow-x-auto custom-scrollbar">
-                    <table className="w-full text-left border-collapse min-w-[1000px]">
-                      <thead>
-                        <tr className={`text-xs uppercase tracking-wider border-b ${theme === 'dark' ? 'bg-[#1C2128] text-slate-300 border-slate-700' : 'bg-gray-50 text-gray-600 border-gray-100'}`}>
-                          <th className="py-4 px-4 font-bold">ព័ត៌មានអតិថិជន</th>
-                          <th className="py-4 px-4 font-bold">គណនី (Email & Password)</th>
-                          <th className="py-4 px-4 font-bold">គណនីភ្ជាប់ (Linked FB)</th>
-                          <th className="py-4 px-4 font-bold">កញ្ចប់សេវា & តម្លៃ</th>
-                          <th className="py-4 px-4 font-bold">សុពលភាពសេវាកម្ម</th>
-                          <th className="py-4 px-4 font-bold text-center">សកម្មភាព</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-200 dark:divide-slate-700 text-sm">
-                        {(() => {
-                          const displayedClients = clients.filter((c) => {
-                            if (clientSearchQuery.trim()) {
-                              const q = clientSearchQuery.toLowerCase();
-                              const nameMatch = (c.client_name || '').toLowerCase().includes(q);
-                              const emailMatch = (c.email || '').toLowerCase().includes(q);
-                              const phoneMatch = (c.phone || '').toLowerCase().includes(q);
-                              const pageMatch = (c.linked_fb_page || '').toLowerCase().includes(q);
-                              if (!nameMatch && !emailMatch && !phoneMatch && !pageMatch) return false;
-                            }
-                            const isExpired = new Date(c.expiry_date) < new Date();
-                            const today = new Date();
-                            const expiry = new Date(c.expiry_date);
-                            const diffDays = Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-                            const isExpiringSoon = diffDays >= 0 && diffDays <= 7;
+                {/* 🌟 Filter Results Info */}
+                {(() => {
+                  const displayedClients = clients.filter((c) => {
+                    if (clientSearchQuery.trim()) {
+                      const q = clientSearchQuery.toLowerCase();
+                      const nameMatch = (c.client_name || '').toLowerCase().includes(q);
+                      const emailMatch = (c.email || '').toLowerCase().includes(q);
+                      const phoneMatch = (c.phone || '').toLowerCase().includes(q);
+                      const pageMatch = (c.linked_fb_page || '').toLowerCase().includes(q);
+                      if (!nameMatch && !emailMatch && !phoneMatch && !pageMatch) return false;
+                    }
+                    const isExpired = new Date(c.expiry_date) < new Date();
+                    const today = new Date();
+                    const expiry = new Date(c.expiry_date);
+                    const diffDays = Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                    const isExpiringSoon = diffDays >= 0 && diffDays <= 7;
 
-                            if (clientStatusFilter === 'active') return !isExpired;
-                            if (clientStatusFilter === 'expiring') return isExpiringSoon;
-                            if (clientStatusFilter === 'expired') return isExpired;
-                            if (clientStatusFilter === 'pending_slip') return c.slip_status === 'pending';
-                            return true;
-                          });
+                    if (clientStatusFilter === 'active') return !isExpired;
+                    if (clientStatusFilter === 'expiring') return isExpiringSoon;
+                    if (clientStatusFilter === 'expired') return isExpired;
+                    if (clientStatusFilter === 'pending_slip') return c.slip_status === 'pending';
+                    return true;
+                  });
 
-                          if (loadingClients) {
-                            return <tr><td colSpan={6} className="text-center py-10 text-gray-400">កំពុងទាញយកទិន្នន័យអតិថិជន...</td></tr>;
-                          }
-                          if (displayedClients.length === 0) {
-                            return <tr><td colSpan={6} className="text-center py-10 text-gray-400 italic">មិនមានទិន្នន័យអតិថិជនត្រូវនឹងការស្វែងរកនេះទេ។</td></tr>;
-                          }
+                  if (loadingClients) {
+                    return (
+                      <div className="py-20 text-center flex flex-col items-center justify-center gap-3">
+                        <div className="w-10 h-10 border-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <p className="text-xs text-slate-400 font-bold">កំពុងទាញយកទិន្នន័យអតិថិជនពី Database...</p>
+                      </div>
+                    );
+                  }
 
-                          return displayedClients.map((item) => {
-                              const isExpired = new Date(item.expiry_date) < new Date();
-                              const isPendingSlip = item.slip_status === 'pending';
-                              const isHighlighted = highlightedClientId === item.id;
+                  if (displayedClients.length === 0) {
+                    return (
+                      <div className={`p-12 text-center rounded-3xl border ${theme === 'dark' ? 'bg-[#0E1420]/60 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+                        <span className="text-4xl block mb-2">🔍</span>
+                        <h4 className="font-bold text-sm text-slate-700 dark:text-slate-300">មិនមានទិន្នន័យអតិថិជនត្រូវនឹងការស្វែងរកនេះទេ</h4>
+                        <p className="text-xs text-slate-400 mt-1">សូមសាកល្បងសម្អាត Search ឬជ្រើសរើស Filter "ទាំងអស់"</p>
+                      </div>
+                    );
+                  }
 
-                              // 🌟 គណនាមើលថាតើនៅសល់ថ្ងៃប៉ុន្មានទៀតទើបដល់ថ្ងៃផុតកំណត់ (សម្រាប់ Warning សល់ <= 7 ថ្ងៃ)
-                              const today = new Date();
-                              const expiry = new Date(item.expiry_date);
-                              const diffTime = expiry.getTime() - today.getTime();
-                              const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                              const isNearExpiry = diffDays >= 0 && diffDays <= 7;
+                  return (
+                    <>
+                      {/* ========================================================= */}
+                      {/* 🖥️ Desktop Bento Table View (Hidden on Mobile) */}
+                      {/* ========================================================= */}
+                      <div className="hidden lg:block rounded-2xl shadow-sm border overflow-hidden border-slate-200 dark:border-slate-800">
+                        <div className="overflow-x-auto custom-scrollbar">
+                          <table className="w-full text-left border-collapse min-w-[1050px]">
+                            <thead>
+                              <tr className={`text-[11px] uppercase tracking-wider border-b ${
+                                theme === 'dark' ? 'bg-[#161B22] text-slate-400 border-slate-800' : 'bg-slate-100 text-slate-600 border-slate-200'
+                              }`}>
+                                <th className="py-3.5 px-4 font-black">ព័ត៌មានអតិថិជន</th>
+                                <th className="py-3.5 px-4 font-black">គណនី Login & សុវត្ថិភាព</th>
+                                <th className="py-3.5 px-4 font-black">Facebook Page ភ្ជាប់</th>
+                                <th className="py-3.5 px-4 font-black">កញ្ចប់សេវា & តម្លៃ</th>
+                                <th className="py-3.5 px-4 font-black">សុពលភាព & ថ្ងៃផុតកំណត់</th>
+                                <th className="py-3.5 px-4 font-black text-center">សកម្មភាពគ្រប់គ្រង</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-sm">
+                              {displayedClients.map((item) => {
+                                const isExpired = new Date(item.expiry_date) < new Date();
+                                const isPendingSlip = item.slip_status === 'pending';
+                                const isHighlighted = highlightedClientId === item.id;
 
-                              return (
-                                <tr 
-                                  key={item.id} 
-                                  ref={(el) => { clientRowRefs.current[item.id] = el; }}
-                                  className={`transition ${isHighlighted ? 'bg-amber-500/20 ring-2 ring-amber-500' : ''} ${
-                                    isNearExpiry 
-                                      ? (theme === 'dark' ? 'bg-orange-950/40 border-l-4 border-orange-500 animate-pulse' : 'bg-orange-50 border-l-4 border-orange-500 animate-pulse') 
-                                      : isPendingSlip ? 'animate-pulse bg-red-500/10' : (theme === 'dark' ? 'hover:bg-[#1C2128]' : 'hover:bg-gray-50')
-                                  }`}
-                                >
-                                  {/* 1. ព័ត៌មានអតិថិជន */}
-                                  <td className="py-3.5 px-4">
-                                    <div className={`font-bold text-[14.5px] ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>{item.client_name}</div>
-                                    <div className={`text-[12px] flex items-center gap-1.5 mt-1 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
-                                      <span>📞</span> {item.phone || 'គ្មានលេខទូរស័ព្ទ'}
-                                    </div>
-                                  </td>
-                                  
-                                  {/* 2. គណនី Login (Email តែប៉ុណ្ណោះ - លាក់ Password ដើម្បីសុវត្ថិភាព) */}
-                                  <td className="py-3.5 px-4">
-                                    <div className={`text-[12.5px] flex items-center gap-1.5 ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'} font-medium`}>
-                                      <span>✉️</span> {item.email || '-'}
-                                    </div>
-                                    
-                                    {/* ប៊ូតុងផ្ញើអ៊ីមែល Reset Password ជំនួសឱ្យការបង្ហាញ Password ផ្ទាល់ */}
-                                    <button
-                                      type="button"
-                                      onClick={async () => {
-                                        if (!confirm(`តើបងចង់ផ្ញើលិង្កកំណត់លេខសម្ងាត់ថ្មីទៅកាន់អ៊ីមែល ${item.email} មែនទេ?`)) return;
-                                        try {
-                                          const { error } = await supabase.auth.resetPasswordForEmail(item.email, {
-                                            redirectTo: `${window.location.origin}/settings`,
-                                          });
-                                          if (error) throw error;
-                                          showToast(`✅ បានផ្ញើលិង្កប្ដូរលេខសម្ងាត់ទៅកាន់ ${item.email} រួចរាល់!`, "success");
-                                        } catch (err: any) {
-                                          alert("❌ បរាជ័យ: " + err.message);
-                                        }
-                                      }}
-                                      className="mt-1.5 text-[11px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 px-2.5 py-1 rounded-lg hover:bg-blue-100 transition cursor-pointer flex items-center gap-1 w-fit shadow-xs"
-                                      title="ផ្ញើអ៊ីមែលឱ្យអតិថិជនប្ដូរលេខសម្ងាត់ដោយខ្លួនឯង"
-                                    >
-                                      <span>🔑</span> <span>ផ្ញើលិង្ក Reset Password</span>
-                                    </button>
-                                  </td>
+                                const today = new Date();
+                                const expiry = new Date(item.expiry_date);
+                                const diffTime = expiry.getTime() - today.getTime();
+                                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                const isNearExpiry = diffDays >= 0 && diffDays <= 7;
 
-                                  {/* 3. Linked Facebook */}
-                                  <td className="py-3.5 px-4">
-                                    {(item.page_name || item.linked_fb_page || item.access_token) ? (
-                                      <div className="flex flex-col gap-1">
-                                        <div className="flex items-center gap-2">
-                                          <div className="w-6 h-6 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-[11px] font-bold shrink-0 shadow-sm">
-                                            f
-                                          </div>
-                                          <span
-                                            className={`text-[12.5px] font-bold truncate max-w-[170px] ${theme === 'dark' ? 'text-blue-400' : 'text-[#1877F2]'}`}
-                                          >
-                                            {item.page_name || item.linked_fb_page || 'បានភ្ជាប់ Facebook'}
-                                          </span>
+                                const initials = (item.client_name || 'U').slice(0, 2).toUpperCase();
+
+                                return (
+                                  <tr 
+                                    key={item.id} 
+                                    ref={(el) => { clientRowRefs.current[item.id] = el; }}
+                                    className={`transition-colors ${isHighlighted ? 'bg-amber-500/20 ring-2 ring-amber-500' : ''} ${
+                                      isNearExpiry 
+                                        ? (theme === 'dark' ? 'bg-orange-950/30 border-l-4 border-orange-500' : 'bg-orange-50/70 border-l-4 border-orange-500') 
+                                        : isPendingSlip 
+                                        ? 'bg-rose-500/10 border-l-4 border-rose-500' 
+                                        : (theme === 'dark' ? 'hover:bg-[#161B22]/60' : 'hover:bg-slate-50')
+                                    }`}
+                                  >
+                                    {/* 1. ព័ត៌មានអតិថិជន */}
+                                    <td className="py-4 px-4">
+                                      <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-black text-xs flex items-center justify-center shrink-0 shadow-sm uppercase">
+                                          {initials}
                                         </div>
-                                        {item.ad_account_id && (
-                                          <span className="text-[10.5px] text-slate-400 font-mono pl-8">
-                                            Ad ID: {item.ad_account_id}
+                                        <div className="min-w-0">
+                                          <div className={`font-bold text-[14px] truncate ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                                            {item.client_name}
+                                          </div>
+                                          <button
+                                            type="button"
+                                            onClick={() => handleCopyClientText(item.phone, 'លេខទូរស័ព្ទ')}
+                                            className="text-[11.5px] text-slate-400 hover:text-blue-500 flex items-center gap-1 mt-0.5 transition cursor-pointer"
+                                            title="ចុចដើម្បីចម្លងលេខទូរស័ព្ទ"
+                                          >
+                                            <span>📞</span> <span>{item.phone || 'គ្មានលេខទូរស័ព្ទ'}</span>
+                                            {item.phone && <span className="opacity-0 hover:opacity-100 text-[10px]">📋</span>}
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    
+                                    {/* 2. គណនី Login & Reset Password */}
+                                    <td className="py-4 px-4">
+                                      <div className="flex items-center gap-1.5">
+                                        <span className="text-slate-400 text-xs">✉️</span>
+                                        <span className={`text-[12px] font-mono font-medium truncate max-w-[200px] ${theme === 'dark' ? 'text-slate-200' : 'text-slate-800'}`}>
+                                          {item.email}
+                                        </span>
+                                        <button
+                                          type="button"
+                                          onClick={() => handleCopyClientText(item.email, 'អ៊ីមែល')}
+                                          className="text-slate-400 hover:text-blue-500 text-xs cursor-pointer p-0.5"
+                                          title="ចម្លងអ៊ីមែល"
+                                        >
+                                          📋
+                                        </button>
+                                      </div>
+                                      <button
+                                        type="button"
+                                        onClick={async () => {
+                                          if (!confirm(`តើបងចង់ផ្ញើលិង្កកំណត់លេខសម្ងាត់ថ្មីទៅកាន់អ៊ីមែល ${item.email} មែនទេ?`)) return;
+                                          try {
+                                            const { error } = await supabase.auth.resetPasswordForEmail(item.email, {
+                                              redirectTo: `${window.location.origin}/settings`,
+                                            });
+                                            if (error) throw error;
+                                            showToast(`✅ បានផ្ញើលិង្កប្ដូរលេខសម្ងាត់ទៅកាន់ ${item.email} រួចរាល់!`, "success");
+                                          } catch (err: any) {
+                                            alert("❌ បរាជ័យ: " + err.message);
+                                          }
+                                        }}
+                                        className="mt-1.5 text-[10.5px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60 px-2 py-0.5 rounded-lg hover:bg-blue-100 transition cursor-pointer flex items-center gap-1 w-fit"
+                                        title="ផ្ញើអ៊ីមែលឱ្យអតិថិជនប្ដូរលេខសម្ងាត់ដោយខ្លួនឯង"
+                                      >
+                                        <span>🔑</span> <span>Reset Password</span>
+                                      </button>
+                                    </td>
+
+                                    {/* 3. Linked Facebook Page */}
+                                    <td className="py-4 px-4">
+                                      {(item.page_name || item.linked_fb_page || item.access_token) ? (
+                                        <div className="flex flex-col gap-0.5">
+                                          <div className="flex items-center gap-1.5">
+                                            <span className="w-5 h-5 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-[10px] font-bold shrink-0">f</span>
+                                            <span className="text-[12px] font-bold truncate max-w-[170px] text-blue-600 dark:text-blue-400">
+                                              {item.page_name || item.linked_fb_page || 'Connected'}
+                                            </span>
+                                          </div>
+                                          {item.ad_account_id && (
+                                            <span className="text-[10px] text-slate-400 font-mono pl-6">
+                                              ID: {item.ad_account_id}
+                                            </span>
+                                          )}
+                                        </div>
+                                      ) : (
+                                        <span className="text-[11px] text-slate-400 italic">មិនទាន់ភ្ជាប់</span>
+                                      )}
+                                    </td>
+
+                                    {/* 4. Package & Price */}
+                                    <td className="py-4 px-4">
+                                      <div className="font-bold text-[12.5px] text-slate-800 dark:text-slate-200">
+                                        {item.package_name || 'Starter'}
+                                      </div>
+                                      <div className="text-emerald-500 font-mono font-black text-xs mt-0.5">
+                                        ${Number(item.amount || 0).toFixed(2)}
+                                      </div>
+                                    </td>
+
+                                    {/* 5. Dates & Status */}
+                                    <td className="py-4 px-4">
+                                      <div className="text-[11px] text-slate-400">
+                                        ផុតកំណត់៖ <strong className={isExpired ? 'text-rose-500' : (theme === 'dark' ? 'text-slate-200' : 'text-slate-700')}>{new Date(item.expiry_date).toLocaleDateString('km-KH')}</strong>
+                                      </div>
+
+                                      {/* Remaining Days Pill */}
+                                      <div className="mt-1">
+                                        {diffDays < 0 ? (
+                                          <span className="text-[10px] font-bold text-rose-500 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/20">
+                                            ផុតកំណត់ {Math.abs(diffDays)} ថ្ងៃមុន
+                                          </span>
+                                        ) : diffDays === 0 ? (
+                                          <span className="text-[10px] font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20 animate-pulse">
+                                            ផុតកំណត់ថ្ងៃនេះ!
+                                          </span>
+                                        ) : isNearExpiry ? (
+                                          <span className="text-[10px] font-bold text-orange-600 dark:text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded-full border border-orange-500/20">
+                                            ⏳ សល់ {diffDays} ថ្ងៃទៀត
+                                          </span>
+                                        ) : (
+                                          <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                                            ✓ សល់ {diffDays} ថ្ងៃទៀត
                                           </span>
                                         )}
                                       </div>
-                                    ) : (
-                                      <span className="text-[12px] text-slate-400 italic">មិនបានភ្ជាប់</span>
-                                    )}
-                                  </td>
 
-                                  {/* 4. Package & Price */}
-                                  <td className="py-3.5 px-4">
-                                    <div className={`font-bold text-[13px] ${theme === 'dark' ? 'text-slate-200' : 'text-gray-700'}`}>{item.package_name}</div>
-                                    <div className="text-emerald-500 font-bold text-[12px] mt-0.5">បង់ប្រាក់៖ ${item.amount}</div>
-                                  </td>
-
-                                  {/* 5. Dates & Status */}
-                                  <td className="py-3.5 px-4">
-                                    <div className={`text-[12px] ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
-                                      ចាប់ផ្តើម៖ {new Date(item.start_date).toLocaleDateString('km-KH')}
-                                    </div>
-                                    
-                                    <div className={`text-[12px] font-bold mt-0.5 ${isExpired ? 'text-red-500' : (theme === 'dark' ? 'text-slate-200' : 'text-gray-700')}`}>
-                                      ផុតកំណត់៖ {new Date(item.expiry_date).toLocaleDateString('km-KH')}
-                                    </div>
-
-                                    <div className="mt-1">
-                                      {(() => {
-                                        const today = new Date();
-                                        const expiry = new Date(item.expiry_date);
-                                        const diffTime = expiry.getTime() - today.getTime();
-                                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-                                        if (diffDays < 0) {
-                                          return <span className="text-[11px] font-bold text-red-500 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">ផុតកំណត់យូរហើយ ({Math.abs(diffDays)} ថ្ងៃមុន)</span>;
-                                        } else if (diffDays === 0) {
-                                          return <span className="text-[11px] font-bold text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">ផុតកំណត់ថ្ងៃនេះ!</span>;
-                                        } else {
-                                          return <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">⏳ នៅសល់ {diffDays} ថ្ងៃទៀត</span>;
-                                        }
-                                      })()}
-                                    </div>
-                                    
-                                    <div className="mt-1.5 flex items-center gap-1.5 flex-wrap">
-                                      {isExpired ? (
-                                        <span className="px-2 py-0.5 bg-red-500/10 text-red-500 rounded text-[10px] font-bold border border-red-500/20">ផុតកំណត់សេវា</span>
-                                      ) : (
-                                        <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 rounded text-[10px] font-bold border border-emerald-500/20">កំពុងដំណើរការ</span>
-                                      )}
-
-                                      {item.slip_status === 'pending' ? (
-                                        <span className="px-2 py-0.5 bg-amber-500/10 text-amber-600 rounded text-[10px] font-bold border border-amber-500/20 animate-bounce">រង់ចាំ Slip ₱</span>
-                                      ) : item.slip_status === 'approved' ? (
-                                        <span className="px-2 py-0.5 bg-blue-500/10 text-blue-500 rounded text-[10px] font-bold border border-blue-500/20">បានទូទាត់ប្រាក់ ✓</span>
-                                      ) : null}
-                                    </div>
-                                  </td>
-
-                                  {/* 6. Actions */}
-                                  <td className="py-4 px-4 text-center align-middle">
-                                    <div className="flex items-center justify-center gap-1.5 flex-nowrap">
-                                      {isAdmin && (
-                                        <button
-                                          type="button"
-                                          onClick={() => handleQuickExtendClient(item, 30)}
-                                          title="បន្តសុពលភាព +៣០ ថ្ងៃភ្លាមៗ"
-                                          className="btn-futuristic-emerald btn-shimmer px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md"
-                                        >
-                                          <span className="relative z-10 flex items-center gap-1">
-                                            <span>⚡</span> <span>+30 ថ្ងៃ</span>
+                                      {/* Status Chip */}
+                                      <div className="mt-1.5 flex items-center gap-1 flex-wrap">
+                                        {item.slip_status === 'pending' && (
+                                          <span className="px-2 py-0.5 bg-rose-500/15 text-rose-600 dark:text-rose-400 rounded-full text-[10px] font-black border border-rose-500/30 animate-bounce">
+                                            🔔 រង់ចាំ Slip
                                           </span>
-                                        </button>
-                                      )}
-                                      {item.slip_url && (
-                                        <button type="button" onClick={() => handleOpenSlipModal(item)} className="btn-futuristic-indigo px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md">
-                                          <span>🧾</span> <span>Slip</span>
-                                        </button>
-                                      )}
-                                      {item.slip_status === 'approved' && (
+                                        )}
+                                        {item.slip_status === 'approved' && (
+                                          <span className="px-2 py-0.5 bg-blue-500/10 text-blue-500 rounded-full text-[10px] font-bold border border-blue-500/20">
+                                            Paid ✓
+                                          </span>
+                                        )}
+                                      </div>
+                                    </td>
+
+                                    {/* 6. Actions */}
+                                    <td className="py-4 px-4 text-center align-middle">
+                                      <div className="flex items-center justify-center gap-1.5 flex-nowrap">
+                                        {isAdmin && (
+                                          <button
+                                            type="button"
+                                            onClick={() => handleQuickExtendClient(item, 30)}
+                                            title="បន្តសុពលភាព +៣០ ថ្ងៃភ្លាមៗ"
+                                            className="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition shadow-sm cursor-pointer flex items-center gap-1"
+                                          >
+                                            <span>⚡</span> <span>+30 ថ្ងៃ</span>
+                                          </button>
+                                        )}
+                                        {item.slip_url && (
+                                          <button 
+                                            type="button" 
+                                            onClick={() => handleOpenSlipModal(item)} 
+                                            className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition shadow-sm cursor-pointer flex items-center gap-1 ${
+                                              item.slip_status === 'pending' 
+                                                ? 'bg-gradient-to-r from-amber-500 to-rose-600 text-white animate-pulse' 
+                                                : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                                            }`}
+                                            title="ពិនិត្យមើលរូប Slip បង់ប្រាក់"
+                                          >
+                                            <span>🧾</span> <span>Slip</span>
+                                          </button>
+                                        )}
+                                        {item.slip_status === 'approved' && (
+                                          <button 
+                                            type="button" 
+                                            onClick={() => {
+                                              setSelectedAdminInvoice({
+                                                invoiceNumber: `INV-${new Date(item.created_at || Date.now()).getTime().toString().slice(-6)}`,
+                                                issueDate: new Date(item.created_at || Date.now()).toLocaleDateString('km-KH', { year: 'numeric', month: 'short', day: 'numeric' }),
+                                                clientName: item.client_name || 'អតិថិជន',
+                                                clientEmail: item.email,
+                                                amount: Number(item.amount || 5.00),
+                                                planName: item.package_name || '1Click Boost Ads Subscription',
+                                                paymentMethod: item.payment_history?.[0]?.method === 'KHQR_BAKONG' ? 'KHQR (Bakong / ABA)' : 'KHQR / Bank Transfer',
+                                                transactionRef: item.payment_history?.[0]?.reference || `REF-${item.id.slice(0, 8).toUpperCase()}`,
+                                                status: 'PAID',
+                                                expiryDate: new Date(item.expiry_date).toLocaleDateString('km-KH'),
+                                                fbPageName: item.linked_fb_page || undefined
+                                              });
+                                              setIsAdminInvoiceModalOpen(true);
+                                            }} 
+                                            className="px-2.5 py-1.5 rounded-xl text-xs font-bold transition shadow-sm cursor-pointer flex items-center gap-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700"
+                                            title="មើល / បោះពុម្ពវិក្កយបត្រផ្លូវការ"
+                                          >
+                                            <span>📄</span> <span>Invoice</span>
+                                          </button>
+                                        )}
                                         <button 
                                           type="button" 
-                                          onClick={() => {
-                                            setSelectedAdminInvoice({
-                                              invoiceNumber: `INV-${new Date(item.updated_at || item.created_at).getTime().toString().slice(-6)}`,
-                                              issueDate: new Date(item.updated_at || item.created_at).toLocaleDateString('km-KH', { year: 'numeric', month: 'short', day: 'numeric' }),
-                                              clientName: item.client_name || 'អតិថិជន',
-                                              clientEmail: item.email,
-                                              amount: Number(item.amount || 5.00),
-                                              planName: '1Click Boost Ads Subscription',
-                                              paymentMethod: item.payment_history?.[0]?.method === 'KHQR_BAKONG' ? 'KHQR (Bakong / ABA)' : 'KHQR / Bank Transfer',
-                                              transactionRef: item.payment_history?.[0]?.reference || `REF-${item.id.slice(0, 8).toUpperCase()}`,
-                                              status: 'PAID',
-                                              expiryDate: new Date(item.expiry_date).toLocaleDateString('km-KH'),
-                                              fbPageName: item.linked_fb_page || undefined
-                                            });
-                                            setIsAdminInvoiceModalOpen(true);
-                                          }} 
-                                          className="btn-futuristic-glass px-2.5 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md border border-indigo-500/40 text-indigo-300 hover:text-white"
-                                          title="មើល / បោះពុម្ពវិក្កយបត្រផ្លូវការ"
+                                          onClick={() => handleOpenEditClient(item)} 
+                                          className="p-1.5 rounded-xl text-xs font-bold transition cursor-pointer text-slate-500 hover:text-blue-500 hover:bg-blue-500/10"
+                                          title="កែប្រែព័ត៌មានអតិថិជន"
                                         >
-                                          <span>🧾</span> <span>Invoice</span>
+                                          ✏️
                                         </button>
-                                      )}
-                                      <button type="button" onClick={() => handleOpenEditClient(item)} className="btn-futuristic px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md">
-                                        <span>✏️</span> <span>កែប្រែ</span>
-                                      </button>
-                                      <button type="button" onClick={() => handleDeleteClient(item.id)} className="btn-futuristic-rose px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1 shadow-md">
-                                        <span>🗑️</span> <span>លុប</span>
-                                      </button>
+                                        <button 
+                                          type="button" 
+                                          onClick={() => handleDeleteClient(item.id)} 
+                                          className="p-1.5 rounded-xl text-xs font-bold transition cursor-pointer text-slate-400 hover:text-rose-500 hover:bg-rose-500/10"
+                                          title="លុបគណនី"
+                                        >
+                                          🗑️
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      {/* ========================================================= */}
+                      {/* 📱 Mobile Client Cards Feed (Ultra Modern Touch View) */}
+                      {/* ========================================================= */}
+                      <div className="block lg:hidden space-y-3.5">
+                        {displayedClients.map((item) => {
+                          const isExpired = new Date(item.expiry_date) < new Date();
+                          const isPendingSlip = item.slip_status === 'pending';
+                          const today = new Date();
+                          const expiry = new Date(item.expiry_date);
+                          const diffDays = Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                          const isNearExpiry = diffDays >= 0 && diffDays <= 7;
+                          const initials = (item.client_name || 'U').slice(0, 2).toUpperCase();
+
+                          return (
+                            <div 
+                              key={item.id}
+                              className={`p-4 rounded-2xl border shadow-sm transition-all ${
+                                isPendingSlip 
+                                  ? 'bg-rose-500/5 border-rose-500/40 ring-1 ring-rose-500/30' 
+                                  : isNearExpiry 
+                                  ? 'bg-orange-500/5 border-orange-500/40' 
+                                  : (theme === 'dark' ? 'bg-[#0E1420] border-slate-800' : 'bg-white border-slate-200')
+                              }`}
+                            >
+                              {/* Card Top: Avatar, Name & Status */}
+                              <div className="flex items-start justify-between gap-3 mb-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+                                <div className="flex items-center gap-2.5 min-w-0">
+                                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-black text-xs flex items-center justify-center shrink-0 uppercase shadow-xs">
+                                    {initials}
+                                  </div>
+                                  <div className="min-w-0">
+                                    <h3 className="font-bold text-sm text-slate-900 dark:text-white truncate">
+                                      {item.client_name}
+                                    </h3>
+                                    <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                                      <span>✉️</span>
+                                      <span className="truncate max-w-[180px] font-mono text-[11px]">{item.email}</span>
                                     </div>
-                                  </td>
-                                </tr>
-                              );
-                            });
-                          })()}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                                  </div>
+                                </div>
+
+                                <div className="shrink-0 flex flex-col items-end gap-1">
+                                  {item.slip_status === 'pending' ? (
+                                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-rose-500 text-white animate-pulse shadow-xs">
+                                      🔔 Slip ថ្មី
+                                    </span>
+                                  ) : isExpired ? (
+                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/10 text-rose-500 border border-rose-500/20">
+                                      ផុតកំណត់
+                                    </span>
+                                  ) : (
+                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                                      សកម្ម ✓
+                                    </span>
+                                  )}
+                                  <span className="text-[11px] font-mono font-bold text-emerald-500">
+                                    ${Number(item.amount || 0).toFixed(2)}
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Card Info Grid */}
+                              <div className="grid grid-cols-2 gap-2 text-xs mb-3">
+                                <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+                                  <span className="text-[10px] font-bold text-slate-400 uppercase block">ទូរស័ព្ទ</span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleCopyClientText(item.phone, 'លេខទូរស័ព្ទ')}
+                                    className="font-bold text-slate-700 dark:text-slate-300 text-[11px] truncate block text-left"
+                                  >
+                                    {item.phone || '-'}
+                                  </button>
+                                </div>
+
+                                <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+                                  <span className="text-[10px] font-bold text-slate-400 uppercase block">Facebook Page</span>
+                                  <span className="font-bold text-blue-600 dark:text-blue-400 text-[11px] truncate block">
+                                    {item.page_name || item.linked_fb_page || 'មិនទាន់ភ្ជាប់'}
+                                  </span>
+                                </div>
+
+                                <div className="col-span-2 p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                                  <div className="text-[11px] text-slate-500 dark:text-slate-400">
+                                    ផុតកំណត់៖ <strong className="text-slate-800 dark:text-slate-200">{new Date(item.expiry_date).toLocaleDateString('km-KH')}</strong>
+                                  </div>
+                                  <div>
+                                    {diffDays < 0 ? (
+                                      <span className="text-[10px] font-bold text-rose-500 bg-rose-500/10 px-2 py-0.5 rounded-full">
+                                        ផុត {Math.abs(diffDays)} ថ្ងៃ
+                                      </span>
+                                    ) : (
+                                      <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                                        ⏳ សល់ {diffDays} ថ្ងៃ
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Card Action Buttons (Touch Friendly) */}
+                              <div className="flex items-center gap-1.5 pt-1 flex-wrap">
+                                {isAdmin && (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleQuickExtendClient(item, 30)}
+                                    className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 shadow-xs cursor-pointer"
+                                  >
+                                    <span>⚡</span> <span>+30 ថ្ងៃ</span>
+                                  </button>
+                                )}
+                                {item.slip_url && (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenSlipModal(item)}
+                                    className={`flex-1 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 shadow-xs cursor-pointer ${
+                                      item.slip_status === 'pending'
+                                        ? 'bg-rose-600 text-white animate-pulse'
+                                        : 'bg-indigo-600 text-white'
+                                    }`}
+                                  >
+                                    <span>🧾</span> <span>Slip</span>
+                                  </button>
+                                )}
+                                {item.slip_status === 'approved' && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setSelectedAdminInvoice({
+                                        invoiceNumber: `INV-${new Date(item.created_at || Date.now()).getTime().toString().slice(-6)}`,
+                                        issueDate: new Date(item.created_at || Date.now()).toLocaleDateString('km-KH', { year: 'numeric', month: 'short', day: 'numeric' }),
+                                        clientName: item.client_name || 'អតិថិជន',
+                                        clientEmail: item.email,
+                                        amount: Number(item.amount || 5.00),
+                                        planName: item.package_name || '1Click Boost Ads Subscription',
+                                        paymentMethod: 'KHQR / Bank Transfer',
+                                        transactionRef: `REF-${item.id.slice(0, 8).toUpperCase()}`,
+                                        status: 'PAID',
+                                        expiryDate: new Date(item.expiry_date).toLocaleDateString('km-KH'),
+                                        fbPageName: item.linked_fb_page || undefined
+                                      });
+                                      setIsAdminInvoiceModalOpen(true);
+                                    }}
+                                    className="px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1 cursor-pointer"
+                                  >
+                                    <span>📄</span>
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenEditClient(item)}
+                                  className="px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1 cursor-pointer"
+                                  title="កែប្រែ"
+                                >
+                                  <span>✏️</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteClient(item.id)}
+                                  className="px-3 py-2 rounded-xl text-xs font-bold bg-rose-50 dark:bg-rose-950/40 text-rose-600 border border-rose-200 dark:border-rose-900/40 flex items-center gap-1 cursor-pointer"
+                                  title="លុប"
+                                >
+                                  <span>🗑️</span>
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  );
+                })()}
 
                 {/* Pop-up បង្កើតគណនីអតិថិជន */}
                 {showSubModal && (
