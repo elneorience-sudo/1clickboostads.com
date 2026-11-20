@@ -2729,6 +2729,122 @@ export default function Home() {
   const [clientSearchQuery, setClientSearchQuery] = useState("");
   const [clientStatusFilter, setClientStatusFilter] = useState<'all' | 'active' | 'expiring' | 'expired' | 'pending_slip'>('all');
 
+  // 🌟 State និង Cache សម្រាប់ Facebook Profile Picture / Page Logo របស់អតិថិជន
+  const [clientFbLogos, setClientFbLogos] = useState<{ [key: string]: string }>({});
+
+  // 🌟 មុខងារទាញយក ឬស្វែងរករូបភាព Logo / Profile Picture ពី Facebook សម្រាប់អតិថិជន
+  const getClientFbPicture = (item: any): string | null => {
+    if (!item) return null;
+    if (clientFbLogos[item.id]) return clientFbLogos[item.id];
+    if (item.page_id && clientFbLogos[item.page_id]) return clientFbLogos[item.page_id];
+    if (item.fb_picture || item.picture_url || item.profile_pic) {
+      return item.fb_picture || item.picture_url || item.profile_pic;
+    }
+
+    const targetPageId = item.page_id ? String(item.page_id).trim() : null;
+    const targetName = (item.page_name || item.linked_fb_page || '').trim().toLowerCase();
+
+    if (pages && pages.length > 0) {
+      const matched = pages.find((p: any) => {
+        if (!p) return false;
+        const pId = p.id ? String(p.id).trim() : '';
+        const pName = (p.name || '').trim().toLowerCase();
+        if (targetPageId && pId && pId === targetPageId) return true;
+        if (targetName && pName && (pName === targetName || targetName.includes(pName) || pName.includes(targetName))) return true;
+        return false;
+      });
+
+      if (matched) {
+        const picUrl = matched.picture?.data?.url || matched.picture?.url || (typeof matched.picture === 'string' ? matched.picture : null);
+        if (picUrl) return picUrl;
+      }
+    }
+
+    if (item.page_id) {
+      return `https://graph.facebook.com/${item.page_id}/picture?type=normal`;
+    }
+    if (item.facebook_user_id) {
+      return `https://graph.facebook.com/${item.facebook_user_id}/picture?type=normal`;
+    }
+
+    return null;
+  };
+
+  // 🌟 Auto-resolve Facebook Page Logos សម្រាប់អតិថិជនទាំងអស់ដែលបានភ្ជាប់ FB
+  useEffect(() => {
+    if (!clients || clients.length === 0) return;
+
+    let cachedLogos: { [key: string]: string } = {};
+    try {
+      const stored = localStorage.getItem('fb_client_logos_cache');
+      if (stored) cachedLogos = JSON.parse(stored);
+    } catch {}
+
+    const newLogos = { ...cachedLogos };
+    let hasChanges = false;
+
+    clients.forEach((client) => {
+      if (!client || newLogos[client.id]) return;
+
+      const targetPageId = client.page_id ? String(client.page_id).trim() : null;
+      const targetName = (client.page_name || client.linked_fb_page || '').trim().toLowerCase();
+
+      if (pages && pages.length > 0) {
+        const matched = pages.find((p: any) => {
+          if (!p) return false;
+          const pId = p.id ? String(p.id).trim() : '';
+          const pName = (p.name || '').trim().toLowerCase();
+          if (targetPageId && pId && pId === targetPageId) return true;
+          if (targetName && pName && (pName === targetName || targetName.includes(pName) || pName.includes(targetName))) return true;
+          return false;
+        });
+
+        if (matched) {
+          const pic = matched.picture?.data?.url || matched.picture?.url || (typeof matched.picture === 'string' ? matched.picture : null);
+          if (pic) {
+            newLogos[client.id] = pic;
+            hasChanges = true;
+            return;
+          }
+        }
+      }
+
+      if (client.page_id) {
+        newLogos[client.id] = `https://graph.facebook.com/${client.page_id}/picture?type=normal`;
+        hasChanges = true;
+      } else if (client.facebook_user_id) {
+        newLogos[client.id] = `https://graph.facebook.com/${client.facebook_user_id}/picture?type=normal`;
+        hasChanges = true;
+      }
+    });
+
+    if (hasChanges || Object.keys(clientFbLogos).length === 0) {
+      setClientFbLogos(newLogos);
+      try {
+        localStorage.setItem('fb_client_logos_cache', JSON.stringify(newLogos));
+      } catch {}
+    }
+
+    const adminToken = localStorage.getItem('fb_user_token');
+    if (adminToken) {
+      clients.forEach(async (client) => {
+        if (client.page_id && (!newLogos[client.id] || newLogos[client.id].includes('graph.facebook.com'))) {
+          try {
+            const res = await fetch(`https://graph.facebook.com/v18.0/${client.page_id}?fields=picture{url}&access_token=${adminToken}`);
+            const data = await res.json();
+            if (data?.picture?.data?.url) {
+              setClientFbLogos(prev => {
+                const updated = { ...prev, [client.id]: data.picture.data.url };
+                try { localStorage.setItem('fb_client_logos_cache', JSON.stringify(updated)); } catch {}
+                return updated;
+              });
+            }
+          } catch {}
+        }
+      });
+    }
+  }, [clients, pages]);
+
   const handleQuickExtendClient = async (item: any, additionalDays: number = 30) => {
     if (!confirm(`តើបងពិតជាចង់បន្តសុពលភាព +${additionalDays} ថ្ងៃជូន "${item.client_name}" មែនទេ?`)) return;
     try {
@@ -5779,12 +5895,41 @@ const handleOpenDuplicateModal = () => {
                                         : (theme === 'dark' ? 'hover:bg-[#161B22]/60' : 'hover:bg-slate-50')
                                     }`}
                                   >
-                                    {/* 1. ព័ត៌មានអតិថិជន */}
+                                    {/* 1. ព័ត៌មានអតិថិជន & Avatar ពី Facebook */}
                                     <td className="py-4 px-4">
                                       <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-black text-xs flex items-center justify-center shrink-0 shadow-sm uppercase">
-                                          {initials}
-                                        </div>
+                                        {(() => {
+                                          const fbPic = getClientFbPicture(item);
+                                          return fbPic ? (
+                                            <div className="relative w-10 h-10 shrink-0">
+                                              <img 
+                                                src={fbPic} 
+                                                alt={item.client_name} 
+                                                className="w-10 h-10 rounded-2xl object-cover border-2 border-blue-500/30 shadow-md hover:scale-105 transition-transform" 
+                                                onError={(e) => {
+                                                  (e.target as HTMLElement).style.display = 'none';
+                                                  const fallback = document.getElementById(`avatar-fallback-${item.id}`);
+                                                  if (fallback) fallback.style.display = 'flex';
+                                                }}
+                                              />
+                                              <div 
+                                                id={`avatar-fallback-${item.id}`} 
+                                                style={{ display: 'none' }} 
+                                                className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-black text-xs items-center justify-center shrink-0 shadow-sm uppercase"
+                                              >
+                                                {initials}
+                                              </div>
+                                              {/* Facebook Mini Badge */}
+                                              <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#1877F2] text-white text-[9px] font-black flex items-center justify-center border border-white dark:border-[#0B0F17] shadow-xs" title="ភ្ជាប់ជាមួយ Facebook">
+                                                f
+                                              </span>
+                                            </div>
+                                          ) : (
+                                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-black text-xs flex items-center justify-center shrink-0 shadow-sm uppercase">
+                                              {initials}
+                                            </div>
+                                          );
+                                        })()}
                                         <div className="min-w-0">
                                           <div className={`font-bold text-[14px] truncate ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                                             {item.client_name}
@@ -5839,21 +5984,46 @@ const handleOpenDuplicateModal = () => {
                                       </button>
                                     </td>
 
-                                    {/* 3. Linked Facebook Page */}
+                                    {/* 3. Linked Facebook Page & Logo ពី Facebook */}
                                     <td className="py-4 px-4">
                                       {(item.page_name || item.linked_fb_page || item.access_token) ? (
-                                        <div className="flex flex-col gap-0.5">
-                                          <div className="flex items-center gap-1.5">
-                                            <span className="w-5 h-5 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-[10px] font-bold shrink-0">f</span>
-                                            <span className="text-[12px] font-bold truncate max-w-[170px] text-blue-600 dark:text-blue-400">
+                                        <div className="flex items-center gap-2.5">
+                                          {(() => {
+                                            const pageLogo = getClientFbPicture(item);
+                                            return pageLogo ? (
+                                              <img 
+                                                src={pageLogo} 
+                                                alt="Page Logo" 
+                                                className="w-7 h-7 rounded-full object-cover shrink-0 border border-blue-400/40 shadow-xs" 
+                                                onError={(e) => {
+                                                  (e.target as HTMLElement).style.display = 'none';
+                                                  const fallback = document.getElementById(`pagelogo-fallback-${item.id}`);
+                                                  if (fallback) fallback.style.display = 'inline-flex';
+                                                }}
+                                              />
+                                            ) : (
+                                              <span className="w-6 h-6 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-[10px] font-bold shrink-0 shadow-xs">
+                                                f
+                                              </span>
+                                            );
+                                          })()}
+                                          <span 
+                                            id={`pagelogo-fallback-${item.id}`} 
+                                            style={{ display: 'none' }} 
+                                            className="w-6 h-6 rounded-full bg-[#1877F2] text-white items-center justify-center text-[10px] font-bold shrink-0 shadow-xs"
+                                          >
+                                            f
+                                          </span>
+                                          <div className="flex flex-col min-w-0">
+                                            <span className="text-[12.5px] font-bold truncate max-w-[170px] text-blue-600 dark:text-blue-400">
                                               {item.page_name || item.linked_fb_page || 'Connected'}
                                             </span>
+                                            {item.ad_account_id && (
+                                              <span className="text-[10px] text-slate-400 font-mono">
+                                                ID: {item.ad_account_id}
+                                              </span>
+                                            )}
                                           </div>
-                                          {item.ad_account_id && (
-                                            <span className="text-[10px] text-slate-400 font-mono pl-6">
-                                              ID: {item.ad_account_id}
-                                            </span>
-                                          )}
                                         </div>
                                       ) : (
                                         <span className="text-[11px] text-slate-400 italic">មិនទាន់ភ្ជាប់</span>
@@ -6017,9 +6187,37 @@ const handleOpenDuplicateModal = () => {
                               {/* Card Top: Avatar, Name & Status */}
                               <div className="flex items-start justify-between gap-3 mb-3 pb-3 border-b border-slate-100 dark:border-slate-800">
                                 <div className="flex items-center gap-2.5 min-w-0">
-                                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-black text-xs flex items-center justify-center shrink-0 uppercase shadow-xs">
-                                    {initials}
-                                  </div>
+                                  {(() => {
+                                    const fbPic = getClientFbPicture(item);
+                                    return fbPic ? (
+                                      <div className="relative w-10 h-10 shrink-0">
+                                        <img 
+                                          src={fbPic} 
+                                          alt={item.client_name} 
+                                          className="w-10 h-10 rounded-2xl object-cover border-2 border-blue-500/30 shadow-xs" 
+                                          onError={(e) => {
+                                            (e.target as HTMLElement).style.display = 'none';
+                                            const fallback = document.getElementById(`m-avatar-fallback-${item.id}`);
+                                            if (fallback) fallback.style.display = 'flex';
+                                          }}
+                                        />
+                                        <div 
+                                          id={`m-avatar-fallback-${item.id}`} 
+                                          style={{ display: 'none' }} 
+                                          className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-black text-xs items-center justify-center shrink-0 uppercase shadow-xs"
+                                        >
+                                          {initials}
+                                        </div>
+                                        <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#1877F2] text-white text-[9px] font-black flex items-center justify-center border border-white dark:border-[#0E1420]">
+                                          f
+                                        </span>
+                                      </div>
+                                    ) : (
+                                      <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-black text-xs flex items-center justify-center shrink-0 uppercase shadow-xs">
+                                        {initials}
+                                      </div>
+                                    );
+                                  })()}
                                   <div className="min-w-0">
                                     <h3 className="font-bold text-sm text-slate-900 dark:text-white truncate">
                                       {item.client_name}
@@ -6066,9 +6264,19 @@ const handleOpenDuplicateModal = () => {
 
                                 <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
                                   <span className="text-[10px] font-bold text-slate-400 uppercase block">Facebook Page</span>
-                                  <span className="font-bold text-blue-600 dark:text-blue-400 text-[11px] truncate block">
-                                    {item.page_name || item.linked_fb_page || 'មិនទាន់ភ្ជាប់'}
-                                  </span>
+                                  <div className="flex items-center gap-1.5 mt-0.5 min-w-0">
+                                    {(() => {
+                                      const pageLogo = getClientFbPicture(item);
+                                      return pageLogo ? (
+                                        <img src={pageLogo} alt="Logo" className="w-4 h-4 rounded-full object-cover shrink-0 border border-blue-400/40" />
+                                      ) : (
+                                        <span className="w-4 h-4 rounded-full bg-[#1877F2] text-white text-[8px] font-bold flex items-center justify-center shrink-0">f</span>
+                                      );
+                                    })()}
+                                    <span className="font-bold text-blue-600 dark:text-blue-400 text-[11px] truncate block">
+                                      {item.page_name || item.linked_fb_page || 'មិនទាន់ភ្ជាប់'}
+                                    </span>
+                                  </div>
                                 </div>
 
                                 <div className="col-span-2 p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between">
